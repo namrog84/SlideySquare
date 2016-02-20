@@ -236,7 +236,9 @@ public class PlayerMove : MonoBehaviour
     void finished()
     {
         Time.timeScale = 1;
+#pragma warning disable 0618
         Application.LoadLevel(Application.loadedLevel);
+#pragma warning restore 0618
     }
 
 

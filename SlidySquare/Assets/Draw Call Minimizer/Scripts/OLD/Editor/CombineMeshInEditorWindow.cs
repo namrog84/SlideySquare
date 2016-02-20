@@ -421,8 +421,10 @@ namespace DCM.Old {
             swapUVChannels = false;
             generateSecondaryUV = false;
             optimizeMesh = false;
+#pragma warning disable 0618
             normalImportMode = ModelImporterTangentSpaceMode.Import;
             tangentImportMode = ModelImporterTangentSpaceMode.Calculate;
+#pragma warning restore 0618
             meshCompression = ModelImporterMeshCompression.Off;
         }
     }

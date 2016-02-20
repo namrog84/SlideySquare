@@ -21,8 +21,8 @@ public class GoToAboutScreen : MonoBehaviour {
 
     private void MyFunction()
     {
+#pragma warning disable 0618
         Application.LoadLevel("About");
-        //GetComponent<Image>().enabled = false;
-        //popupPanel.transform.DOMove(popupPanel.GetComponent<ClearAboutScreenController>().start, .4f);
+#pragma warning restore 0618
     }
 }

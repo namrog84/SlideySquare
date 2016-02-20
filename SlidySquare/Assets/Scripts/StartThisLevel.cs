@@ -28,7 +28,9 @@ public class StartThisLevel : MonoBehaviour {
 		{
             PlayerPrefs.SetInt("CurrentLevel", levelNumber);
             PlayerPrefs.Save();
+#pragma warning disable 0618
             Application.LoadLevel(4);// "level "+ levelNumber);
+#pragma warning restore 0618
 		}
 
 	}

@@ -45,7 +45,9 @@ public class ResetButton : MonoBehaviour {
     {
         Time.timeScale = 1;
         resetting = false;
+#pragma warning disable 0618
         Application.LoadLevel(Application.loadedLevel);
+#pragma warning restore 0618
 
 
     }

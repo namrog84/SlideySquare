@@ -16,7 +16,7 @@ public class SkipLevelController : MonoBehaviour {
 
     private void MyFunction()
     {
-
+#pragma warning disable 0618
         if (!Application.isLoadingLevel)
         {
             AdManager.Skipped = true;
@@ -24,14 +24,6 @@ public class SkipLevelController : MonoBehaviour {
             PlayerPrefs.Save();
             Application.LoadLevel(4);
         }
-
-
-        //Application.LoadLevel("level " + (1 + int.Parse(Application.loadedLevelName.Split(new char[] { ' ' })[1])));
-        //if (!Application.isLoadingLevel)
-        {
-          //  Application.LoadLevel(0);
-        }
-
-
+#pragma warning restore 0618
     }
 }

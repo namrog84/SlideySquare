@@ -139,8 +139,10 @@ public class CompleteLevel : MonoBehaviour {
         //var temp = Application.LoadLevelAsync("level " + (1 + int.Parse(Application.loadedLevelName.Split(new char[] { ' ' })[1]))); // Split()[1])))
         //yield return new WaitForEndOfFrame();
         //if(temp.progress == 0) // it hasn't started, likely because its not found
+#pragma warning disable 0618
         if (!Application.isLoadingLevel)
 		{
+#pragma warning restore 0618
             //Application.LoadLevelAsync(0).
             PlayerPrefs.SetInt("CurrentLevel", 1 + PlayerPrefs.GetInt("CurrentLevel"));
             PlayerPrefs.Save();
@@ -164,8 +166,9 @@ public class CompleteLevel : MonoBehaviour {
     void finished()
     {
         Time.timeScale = 1;
+#pragma warning disable 0618
         Application.LoadLevel(4);
-        //Application.LoadLevel(Application.loadedLevel);
+#pragma warning restore 0618
     }
 
 

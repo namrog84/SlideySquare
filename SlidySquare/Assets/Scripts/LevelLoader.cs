@@ -9,6 +9,7 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using Unity.IO.Compression;
 using LevelBuilderNameSpace;
+using Assets.Scripts;
 
 public class LevelLoader : MonoBehaviour {
 
@@ -60,9 +61,9 @@ public class LevelLoader : MonoBehaviour {
     private IEnumerator LoadLevelNew(string filename)
     {
         //string fpath = Path.Combine(Application.streamingAssetsPath, filename);
-        string leveldata;
+        //string leveldata;
 
-        Map m = (Map)LoadDeserialize(filename);
+        Map m = (Map)FileManager.LoadDeserialize(filename);
         if (m == null)
         {
             Debug.Log("ERROR");
@@ -145,25 +146,6 @@ public class LevelLoader : MonoBehaviour {
         }
         return old[newID];
     }
-
-
-    public object LoadDeserialize(string filename)
-    {
-        object result;
-        IFormatter formatter = new BinaryFormatter();
-
-        using (Stream stream = new FileStream(Application.dataPath + "/level.txt", FileMode.Open, FileAccess.Read, FileShare.Read))
-        {
-            using (var zipper = new GZipStream(stream, CompressionMode.Decompress))
-            {
-                result = formatter.Deserialize(zipper);
-            }
-        }
-        return result;
-    }
-
-  
-
 
     private IEnumerator LoadLevel(string filename)
     {

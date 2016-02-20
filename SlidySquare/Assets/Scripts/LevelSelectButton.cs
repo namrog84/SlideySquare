@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using System;
+using UnityEngine.SceneManagement;
 
 public class LevelSelectButton : MonoBehaviour {
 
@@ -32,6 +33,10 @@ public class LevelSelectButton : MonoBehaviour {
     }
     private void Finished()
     {
+#pragma warning disable 0618
+        //SceneManager.LoadScene("Level Select"); // ??
         Application.LoadLevel("Level Select");
+#pragma warning restore 0618
+
     }
 }

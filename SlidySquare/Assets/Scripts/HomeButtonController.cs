@@ -31,11 +31,12 @@ public class HomeButtonController : MonoBehaviour {
 
     void finished()
     {
+#pragma warning disable 0618
         Application.LoadLevel(sceneToLoad);
-
         if (!Application.isLoadingLevel)
         {
             Application.LoadLevel(0);
         }
+#pragma warning restore 0618
     }
 }
