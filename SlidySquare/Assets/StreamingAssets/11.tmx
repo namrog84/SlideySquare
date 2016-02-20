@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="16" height="16" tilewidth="32" tileheight="32" nextobjectid="33">
+ <tileset firstgid="1" name="levelEditor" tilewidth="32" tileheight="32" tilecount="64">
+  <image source="levelEditor.png" width="256" height="256"/>
+ </tileset>
+ <layer name="mainlevel" width="16" height="16">
+  <data encoding="csv">
+2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,
+2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,
+2,16,3,11,20,0,18,0,18,0,0,18,0,2,0,0,
+2,0,2,2,2,2,2,2,2,6,27,0,25,2,0,0,
+2,16,2,10,10,16,11,16,2,14,0,0,0,2,0,0,
+2,0,2,11,3,0,3,0,9,0,0,0,0,2,2,2,
+2,16,2,0,0,0,0,16,2,0,1,19,18,0,9,2,
+2,0,2,13,6,0,5,0,2,2,2,2,2,0,9,2,
+2,16,2,0,14,10,13,10,2,2,2,2,0,2,2,2,
+2,9,2,0,2,2,2,2,2,2,2,2,0,2,0,0,
+2,4,16,0,16,7,16,0,16,0,16,3,11,2,0,0,
+2,2,2,2,2,2,2,2,2,2,0,2,2,2,16,0,
+9,10,11,12,13,14,15,16,25,26,27,28,0,0,8,0,
+17,18,19,20,0,0,0,0,13,14,2,3,4,5,6,7,
+25,26,27,28,17,18,19,20,5,6,0,0,0,16,7,2
+</data>
+ </layer>
+ <objectgroup name="ConnectLayer">
+  <object id="21" x="112" y="177.333">
+   <polyline points="0,0 131.333,129.333"/>
+  </object>
+  <object id="25" x="146" y="307.333">
+   <polyline points="0,0 0,-37.3333"/>
+  </object>
+  <object id="26" x="112" y="206.667">
+   <polyline points="0,0 39.3333,1.33333"/>
+  </object>
+  <object id="27" x="203.333" y="175.333">
+   <polyline points="0,0 7.33333,38"/>
+  </object>
+  <object id="29" x="211.333" y="304">
+   <polyline points="0,0 2,-40"/>
+  </object>
+  <object id="31" x="144.667" y="174">
+   <polyline points="0,0 33.3333,129.333"/>
+  </object>
+ </objectgroup>
+</map>

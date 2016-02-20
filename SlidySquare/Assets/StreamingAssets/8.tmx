@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="16" height="16" tilewidth="32" tileheight="32" nextobjectid="47">
+ <tileset firstgid="1" name="levelEditor" tilewidth="32" tileheight="32" tilecount="64">
+  <image source="levelEditor.png" width="256" height="256"/>
+ </tileset>
+ <layer name="mainlevel" width="16" height="16">
+  <data encoding="csv">
+0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
+0,2,2,0,0,2,2,2,16,2,2,2,0,0,2,2,
+0,2,2,0,0,2,2,16,16,16,2,2,0,0,2,2,
+0,2,2,2,2,2,2,2,16,2,2,2,2,2,2,2,
+0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
+0,2,2,0,0,0,0,0,0,0,2,0,0,0,3,3,
+0,2,2,0,0,9,2,2,16,16,16,0,0,0,3,3,
+0,2,2,2,2,2,2,2,16,2,2,2,3,3,2,2,
+0,2,2,2,2,2,2,2,11,2,2,2,3,3,2,2,
+0,2,2,0,0,0,0,0,3,3,0,0,0,0,2,2,
+0,2,2,0,1,0,0,0,3,3,0,0,0,0,2,2,
+0,2,2,0,0,0,0,0,3,3,0,0,0,0,2,2,
+0,2,2,16,2,2,2,2,2,2,2,2,2,16,2,2,
+0,2,2,16,16,16,16,11,2,2,11,16,16,16,2,2,
+0,2,2,2,2,2,2,0,2,2,0,2,2,2,2,2,
+0,2,2,2,2,2,2,0,2,2,0,2,2,2,2,2
+</data>
+ </layer>
+ <objectgroup name="ConnectLayer">
+  <object id="33" x="238" y="429">
+   <polyline points="0,0 29,-64"/>
+  </object>
+  <object id="34" x="238" y="433">
+   <polyline points="0,0 31,-100"/>
+  </object>
+  <object id="35" x="236" y="434">
+   <polyline points="0,0 33,-131"/>
+  </object>
+  <object id="36" x="239" y="430">
+   <polyline points="0,0 65,-65"/>
+  </object>
+  <object id="37" x="236" y="432">
+   <polyline points="0,0 66,-97"/>
+  </object>
+  <object id="38" x="236" y="427">
+   <polyline points="0,0 70,-128"/>
+  </object>
+  <object id="39" x="337" y="432">
+   <polyline points="0,0 64,-164"/>
+  </object>
+  <object id="40" x="333" y="432">
+   <polyline points="0,0 67,-192"/>
+  </object>
+  <object id="41" x="336" y="430">
+   <polyline points="0,0 91,-162"/>
+  </object>
+  <object id="42" x="336" y="432">
+   <polyline points="0,0 94,-193"/>
+  </object>
+  <object id="43" x="270" y="272">
+   <polyline points="0,0 195,-67"/>
+  </object>
+  <object id="44" x="271" y="267">
+   <polyline points="0,0 192,-94"/>
+  </object>
+  <object id="45" x="266" y="274">
+   <polyline points="0,0 227,-67"/>
+  </object>
+  <object id="46" x="268" y="273">
+   <polyline points="0,0 230,-98"/>
+  </object>
+ </objectgroup>
+</map>
