@@ -9,14 +9,12 @@ public class PopulateField : MonoBehaviour {
     public GameObject LevelItem;
 
 	// Use this for initialization
-	void Start () {
-
+	void Start() {
 
         var filenames = FileManager.GetSavedLevelNames(); 
-        Debug.Log("HI " + Application.persistentDataPath);
         foreach (var file in filenames)
         {
-            Debug.Log(file);
+            //Debug.Log(file);
             var item = Instantiate(LevelItem);
             item.transform.SetParent(gameObject.transform);
             item.GetComponentInChildren<Text>().text = file.TrimEnd('.');
