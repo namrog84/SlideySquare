@@ -8,11 +8,16 @@ public class ArrowPiece : MonoBehaviour
 {
 
     public enum Dir { NORTH, EAST, SOUTH, WEST };
+    bool activatedTurn = false;
+    public AudioClip sound1;
 
     public Dir direction = Dir.EAST;
     // Use this for initialization
 
-    //[ExecuteInEditMode]
+    static float teleportDelay = 0.10f;
+    static float lastTeleport = 0;
+
+
     void Start()
     {
         GetComponent<BasicGameObject>().TriggerPool += Triggered;
@@ -23,10 +28,6 @@ public class ArrowPiece : MonoBehaviour
     {
         StartCoroutine(PrepareForTurn(other));
     }
-
-    bool activatedTurn = false;
-
-    public AudioClip sound1;
 
     IEnumerator PrepareForTurn(GameObject other)
     {
@@ -71,9 +72,6 @@ public class ArrowPiece : MonoBehaviour
         yield return null;
     }
 
-    static float teleportDelay = 0.10f;
-    static float lastTeleport = 0;
-
     public void NewDirection(GameObject turningObject)
     {
         //too soon to teleport?
@@ -82,7 +80,6 @@ public class ArrowPiece : MonoBehaviour
             return;
         }
         lastTeleport = Time.time;
-
 
         turningObject.transform.GetComponent<PlayerMove>().CenterOnTile();
         if (direction == Dir.EAST)
@@ -101,11 +98,6 @@ public class ArrowPiece : MonoBehaviour
         {
             turningObject.transform.GetComponent<PlayerMove>().currentDirection = PlayerMove.Direction.down;
         }
-
-
-
-
     }
-
 
 }

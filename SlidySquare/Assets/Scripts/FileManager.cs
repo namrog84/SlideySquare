@@ -13,19 +13,19 @@ namespace Assets.Scripts
 {
     public static class FileManager
     {
-        public static void SaveSerialize(string filename, object m)
+        public static void SaveObjectToFile(string filename, object theObject)
         {
             IFormatter formatter = new BinaryFormatter();
             using (var stream = new FileStream(Application.dataPath + "/" + filename, FileMode.Create, FileAccess.Write, FileShare.None))
             {
                 using (var zipper = new GZipStream(stream, CompressionMode.Compress, false))
                 {
-                    formatter.Serialize(zipper, m);
+                    formatter.Serialize(zipper, theObject);
                 }
             }
         }
        
-        public static object LoadDeserialize(string filename)
+        public static object LoadFromFile(string filename)
         {
             object result;
             IFormatter formatter = new BinaryFormatter();
@@ -39,7 +39,6 @@ namespace Assets.Scripts
             }
             return result;
         }
-
 
     }
 }

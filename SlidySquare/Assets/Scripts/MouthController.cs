@@ -4,23 +4,24 @@ using System;
 
 public class MouthController : MonoBehaviour {
 
-	// Use this for initialization
+	
+	PlayerMove player;
+	public float happiness = 10f;
+	public float changeRate = 4f;
+
+    CharacterController2D cc2d;
+    float maxHappiness = 10f;
+    float isWin = 0;
+
+    private Vector3 temphappiness = new Vector3(0, 0, 0);
+
+
 	void Start () {
 		player = transform.parent.GetComponent<PlayerMove>();
         cc2d = transform.parent.GetComponent<CharacterController2D>();
     }
-    CharacterController2D cc2d;
 
-	
-	PlayerMove player;
-	public float happiness = 10f;
-
-	float maxHappiness = 10f;
-	public float changeRate = 4f;
-
-    
-	// Update is called once per frame
-	void Update () {
+    void Update () {
         if (isWin > 0)
         {
             happiness += 3 * isWin * changeRate * Time.deltaTime;
@@ -47,14 +48,12 @@ public class MouthController : MonoBehaviour {
 
 		updateHappiness();
 	}
-    float isWin = 0;
+
     internal void NomNom()
     {
         isWin = 1.0f;
     }
 
-
-    private Vector3 temphappiness = new Vector3(0,0,0);
     void updateHappiness()
 	{
 
@@ -80,4 +79,7 @@ public class MouthController : MonoBehaviour {
             transform.localScale = temphappiness;
 		}
 	}
+
 }
+
+

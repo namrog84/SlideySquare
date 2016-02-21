@@ -4,8 +4,8 @@ using UnityEngine.UI;
 using System;
 using UnityEngine.SceneManagement;
 
-public class LevelSelectButton : MonoBehaviour {
-
+public class LevelSelectButton : MonoBehaviour
+{
 
 	private Button MyButton = null; // assign in the editor
 
@@ -18,7 +18,6 @@ public class LevelSelectButton : MonoBehaviour {
 	private void MyFunction()
 	{
         StartCoroutine(LevelSelect());    
-		
 	}
 
     private IEnumerator LevelSelect()
@@ -29,7 +28,6 @@ public class LevelSelectButton : MonoBehaviour {
         yield return new WaitForEndOfFrame();
 
         fader.GetComponent<SceneFadeInOut>().FinishedFade += Finished;
-        
     }
     private void Finished()
     {
@@ -39,4 +37,7 @@ public class LevelSelectButton : MonoBehaviour {
 #pragma warning restore 0618
 
     }
+
 }
+
+

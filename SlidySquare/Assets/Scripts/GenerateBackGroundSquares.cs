@@ -5,9 +5,11 @@ public class GenerateBackGroundSquares : MonoBehaviour {
 
     public bool horizontal = true;
     Transform[] children;
-    // Use this for initialization
     float[] speeds = new float[100];
-	void Start () {
+    private Vector3 tempVector3 = new Vector3(0, 0, 0);
+
+
+    void Start () {
         children = gameObject.GetComponentsInChildren<Transform>();
         for(int i = 0; i < 100; i++)
         {
@@ -15,11 +17,10 @@ public class GenerateBackGroundSquares : MonoBehaviour {
         }
 	}
 	
-
-    private Vector3 tempVector3 = new Vector3(0,0,0);
-	// Update is called once per frame
+    
 	void Update ()
     {
+        //why is this 1 and not 0?
         for (int i = 1; i < children.Length; i++)
         {
             var pos = children[i].position;
@@ -50,4 +51,7 @@ public class GenerateBackGroundSquares : MonoBehaviour {
             children[i].position = pos;
         }
 	}
+
 }
+
+

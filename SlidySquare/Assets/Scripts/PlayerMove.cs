@@ -7,8 +7,6 @@ using UnityEngine.UI;
 public class PlayerMove : MonoBehaviour
 {
 
-    GameObject startToken;
-
     public enum Direction { none, up, left, right, down };
     public Direction currentDirection = Direction.none;
 
@@ -17,25 +15,36 @@ public class PlayerMove : MonoBehaviour
     public bool isMoving = false;
     public float thresholdActivate = 0.02f;
 
-    internal bool canMove = true;
-
-
-    internal int goldAmount = 0;
-
     public delegate void CollidePool();
     public event CollidePool collidePool;
 
     public GameObject MyMouth;
     public AudioClip [] impactSound;
+    public AudioClip[] deathSound;
+    public float tryTime = 0;
+
+    GameObject startToken;
+    CharacterController2D cc2d;
+
+    internal bool canMove = true;
+    internal int goldAmount = 0;
+
+    bool Dying = false;
+
+    private float RecentPurpleImpact = 0;
+    private Bounds bounds;
+    private Vector3 LastStoppedLocation = new Vector3(0, 0, 0);
+    private Vector3 deltamove = new Vector3(0, 0, 0);
+    private Direction desiredMove = Direction.none;
+    private float attemptTryTime = 0.5f;
+
 
 
     internal void AddMoney(int amount)
     {
         goldAmount += amount;
         GameObject.FindGameObjectWithTag("GoldUI").GetComponent<Text>().text = ""+goldAmount;
-        
     }
-
 
     void Start()
     {
@@ -53,13 +62,11 @@ public class PlayerMove : MonoBehaviour
         bounds.center = new Vector3(bounds.center.x, bounds.center.y, 0);
     }
 
-    private float RecentPurpleImpact = 0;
     internal void preventContinuedDirection()
     {
         RecentPurpleImpact = 0.15f;
     }
-
-    private Bounds bounds;
+   
 
     public static Bounds OrthographicBounds(Camera camera)
     {
@@ -73,7 +80,6 @@ public class PlayerMove : MonoBehaviour
 
     void Update()
     {
-       
         //CheatMode();
         CheckDeathBounds();
         CheckKeyboardControls();
@@ -94,7 +100,6 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    private Vector3 deltamove = new Vector3(0,0,0);
     private void Move()
     {
         tryTime -= Time.deltaTime;
@@ -145,8 +150,7 @@ public class PlayerMove : MonoBehaviour
         }
         
     }
-    CharacterController2D cc2d;
-
+    
     private void CheatMode()
     {
         if (Input.GetKeyDown(KeyCode.T))
@@ -162,7 +166,6 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    private Vector3 LastStoppedLocation = new Vector3(0, 0, 0);
     private void CheckKeyboardControls()
     {
         if (!canMove)
@@ -215,7 +218,7 @@ public class PlayerMove : MonoBehaviour
             StartCoroutine(PlayDeathAndReset());
         }
     }
-    public AudioClip[] deathSound;
+
     private IEnumerator PlayDeathAndReset()
     {
         AudioSource.PlayClipAtPoint(deathSound[UnityEngine.Random.Range(0, 2)], transform.position);
@@ -242,11 +245,6 @@ public class PlayerMove : MonoBehaviour
     }
 
 
-    bool Dying = false;
-
-    public float tryTime = 0;
-    private float attemptTryTime = 0.5f;
-    private Direction desiredMove = Direction.none;
     public void GoUp()
     {
         if (RecentPurpleImpact > 0)// && currentDirection == desiredMove)
@@ -270,6 +268,7 @@ public class PlayerMove : MonoBehaviour
         isMoving = true;
         currentDirection = Direction.up;
     }
+
     public void GoDown()
     {
         if (RecentPurpleImpact > 0)// && currentDirection == desiredMove)
@@ -291,8 +290,8 @@ public class PlayerMove : MonoBehaviour
         }
         isMoving = true;
         currentDirection = Direction.down;
-
     }
+
     public void GoRight()
     {
         if (RecentPurpleImpact > 0)// && currentDirection == desiredMove)
@@ -315,6 +314,7 @@ public class PlayerMove : MonoBehaviour
         isMoving = true;
         currentDirection = Direction.right;
     }
+
     public void GoLeft()
     {
         if (RecentPurpleImpact > 0)// && currentDirection == desiredMove)
@@ -347,13 +347,13 @@ public class PlayerMove : MonoBehaviour
     }
 
 
-
     void SnapToX()
     {
         Vector3 current = transform.position;
         current.x = Mathf.Round(current.x);
         transform.position = current;
     }
+
     void SnapToY()
     {
         Vector3 current = transform.position;
@@ -365,8 +365,6 @@ public class PlayerMove : MonoBehaviour
     {
         if (other.gameObject.tag == "Wall")
         {
-            
-    
             isMoving = false;
         }
         collidePool();
@@ -374,7 +372,6 @@ public class PlayerMove : MonoBehaviour
 
     private void MyTriggerFunction(Collider2D other)
     {
-
     }
 
 
@@ -384,9 +381,6 @@ public class PlayerMove : MonoBehaviour
         GetComponentInChildren<MouthController>().NomNom();
     }
    
-
-
-
 
     //private void LaunchNewDirection(CornerPiece cornerPiece)
     //{
@@ -416,10 +410,6 @@ public class PlayerMove : MonoBehaviour
     //		myRigidbody.AddForce(new Vector2(-speed, 0), ForceMode2D.Impulse);
     //	}
     //}
-
-
-
-
 
 
 }

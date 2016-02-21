@@ -8,18 +8,17 @@ public class ClearMenuButton : MonoBehaviour {
     public RectTransform popupPanel;
     public RectTransform backgroundPanel;
 
-
-    //[SerializeField]
     private Button MyButton = null; // assign in the editor
+
 
     void Start()
     {
         MyButton = GetComponent<Button>();
-        MyButton.onClick.AddListener(() => { MyFunction(); });
+        MyButton.onClick.AddListener(() => { MyClickFunction(); });
         //DOTween.defaultTimeScaleIndependent = true;
     }
 
-    private void MyFunction()
+    private void MyClickFunction()
     {
         backgroundPanel.GetComponent<Image>().enabled = false;
         Time.timeScale = 1;

@@ -10,7 +10,13 @@ public class CornerPiece : MonoBehaviour {
 
 	public Dir vertDirection = Dir.NORTH;
     public Dir horDirection = Dir.WEST;
-    // Use this for initialization
+    public AudioClip sound1;
+    
+    bool iscoroutuinedStarted = false;
+    bool activatedTurn = false;
+
+    static float teleportDelay = 0.10f;
+    static float lastTeleport = 0;
 
     //[ExecuteInEditMode]
     void Start () 
@@ -19,7 +25,6 @@ public class CornerPiece : MonoBehaviour {
 
     }
 
-    bool iscoroutuinedStarted = false;
     void Triggered(GameObject other)
     {
         if (!iscoroutuinedStarted)
@@ -28,10 +33,6 @@ public class CornerPiece : MonoBehaviour {
             StartCoroutine(PrepareForTurn(other));
         }
     }
-
-    bool activatedTurn = false;
-
-    public AudioClip sound1;
 
     IEnumerator PrepareForTurn(GameObject other)
     {
@@ -78,9 +79,6 @@ public class CornerPiece : MonoBehaviour {
         iscoroutuinedStarted = false;
     }
 
-    static float teleportDelay = 0.10f;
-    static float lastTeleport = 0;
-
     public void NewDirection(GameObject turningObject)
     {
         //too soon to teleport?
@@ -89,8 +87,6 @@ public class CornerPiece : MonoBehaviour {
             return;
         }
         lastTeleport = Time.time;
-
-
 
         var playerDir = turningObject.transform.GetComponent<PlayerMove>();
         if (playerDir.currentDirection == PlayerMove.Direction.left)
@@ -152,32 +148,5 @@ public class CornerPiece : MonoBehaviour {
         }
 
         turningObject.transform.GetComponent<PlayerMove>().CenterOnTile();
-
-        ////do nothing
-        ////PlayerMove.Direction.left;
-        ////}
-        ////else 
-        //if (horDirection == Dir.EAST)
-        //{
-        //    turningObject.transform.GetComponent<PlayerMove>().currentDirection = PlayerMove.Direction.right;
-        //}
-
-
-
-
-        //else if (vertDirection == Dir.NORTH)
-        //{
-        //    turningObject.transform.GetComponent<PlayerMove>().currentDirection = PlayerMove.Direction.up;
-        //}
-        //else if (vertDirection == Dir.SOUTH)
-        //{
-        //    turningObject.transform.GetComponent<PlayerMove>().currentDirection = PlayerMove.Direction.down;
-        //}
-
-
-
-
     }
-
-
 }

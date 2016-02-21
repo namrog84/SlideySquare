@@ -4,12 +4,14 @@ using UnityEngine.UI;
 
 public class MuteVolumeController : MonoBehaviour {
 
-    //[SerializeField]
-    private Button MyButton = null; // assign in the editor
-
     public Sprite mute;
     public Sprite notmuted;
+
+
+    private Button MyButton = null; // assign in the editor
     
+
+
     void Start()
     {
         MyButton = GetComponent<Button>();
@@ -34,4 +36,7 @@ public class MuteVolumeController : MonoBehaviour {
 
 
     }
+
 }
+
+

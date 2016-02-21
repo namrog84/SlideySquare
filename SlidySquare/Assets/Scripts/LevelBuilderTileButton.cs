@@ -4,21 +4,17 @@ using UnityEngine.UI;
 
 public class LevelBuilderTileButton : MonoBehaviour {
 
-	// Use this for initialization
 	void Start () {
 	}
-
 	
-	// Update is called once per frame
 	void Update () {
-	
 	}
-
 
     public int id = 0;
     public Vector2 location = new Vector2(0, 0);
     public Sprite [] sprites;
     public int index = 0;
+
     public void Derp()
     {
         index = (int)LevelBuilderNameSpace.LevelBuilderID.selectedTile;
@@ -60,8 +56,6 @@ public class LevelBuilderTileButton : MonoBehaviour {
    // Player, Gold, Goal, Wall,  BlueBlock, PurpleBlock, OrangeWall, OrangeButton,  TurnOnWall, TurnOffWall, Teleporter, GreenButton,
    //     TurnLeft, TurnUp, TurnRight, TurnDown,
    //     TurnLeftUp, TurnRightUp, TurnLeftDown, TurnRightDown
-
-
 
 internal void setLocation(int i, int j)
     {

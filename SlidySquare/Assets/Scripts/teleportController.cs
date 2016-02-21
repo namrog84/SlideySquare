@@ -5,12 +5,19 @@ using System;
 
 public class teleportController : MonoBehaviour {
 
-    public AudioClip teleportSound;
-
-    static float DefaultCooldownTime = 0.2f;
-	//static float teleportDelay = 0.05f;
-	//static float lastTeleport = 0;
 	public static List<teleportController> TeleportsList;
+    public AudioClip teleportSound;
+    public int ID = 0;
+    public GameObject TeleportExplosion;
+    public GameObject TeleportImplosion;
+
+    protected float cooldownTime = 0.0f;
+
+    bool teleport = false;
+    static float DefaultCooldownTime = 0.2f;
+
+    //static float teleportDelay = 0.05f;
+	//static float lastTeleport = 0;
 
     //public int x = -1, y = -1;
    // public void SetStart(int x, int y)
@@ -18,7 +25,7 @@ public class teleportController : MonoBehaviour {
    //     this.x = x;
    //     this.y = y;
    // }
-	// Use this for initialization
+
 	void Start () {
 		if (TeleportsList == null)
 		{
@@ -31,6 +38,7 @@ public class teleportController : MonoBehaviour {
         ID = BasicGameObject.ToggleID++;
 
     }
+
 	void OnLevelWasLoaded(int level)
 	{
 		if (TeleportsList != null)
@@ -39,12 +47,10 @@ public class teleportController : MonoBehaviour {
 		}
 	}
 
-	public int ID = 0;
 	
 	// Update is called once per frame
 	void Update () 
 	{
-		
 	}
 
 	void Triggered(GameObject other)
@@ -61,7 +67,6 @@ public class teleportController : MonoBehaviour {
         return cooldownTime == 0.0f;
     }
 
-    bool teleport = false;
     IEnumerator BeginTeleporting(GameObject other)
 	{
         teleport = false;
@@ -97,6 +102,7 @@ public class teleportController : MonoBehaviour {
 			}
 			yield return null;
 		}
+
         // teleport = false;
         var derp = (GameObject)Instantiate(TeleportExplosion, transform.position, transform.rotation);
         Destroy(derp, 1.0f);
@@ -107,8 +113,7 @@ public class teleportController : MonoBehaviour {
 		//delay for another teleport	
 		yield return null;
 	}
-    public GameObject TeleportExplosion;
-    public GameObject TeleportImplosion;
+
 
     public void Teleport(GameObject teleportingObject)
 	{
@@ -136,11 +141,8 @@ public class teleportController : MonoBehaviour {
 			}
 
 		}
-
-
 	}
 
-    protected float cooldownTime = 0.0f;
     private void BeginTeleportCoolDown()
     {
         cooldownTime = DefaultCooldownTime;
@@ -148,7 +150,6 @@ public class teleportController : MonoBehaviour {
         {
             StartCoroutine(TeleportCoolDown());
         }
-
     }
 
     public IEnumerator TeleportCoolDown()
@@ -160,4 +161,8 @@ public class teleportController : MonoBehaviour {
         }
         cooldownTime = 0.0f;
     }
+
+
 }
+
+

@@ -4,6 +4,9 @@ using System.Collections;
 public class SwipeDetector : MonoBehaviour
 {
 
+    public static bool recentPurple = false;
+
+
     private const int mMessageWidth = 200;
     private const int mMessageHeight = 64;
 
@@ -23,16 +26,13 @@ public class SwipeDetector : MonoBehaviour
 
     private Vector2 mStartPosition;
     //private float mSwipeStartTime;
+    private Vector2 swipeTemp = new Vector2(0, 0);
 
-    // Use this for initialization
     void Start()
     {
         pm = GetComponent<PlayerMove>();
     }
 
-    private Vector2 swipeTemp = new Vector2(0, 0);
-    public static bool recentPurple = false;
-    // Update is called once per frame
     void Update()
     {
         // Mouse button down, possible chance for a swipe
@@ -137,3 +137,5 @@ public class SwipeDetector : MonoBehaviour
     }
 
 }
+
+

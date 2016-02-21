@@ -3,6 +3,7 @@ using System.Collections;
 
 public class BackgroundActivate : MonoBehaviour {
 
+
 	// Use this for initialization
 	void Start () {
 		GetComponent<SpriteRenderer>().enabled = true;

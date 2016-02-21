@@ -16,6 +16,16 @@ public class LevelLoader : MonoBehaviour {
     public string levelname = "leveltest.tmx";
     public Vector3 offset;
     public Vector3 mapOffset;
+    public GameObject[] tiles;
+
+    GameObject[,] worldTiles;
+
+    private int teleCount = 0;
+    
+    //width and height of level
+    private int _height = 0;
+    private int _width = 0;
+
 
     // Use this for initialization
     void Start () {
@@ -50,20 +60,13 @@ public class LevelLoader : MonoBehaviour {
         }
         Time.timeScale = 1;
     }
-    private int teleCount = 0;
-    //width and height of level
-    private int _height = 0;
-    private int _width = 0;
-
-    public GameObject[] tiles;
-
-    GameObject[,] worldTiles;
+   
     private IEnumerator LoadLevelNew(string filename)
     {
         //string fpath = Path.Combine(Application.streamingAssetsPath, filename);
         //string leveldata;
 
-        Map m = (Map)FileManager.LoadDeserialize(filename);
+        Map m = (Map)FileManager.LoadFromFile(filename);
         if (m == null)
         {
             Debug.Log("ERROR");
@@ -402,7 +405,6 @@ public class LevelLoader : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-
     }
 
 
@@ -424,6 +426,7 @@ public class LevelLoader : MonoBehaviour {
         //    return "file://" + Application.dataPath + "/Data/StreamingAssets/levels/" + filename;
         //return "file://" + Application.dataPath + "/StreamingAssets/levels/" + filename;
     }
+
     string GetStreamingAssetsPath()
     {
         string path;
@@ -442,3 +445,5 @@ public class LevelLoader : MonoBehaviour {
     }
 
 }
+
+

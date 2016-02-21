@@ -8,7 +8,6 @@ using System.Collections.Generic;
 public class CharacterController2D : MonoBehaviour
 {
 	#region internal types
-
 	struct CharacterRaycastOrigins
 	{
 		public Vector3 topLeft;

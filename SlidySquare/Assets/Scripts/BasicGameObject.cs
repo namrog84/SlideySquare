@@ -10,6 +10,8 @@ public class BasicGameObject : MonoBehaviour {
 	public event TriggerListener TriggerPool;
 
     public static int ToggleID = 0;
+
+
 	public void Collide(GameObject other)
 	{
 		CollidePool(other);
@@ -21,9 +23,6 @@ public class BasicGameObject : MonoBehaviour {
 			TriggerPool(other);
 	}
 
-
-
-
 	// Use this for initialization
 	void Start () {
 	
@@ -33,8 +32,5 @@ public class BasicGameObject : MonoBehaviour {
 	void Update () {
 	
 	}
-
-	
-
 
 }

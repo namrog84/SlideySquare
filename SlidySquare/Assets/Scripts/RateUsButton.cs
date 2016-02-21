@@ -9,15 +9,14 @@ public class RateUsButton : MonoBehaviour {
     void Start()
     {
         MyButton = GetComponent<Button>();
-        MyButton.onClick.AddListener(() => { MyFunction(); });
+        MyButton.onClick.AddListener(() => { MyOnClickFunction(); });
        // myDelegate += merpy;
     }
 
     void merp()
     {
-       
     }
-    private void MyFunction()
+    private void MyOnClickFunction()
     {
         #if UNITY_ANDROID
             Application.OpenURL("market://details?id=YOUR_ID");
@@ -28,7 +27,8 @@ public class RateUsButton : MonoBehaviour {
         moveme += new Vector3(0, 1000, 0);
         GameObject.Find("MainMenuUI").transform.position = moveme;
         */
-
     }
 
 }
+
+

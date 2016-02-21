@@ -3,13 +3,20 @@ using System.Collections;
 
 public class SelfDestructController : MonoBehaviour {
 
+    public AudioClip countdownSound;
+    public AudioClip explodeSound;
+    public GameObject TheBits;
+	public Vector2 offset = new Vector2(-20, -12);
+	public float timeLeft = 3.0f;
+
 	private Rect labelPos;
 	private GUIStyle style;
-	public float timeLeft = 3.0f;
+    private GameObject InstantiatedBits;
+    private bool isCounting = false;
     private float startTime;
 
-	// Use this for initialization
-	void Start()
+
+    void Start()
 	{
         startTime = timeLeft;
         style = new GUIStyle();
@@ -20,33 +27,28 @@ public class SelfDestructController : MonoBehaviour {
         InstantiatedBits = Instantiate(TheBits);
         InstantiatedBits.gameObject.SetActive(false);
     }
-    private GameObject InstantiatedBits;
-
-    // Update is called once per frame
+    
     void Update()
 	{
-
 	}
 
 	void OnCollisionEnter2D(Collision2D other)
 	{
         if (other.gameObject.tag == "Player")
         {
-
         }
-
 	}
+
     private void Ouch(GameObject other)
     {
         if (isCounting)
+        {
             return;
+        }
         isCounting = true;
         StartCoroutine(CountdownTimer());
     }
-    private bool isCounting = false;
-    public AudioClip countdownSound;
-    public AudioClip explodeSound;
-    public GameObject TheBits;
+
 
 	IEnumerator CountdownTimer()
 	{
@@ -56,7 +58,6 @@ public class SelfDestructController : MonoBehaviour {
 		{
 			yield return new WaitForSeconds(0.1f);
 			timeLeft-=.1f;
-	
 		}
 		timeLeft = 0.0f;
         AudioSource.PlayClipAtPoint(explodeSound, transform.position);
@@ -67,7 +68,6 @@ public class SelfDestructController : MonoBehaviour {
         Destroy(gameObject);
 	}
 
-	public Vector2 offset = new Vector2(-20, -12);
 	void OnGUI()
 	{
 		labelPos.x = Camera.main.WorldToScreenPoint(gameObject.transform.position).x + offset.x;
@@ -77,7 +77,5 @@ public class SelfDestructController : MonoBehaviour {
         {
             GUI.Label(labelPos, timeLeft.ToString("#0.0"), style);
         }
-
-
 	}
 }

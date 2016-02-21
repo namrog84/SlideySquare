@@ -4,28 +4,32 @@ using UnityEngine.UI;
 using GoogleMobileAds.Api;
 
 public class CompleteLevel : MonoBehaviour {
-	GUIStyle style;
-    PlayerMove ThePlayer;
-	// Use this for initialization
+    public AudioClip nomnomnom;
 
-      //  Inters
-    
+    public Sprite LockSprite;
+    public Sprite GreenDotSprite;
+    public GameObject TheBits;
+
+    GUIStyle style;
+    PlayerMove ThePlayer;
+    bool activatedWin = false;
+
+    private SpriteRenderer sr;
+    private int currentCount = 0;
+    //private bool wasLocked = false;
+
 
     void Start () {
-
         
 		style = new GUIStyle();
 		style.fontSize = 100;
 		style.normal.textColor = Color.green;
 		gameObject.GetComponent<BasicGameObject>().TriggerPool += OnTriggered;
         sr = GetComponent<SpriteRenderer>();
-        wasLocked = false;
+        //wasLocked = false;
         currentCount = 0;
     }
 
-    private SpriteRenderer sr;
-    private int currentCount = 0;
-    private bool wasLocked = false;
     public void Update()
     {
         //Debug.Log(HitWall.HitWallCount);
@@ -33,7 +37,7 @@ public class CompleteLevel : MonoBehaviour {
         {
             if (HitWall.HitWallCount != currentCount)
             {
-                wasLocked = true;
+                //wasLocked = true;
                 currentCount = HitWall.HitWallCount;
                 sr.sprite = LockSprite;
             }
@@ -53,7 +57,6 @@ public class CompleteLevel : MonoBehaviour {
 
 	private void OnTriggered(GameObject other)
 	{
-        //Debug.Log(HitWall.HitWallCount);
         if(HitWall.HitWallCount != 0)
         {
             HitWall.Wiggle();
@@ -67,7 +70,7 @@ public class CompleteLevel : MonoBehaviour {
         StartCoroutine(PrepareForWin(ThePlayer.gameObject));
 	}
 
-    bool activatedWin = false;
+    
     IEnumerator PrepareForWin(GameObject other)
     {
         activatedWin = false;
@@ -116,11 +119,7 @@ public class CompleteLevel : MonoBehaviour {
         yield return null;
     }
 
-    public AudioClip nomnomnom;
-
-    public Sprite LockSprite;
-    public Sprite GreenDotSprite;
-    public GameObject TheBits;
+  
 
     IEnumerator YouWin()
 	{
@@ -139,16 +138,15 @@ public class CompleteLevel : MonoBehaviour {
         //var temp = Application.LoadLevelAsync("level " + (1 + int.Parse(Application.loadedLevelName.Split(new char[] { ' ' })[1]))); // Split()[1])))
         //yield return new WaitForEndOfFrame();
         //if(temp.progress == 0) // it hasn't started, likely because its not found
+
 #pragma warning disable 0618
         if (!Application.isLoadingLevel)
 		{
 #pragma warning restore 0618
-            //Application.LoadLevelAsync(0).
             PlayerPrefs.SetInt("CurrentLevel", 1 + PlayerPrefs.GetInt("CurrentLevel"));
             PlayerPrefs.Save();
 
             StartCoroutine(LoadOut());
-            //Application.LoadLevel(4);
 		}
 	
 		yield return null;
@@ -160,10 +158,10 @@ public class CompleteLevel : MonoBehaviour {
         fader.GetComponent<SceneFadeInOut>().fadeDir *= -1;
         fader.GetComponent<SceneFadeInOut>().startTime = 0;
         yield return new WaitForEndOfFrame();
-        fader.GetComponent<SceneFadeInOut>().FinishedFade += finished;
+        fader.GetComponent<SceneFadeInOut>().FinishedFade += LoadNextLevelOnFinished;
     }
 
-    void finished()
+    void LoadNextLevelOnFinished()
     {
         Time.timeScale = 1;
 #pragma warning disable 0618

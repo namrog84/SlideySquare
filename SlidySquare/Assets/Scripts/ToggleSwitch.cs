@@ -4,24 +4,21 @@ using System.Collections.Generic;
 
 public class ToggleSwitch : MonoBehaviour {
 
-	public int ToggleID = 0;
+    public enum Option { TurnOn, TurnOff, Both }
 
-	public enum Option { TurnOn, TurnOff, Both }
+    public GameObject TheBits;
+	public int ToggleID = 0;
 	public Option mode;
 
-	void Start()
+    GameObject InstantiatedBits;
+
+    void Start()
 	{
         ToggleID = BasicGameObject.ToggleID++;
         ButtonController.toggleSwitches.Add(this);
         InstantiatedBits = Instantiate(TheBits);
         InstantiatedBits.gameObject.SetActive(false);
     }
-    GameObject InstantiatedBits;
-    
-
-
-
-    public GameObject TheBits;
 
     public void Toggle()
 	{
@@ -60,10 +57,11 @@ public class ToggleSwitch : MonoBehaviour {
                 temp.transform.position = gameObject.transform.position;
                 gameObject.GetComponent<SpriteRenderer>().enabled = true;
 				gameObject.GetComponent<BoxCollider2D>().enabled = true;
-
 			}
 
 		}
 	}
 
 }
+
+

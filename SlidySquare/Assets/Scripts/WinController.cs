@@ -3,16 +3,15 @@ using System.Collections;
 
 public class WinController : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
     public float delta = 4f;
     public float rate = 3f;
 
     public float delta2 = 1f;
     public float rate2 = 1f;
-    // Update is called once per frame
+
+	void Start () {
+	}
+
     void Update () {
         //var temp = GetComponent<RectTransform>().position;
         //temp.y = temp.y + delta*Mathf.Sin(rate*Time.time);
@@ -23,4 +22,7 @@ public class WinController : MonoBehaviour {
         //temp2.y = 1 + delta2 * Mathf.Cos(rate2 * Time.time);
         //GetComponent<RectTransform>().localScale = temp2;
     }
+
 }
+
+

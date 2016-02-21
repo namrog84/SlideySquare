@@ -3,13 +3,10 @@ using System.Collections;
 using UnityEngine.UI;
 using DG.Tweening;
 
-public class GoToAboutScreen : MonoBehaviour {
-
+public class GoToAboutScreen : MonoBehaviour
+{
 
     public RectTransform popupPanel;
-
-
-    //[SerializeField]
     private Button MyButton = null; // assign in the editor
 
     void Start()
@@ -25,4 +22,7 @@ public class GoToAboutScreen : MonoBehaviour {
         Application.LoadLevel("About");
 #pragma warning restore 0618
     }
+
+
 }
+

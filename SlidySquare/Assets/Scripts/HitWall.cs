@@ -4,22 +4,32 @@ using System;
 using System.Collections.Generic;
 
 public class HitWall : MonoBehaviour {
-	private Rect labelPos;
-	private GUIStyle style;
-	public int hitsLeftCount = 3;
 
-    private int startingHits;
     public static int HitWallCount = 0;
+
     public AudioClip explodeSound;
-	// Use this for initialization
-	void Start () {
+    public GameObject TheBits;
+    public Vector2 offset = new Vector2(-6, -12);
+    public int hitsLeftCount = 3;
+
+    private GameObject InstantiatedBits;
+	private GUIStyle style;
+	private Rect labelPos;
+    private float TimeImpact = 0;
+    private int startingHits;
+
+
+    private static HashSet<GameObject> Walls;
+    private static bool wiggling = false;
+
+
+    void Start () {
         if(Walls == null)
         {
             Walls = new HashSet<GameObject>();
         }
         Walls.Add(gameObject);
         startingHits = hitsLeftCount;
-        
 
 		style = new GUIStyle();
 		style.normal.textColor = Color.white;
@@ -29,15 +39,11 @@ public class HitWall : MonoBehaviour {
         InstantiatedBits = Instantiate(TheBits);
         InstantiatedBits.gameObject.SetActive(false);
     }
-    private GameObject InstantiatedBits;
-
-
-    // Update is called once per frame
+    
     void Update () 
 	{
         TimeImpact += Time.deltaTime;
     }
-    public GameObject TheBits;
     
 	void CollisionEnter2D(GameObject other)
 	{
@@ -70,9 +76,7 @@ public class HitWall : MonoBehaviour {
 		}
         
 	}
-    private float TimeImpact = 0;
-
-	public Vector2 offset = new Vector2(-6, -12);
+   
 	void OnGUI()
 	{
 		labelPos.x = Camera.main.WorldToScreenPoint(gameObject.transform.position).x + offset.x;
@@ -85,10 +89,6 @@ public class HitWall : MonoBehaviour {
 		
 
 	}
-
-
-    private static HashSet<GameObject> Walls;
-    private static bool wiggling = false;
 
    
     internal static void Wiggle()
@@ -111,7 +111,6 @@ public class HitWall : MonoBehaviour {
         StartCoroutine(Derp());
     }
     
-    
     private IEnumerator Derp()
     {
         var child = gameObject.GetComponentsInChildren<Transform>()[1];
@@ -132,4 +131,6 @@ public class HitWall : MonoBehaviour {
 
         wiggling = false;
     }
+
 }
+

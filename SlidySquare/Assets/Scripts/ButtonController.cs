@@ -30,7 +30,6 @@ public class ButtonController : MonoBehaviour {
 
 	}
 
-
 	void OnLevelWasLoaded(int level) 
 	{
 		if (toggleSwitches != null)

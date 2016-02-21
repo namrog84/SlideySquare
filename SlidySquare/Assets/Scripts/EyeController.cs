@@ -4,18 +4,25 @@ using System.Collections;
 [RequireComponent(typeof(PlayerMove))]
 public class EyeController : MonoBehaviour {
 
+    public static int playerDirChanged = 0;
 
+    public Sprite eyeClosed;
+    private Sprite eyeStart;
+    PlayerMove playermove;
+    SpriteRenderer sr;
 
-	SpriteRenderer sr;
-	void Start () {
+    private static Quaternion left = Quaternion.Euler(0, 0, 90);
+    private static Quaternion down = Quaternion.Euler(0, 0, 180);
+    private static Quaternion right = Quaternion.Euler(0, 0, 270);
+    private static Quaternion up = Quaternion.Euler(0, 0, 0);
+
+    void Start () {
 		sr = GetComponent<SpriteRenderer>();
 		eyeStart = sr.sprite;
 		StartCoroutine(blink());
         playermove = transform.parent.GetComponent<PlayerMove>();
     }
-    PlayerMove playermove;
-	public Sprite eyeClosed;
-	private Sprite eyeStart;
+
 	IEnumerator blink()
 	{
 		while(true)
@@ -25,10 +32,9 @@ public class EyeController : MonoBehaviour {
 			yield return new WaitForSeconds(0.2f);
 			sr.sprite = eyeStart;
 		}
-
 		//yield return null;
-
 	}
+
     public void updateEyes()
     {
         if (playermove.currentDirection == PlayerMove.Direction.left)
@@ -49,12 +55,6 @@ public class EyeController : MonoBehaviour {
         }
     }
 
-    private static Quaternion left = Quaternion.Euler(0, 0, 90);
-    private static Quaternion down = Quaternion.Euler(0, 0, 180);
-    private static Quaternion right = Quaternion.Euler(0, 0, 270);
-    private static Quaternion up = Quaternion.Euler(0, 0, 0);
-
-    public static int playerDirChanged = 0;
     void Update () {
 
         if (playerDirChanged != 0)

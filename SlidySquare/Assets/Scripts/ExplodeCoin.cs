@@ -3,16 +3,18 @@ using System.Collections;
 
 public class ExplodeCoin : MonoBehaviour {
 
-	// Use this for initialization
-	void Start ()
+    float death = 1.5f;
+
+    // Use this for initialization
+    void Start ()
     {
         StartCoroutine(boom());
-        
 	}
+
+    //why is this a routine?
     IEnumerator boom()
     {
         yield return null; // new WaitForSeconds(1);
-        
         AddExplosionForce(GetComponent<Rigidbody2D>(), 500, transform.root.transform.position, 10);
     }
 
@@ -22,9 +24,7 @@ public class ExplodeCoin : MonoBehaviour {
         float wearoff = 1 - (dir.magnitude / explosionRadius);
         body.AddForce(dir.normalized * explosionForce * wearoff);
     }
-
-    float death = 1.5f;
-	// Update is called once per frame
+	
 	void Update ()
     {
         death -= Time.deltaTime;
@@ -43,11 +43,6 @@ public class ExplodeCoin : MonoBehaviour {
             var scale = transform.localScale; //GetComponent<Transform>().localScale;
             scale *= .99f;
             transform.localScale = scale;  //GetComponent<Transform>().localScale = scale;
-
         }
-
-
-
-	
 	}
 }

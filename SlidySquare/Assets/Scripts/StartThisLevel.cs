@@ -2,27 +2,26 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class StartThisLevel : MonoBehaviour {
-
+public class StartThisLevel : MonoBehaviour
+{
+    public static GameObject parentPanel;
 
 	public int levelNumber = 0;
-	//[SerializeField]
-	private Button MyButton = null; // assign in the editor
+    public Color[] buttonColors;
 
     private static int LevelCompleted = 7;
-	void Start()
+    private StartThisLevel[] children;
+    private Button MyButton = null; // assign in the editor
+    
+    void Start()
 	{
         LevelCompleted = PlayerPrefs.GetInt("BaseGameLevelsCompleted", 0);
-
-
         MyButton = GetComponent<Button>();
-		MyButton.onClick.AddListener(() => { MyFunction(); });
-		
-
+		MyButton.onClick.AddListener(() => { MyOnClickFunction(); });
         TryModifyButtonColor();
 	}
 
-	private void MyFunction()
+	private void MyOnClickFunction()
 	{
 		if (levelNumber != 0)
 		{
@@ -32,13 +31,8 @@ public class StartThisLevel : MonoBehaviour {
             Application.LoadLevel(4);// "level "+ levelNumber);
 #pragma warning restore 0618
 		}
-
 	}
 
-
-    public Color [] buttonColors;
-    public static GameObject parentPanel;
-    private StartThisLevel [] children;
 
     private void TryModifyButtonColor()
     {
@@ -61,11 +55,6 @@ public class StartThisLevel : MonoBehaviour {
                 }
             }
         }
-        
-
-       // var panel
-        
-
     }
 
     private Button GetMyButton()
@@ -76,4 +65,7 @@ public class StartThisLevel : MonoBehaviour {
         }
         return MyButton;            
     }
+
 }
+
+

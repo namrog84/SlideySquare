@@ -4,17 +4,16 @@ using System.Collections;
 public class GoldController : MonoBehaviour {
 
 	public int Amount = 10;
-
     public GameObject TheBits;
-    public AudioClip coinSound;
 
-    // Use this for initialization
+    public AudioClip coinSound;
+    private GameObject InstantiatedBits;
+
 
     void Start () {
         InstantiatedBits = Instantiate(TheBits);
         InstantiatedBits.gameObject.SetActive(false);
     }
-    private GameObject InstantiatedBits;
 
     // Update is called once per frame
     void Update () {
@@ -26,11 +25,13 @@ public class GoldController : MonoBehaviour {
         AudioSource.PlayClipAtPoint(coinSound, transform.position);
 		GetComponent<SpriteRenderer>().enabled = false;
 		if (Amount == 0)
+        {
 			return;
+        }
+
         other.gameObject.GetComponent<PlayerMove>().AddMoney(Amount);
 		StartCoroutine(DestroyMe());
 	}
-   
 
     IEnumerator DestroyMe()
 	{
@@ -43,3 +44,4 @@ public class GoldController : MonoBehaviour {
 
 	}
 }
+

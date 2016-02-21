@@ -4,9 +4,9 @@ using UnityEngine.UI;
 
 public class HomeButtonController : MonoBehaviour {
 
-    //[SerializeField]
     private Button MyButton = null; // assign in the editor
     public string sceneToLoad;
+
     void Start()
     {
         MyButton = GetComponent<Button>();
@@ -39,4 +39,7 @@ public class HomeButtonController : MonoBehaviour {
         }
 #pragma warning restore 0618
     }
+
 }
+
+

@@ -4,14 +4,10 @@ using UnityEngine.UI;
 
 public class ResetButton : MonoBehaviour {
 
+    bool resetting = false;
 
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    private Button MyButton = null; // assign in the editor
 
-	//[SerializeField]
-	private Button MyButton = null; // assign in the editor
 
 	void Start()
 	{
@@ -19,7 +15,9 @@ public class ResetButton : MonoBehaviour {
 		MyButton.onClick.AddListener(() => { MyFunction(); });
 	}
 
-    bool resetting = false;
+	void Update () {
+	}
+
 	private void MyFunction()
 	{
         if (!resetting)
@@ -29,7 +27,6 @@ public class ResetButton : MonoBehaviour {
         }
         //Time.timeScale = 1;
         //Application.LoadLevel(Application.loadedLevel);
-
 	}
 
     private IEnumerator LevelSelect()
@@ -49,9 +46,11 @@ public class ResetButton : MonoBehaviour {
         Application.LoadLevel(Application.loadedLevel);
 #pragma warning restore 0618
 
-
     }
 
 
-
 }
+
+
+
+

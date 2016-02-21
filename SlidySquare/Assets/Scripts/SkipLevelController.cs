@@ -4,17 +4,16 @@ using UnityEngine.UI;
 
 public class SkipLevelController : MonoBehaviour {
 
-
-    //[SerializeField]
     private Button MyButton = null; // assign in the editor
+
 
     void Start()
     {
         MyButton = GetComponent<Button>();
-        MyButton.onClick.AddListener(() => { MyFunction(); });
+        MyButton.onClick.AddListener(() => { MyOnClickFunction(); });
     }
 
-    private void MyFunction()
+    private void MyOnClickFunction()
     {
 #pragma warning disable 0618
         if (!Application.isLoadingLevel)
@@ -26,4 +25,9 @@ public class SkipLevelController : MonoBehaviour {
         }
 #pragma warning restore 0618
     }
+
+
 }
+
+
+

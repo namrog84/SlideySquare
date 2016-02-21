@@ -4,8 +4,16 @@ using System.Collections;
 public class moveBackgroundController : MonoBehaviour {
 
 
+    public float scale = 0.01f;
+
     Vector3 playerPosLastFrame;
     Transform player;
+    bool firsttime = true;
+
+    private Bounds bounds;
+    private Vector2 delta;
+
+
     void Start()
     {
         float x = 0;
@@ -18,16 +26,9 @@ public class moveBackgroundController : MonoBehaviour {
         {
             y = Random.Range(0.01f, 0.1f);
         }
-        
-
-        
         delta = new Vector2(x, y);
     }
 
-    public float scale = 0.01f;
-    private Bounds bounds;
-    bool firsttime = true;
-    private Vector2 delta;
     void Update ()
     {
         if(firsttime)
@@ -69,4 +70,5 @@ public class moveBackgroundController : MonoBehaviour {
 
 
 }
+
 
