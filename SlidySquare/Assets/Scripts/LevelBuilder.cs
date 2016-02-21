@@ -12,20 +12,25 @@ using Assets.Scripts;
 namespace LevelBuilderNameSpace
 {
    
-
     public class LevelBuilder : MonoBehaviour
     {
         public static TileType currentSelected;
         public GameObject MapPanel;
         public GameObject theButton;
+
+        Map currentMap = new Map();
         public List<GameObject> TheBoard;
 
-        public int w = 3;
-        public int h = 3;
+        public delegate void ToggleGroup();
+        public static ToggleGroup Toggler;
+
+        private int width = 8;
+        private int height = 6;
 
         private int maxWidth = 20;
         private int maxHeight = 20;
         private int maxSize = 120;
+        bool isIdMode = false;
 
         Text texter;
 
@@ -42,7 +47,7 @@ namespace LevelBuilderNameSpace
                     var temp = Instantiate(theButton);
                     temp.SetActive(false);
                     temp.transform.SetParent(MapPanel.transform);
-                    temp.GetComponentInChildren<Text>().text = j + "," + i;
+                    //temp.GetComponentInChildren<Text>().text = j + "," + i;
 
                     TheBoard.Add(temp);
                 }
@@ -72,6 +77,30 @@ namespace LevelBuilderNameSpace
             fader.GetComponent<SceneFadeInOut>().FinishedFade += LoadLevelOnFinished;
         }
 
+        public void ToggleIDMode()
+        {
+            isIdMode = !isIdMode;
+            if (isIdMode)
+            {
+                //turn on ID mode
+                if(Toggler != null)
+                {
+                    currentSelected = TileType.None;
+                    Toggler();
+                }
+                
+            }
+            else
+            {
+                //turn off ID mode
+                if (Toggler != null)
+                {
+                    Toggler();
+                }
+            }
+
+        }
+
         void LoadLevelOnFinished()
         {
             Time.timeScale = 1;
@@ -83,22 +112,22 @@ namespace LevelBuilderNameSpace
 
         public void IncreaseWidth()
         {
-            w++;
+            width++;
             Clickity();
         }
         public void DecreaseWidth()
         {
-            w--;
+            width--;
             Clickity();
         }
         public void IncreaseHeight()
         {
-            h++;
+            height++;
             Clickity();
         }
         public void DecreaseHeight()
         {
-            h--;
+            height--;
             Clickity();
         }
 
@@ -106,8 +135,8 @@ namespace LevelBuilderNameSpace
         public void SaveLevel()
         {
             Map m = new Map();
-            m.height = h;
-            m.width = w;
+            m.height = height;
+            m.width = width;
             for (int j = 0; j < TheBoard.Count; j++)
             {
                 var tileType = (byte)TheBoard[j].GetComponent<LevelBuilderTileButton>().index;
@@ -125,8 +154,8 @@ namespace LevelBuilderNameSpace
                 return;
             }
 
-            h = m.height;
-            w = m.width;
+            height = m.height;
+            width = m.width;
             for (int j = 0; j < TheBoard.Count; j++)
             {
                 TheBoard[j].SetActive(true);
@@ -137,8 +166,8 @@ namespace LevelBuilderNameSpace
 
         public void Clickity()
         {
-            w = Mathf.Clamp(w, 4, maxWidth);
-            h = Mathf.Clamp(h, 4, maxHeight);
+            width = Mathf.Clamp(width, 4, maxWidth);
+            height = Mathf.Clamp(height, 4, maxHeight);
             //if (x == 1)
             {
                 for (int i = 0; i < TheBoard.Count; i++) //deactivate ALL!
@@ -150,19 +179,19 @@ namespace LevelBuilderNameSpace
                 //return;
             }
           
-            if (w > h)
+            if (width > height)
             {
                 MapPanel.GetComponent<GridLayoutGroup>().constraint = GridLayoutGroup.Constraint.FixedColumnCount;
-                MapPanel.GetComponent<GridLayoutGroup>().constraintCount = w;
+                MapPanel.GetComponent<GridLayoutGroup>().constraintCount = width;
             }
             else
             {
                 MapPanel.GetComponent<GridLayoutGroup>().constraint = GridLayoutGroup.Constraint.FixedRowCount;
-                MapPanel.GetComponent<GridLayoutGroup>().constraintCount = h;
+                MapPanel.GetComponent<GridLayoutGroup>().constraintCount = height;
             }
 
-            var dw = (int)MapPanel.GetComponent<RectTransform>().rect.width / w;
-            var dh = (int)MapPanel.GetComponent<RectTransform>().rect.height / h;
+            var dw = (int)MapPanel.GetComponent<RectTransform>().rect.width / width;
+            var dh = (int)MapPanel.GetComponent<RectTransform>().rect.height / height;
 
             var size = Mathf.Min(dw, dh, maxSize);
             
@@ -171,9 +200,9 @@ namespace LevelBuilderNameSpace
             dh = size;
 
             //int lastID = 0;
-            for (int j = 0; j < h; j++)
+            for (int j = 0; j < height; j++)
             {
-                for (int i = 0; i < w; i++)
+                for (int i = 0; i < width; i++)
                 {
                     int ID = i + j * maxWidth;// ((2 * w + 1));
                     //lastID = Mathf.Max(ID, lastID);
@@ -184,7 +213,7 @@ namespace LevelBuilderNameSpace
                     temp.GetComponent<RectTransform>().sizeDelta = new Vector2(dw, dh);
                     
                     var btncontroller = temp.GetComponent<LevelBuilderTileButton>();
-                    btncontroller.id = ID;// i + j * w;
+                    //btncontroller.Id = ID;// i + j * w;
                     btncontroller.setLocation(i, j);
 
                 }

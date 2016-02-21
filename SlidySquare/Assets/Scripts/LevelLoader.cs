@@ -41,7 +41,10 @@ public class LevelLoader : MonoBehaviour {
         if(PlayerPrefs.GetInt("CurrentLevel", 1) == -3)
         {
             //custom new level design
-            StartCoroutine(LoadLevelNew(PlayerPrefs.GetString("LevelName")));
+            var filename = PlayerPrefs.GetString("LevelName");
+            Debug.Log(filename);
+            Debug.Log(filename);
+            StartCoroutine(LoadLevelNew(filename));
         }
         else
         {
@@ -65,22 +68,26 @@ public class LevelLoader : MonoBehaviour {
     {
         //string fpath = Path.Combine(Application.streamingAssetsPath, filename);
         //string leveldata;
+        yield return new WaitForEndOfFrame();
 
         Map m = (Map)FileManager.LoadFromFile(filename);
         if (m == null)
         {
             Debug.Log("ERROR");
-            return null;
+            yield break;
         }
 
         _width = m.width;
         _height = m.height;
-        mapOffset = new Vector3(_width / 2.0f, _height / 2, 0);
+        mapOffset = new Vector3(_width / 2, _height / 2, 0);
         worldTiles = new GameObject[_width, _height];
         //Debug.Log(_width + " " + _height);
-        Camera.main.GetComponent<CameraController>().UnitsHigh = _width;//(_width / 2)+1;
-        Camera.main.GetComponent<CameraController>().AdjustView();
-        Camera.main.transform.position += new Vector3(-0.5f, 0.5f);
+        Camera.main.GetComponent<CameraController>().AdjustViewHeight(_width);//.UnitsHigh = _height;//(_width / 2)+1;
+        if(_width % 2 == 1)
+        {
+            Camera.main.transform.position += new Vector3(-0.5f, 0.0f);
+        }
+        
 
 
         //scan tile data layer
@@ -111,7 +118,7 @@ public class LevelLoader : MonoBehaviour {
         //            float y = float.Parse(xmlReader.GetAttribute("y"));
         //            // Debug.Log("xy");
         //            xmlReader.ReadToDescendant("polyline");
-        //            //int gid = int.Parse(xmlReader.GetAttribute("gid"));
+        //            //int g_id = int.Parse(xmlReader.GetAttribute("gid"));
         //            string points = xmlReader.GetAttribute("points");
         //            points = points.Split()[1];
         //            float x2 = float.Parse(points.Split(',')[0]) + x;
@@ -130,7 +137,7 @@ public class LevelLoader : MonoBehaviour {
         //}
 
         HitWall.HitWallCount = GameObject.FindGameObjectsWithTag("HitWall").Length;
-        return null;
+        //return null;
     }
 
 
@@ -142,12 +149,12 @@ public class LevelLoader : MonoBehaviour {
     //};
     int ConvertNewToOldIDs(int newID)
     {
-        int[] old = { 0, 15, 8, 1, 6, 3, 4, 12, 5, 2, 9, 10, 17, 18, 19, 16, 25, 27, 24, 26 };
+        int[] old = { -1, 0, 15, 8, 1, 6, 3, 4, 12, 5, 2, 9, 10, 17, 18, 19, 16, 25, 27, 24, 26 };
         if (newID < 0 || newID >= old.Length)
         {
             return 0;
         }
-        return old[newID];
+        return old[newID]+1;
     }
 
     private IEnumerator LoadLevel(string filename)
@@ -199,7 +206,7 @@ public class LevelLoader : MonoBehaviour {
             {
                 _width = int.Parse(xmlReader.GetAttribute("width"));
                 _height = int.Parse(xmlReader.GetAttribute("height"));
-                mapOffset = new Vector3(_width/2.0f, _height/2, 0);
+                mapOffset = new Vector3(_width/2.0f, _height/2.0f, 0);
                 worldTiles = new GameObject[_width, _height];
                 //Debug.Log(_width + " " + _height);
                 Camera.main.GetComponent<CameraController>().UnitsHigh = _width;//(_width / 2)+1;

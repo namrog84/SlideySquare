@@ -15,6 +15,7 @@ namespace Assets.Scripts
     {
         public static void SaveObjectToFile(string filename, object theObject)
         {
+            Debug.Log("Save " + Application.dataPath + "/" + filename);
             IFormatter formatter = new BinaryFormatter();
             using (var stream = new FileStream(Application.dataPath + "/" + filename, FileMode.Create, FileAccess.Write, FileShare.None))
             {
@@ -29,7 +30,7 @@ namespace Assets.Scripts
         {
             object result;
             IFormatter formatter = new BinaryFormatter();
-
+            Debug.Log("Load " + Application.dataPath + "/" + filename);
             using (Stream stream = new FileStream(Application.dataPath + "/" + filename, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 using (var zipper = new GZipStream(stream, CompressionMode.Decompress))

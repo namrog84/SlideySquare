@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class ButtonController : MonoBehaviour {
 
 	public int ToggleID = 0;
-	public static List<ToggleSwitch> toggleSwitches;
+	public static List<ToggleSwitch> toggleSwitches = new List<ToggleSwitch>();
 	public bool singleUse = true;
 	bool canPress = true;
 
