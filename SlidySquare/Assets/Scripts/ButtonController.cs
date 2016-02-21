@@ -11,7 +11,7 @@ public class ButtonController : MonoBehaviour {
 
 	public Sprite deactivatedSprite;
     public AudioClip buttonSound;
-
+    public bool playSound = true;
     void Awake()
 	{
 		if (toggleSwitches == null)
@@ -23,7 +23,7 @@ public class ButtonController : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
-        ToggleID = BasicGameObject.ToggleID++;
+        //ToggleID = BasicGameObject.ToggleID++;
         canPress = true;
         //Debug.Log(gameObject.name);
 		GetComponent<BasicGameObject>().TriggerPool += Triggered;
@@ -44,8 +44,10 @@ public class ButtonController : MonoBehaviour {
 		{
 			return;
 		}
-
-        AudioSource.PlayClipAtPoint(buttonSound, transform.position);
+        if (playSound)
+        {
+            AudioSource.PlayClipAtPoint(buttonSound, transform.position);
+        }
 		for (int i = 0; i < toggleSwitches.Count; i++)
 		{
 			if (toggleSwitches[i].ToggleID == ToggleID)

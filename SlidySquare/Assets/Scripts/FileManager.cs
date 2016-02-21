@@ -15,9 +15,9 @@ namespace Assets.Scripts
     {
         public static void SaveObjectToFile(string filename, object theObject)
         {
-            Debug.Log("Save " + Application.dataPath + "/" + filename);
+            Debug.Log("Save " + Application.persistentDataPath + "/" + filename);
             IFormatter formatter = new BinaryFormatter();
-            using (var stream = new FileStream(Application.dataPath + "/" + filename, FileMode.Create, FileAccess.Write, FileShare.None))
+            using (var stream = new FileStream(Application.persistentDataPath + "/" + filename, FileMode.Create, FileAccess.Write, FileShare.None))
             {
                 using (var zipper = new GZipStream(stream, CompressionMode.Compress, false))
                 {
@@ -25,13 +25,18 @@ namespace Assets.Scripts
                 }
             }
         }
-       
+
+        internal static void Delete(string filename)
+        {
+            File.Delete(Application.persistentDataPath + "/" + filename);
+        }
+
         public static object LoadFromFile(string filename)
         {
             object result;
             IFormatter formatter = new BinaryFormatter();
             Debug.Log("Load " + Application.dataPath + "/" + filename);
-            using (Stream stream = new FileStream(Application.dataPath + "/" + filename, FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (Stream stream = new FileStream(Application.persistentDataPath + "/" + filename, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 using (var zipper = new GZipStream(stream, CompressionMode.Decompress))
                 {
@@ -41,5 +46,9 @@ namespace Assets.Scripts
             return result;
         }
 
+        internal static List<string> GetSavedLevelNames()
+        {
+            return Directory.GetFiles(Application.persistentDataPath).Select(fullname => Path.GetFileName(fullname)).ToList();
+        }
     }
 }

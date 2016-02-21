@@ -37,7 +37,7 @@ public class PlayerMove : MonoBehaviour
     private Vector3 deltamove = new Vector3(0, 0, 0);
     private Direction desiredMove = Direction.none;
     private float attemptTryTime = 0.5f;
-
+    public bool menuPlayer = false;
 
 
     internal void AddMoney(int amount)
@@ -168,7 +168,7 @@ public class PlayerMove : MonoBehaviour
 
     private void CheckKeyboardControls()
     {
-        if (!canMove)
+        if (!canMove || menuPlayer)
         {
             return;
         }
@@ -208,6 +208,7 @@ public class PlayerMove : MonoBehaviour
 
     private void CheckDeathBounds()
     {
+        if (menuPlayer) return;
 
         if (!bounds.Contains(transform.position))
         {
@@ -251,7 +252,9 @@ public class PlayerMove : MonoBehaviour
         {
             return;
         }
-        if (!canMove)
+        if (menuPlayer) return;
+
+        if (!canMove )
         {
             return;
         }
@@ -275,6 +278,8 @@ public class PlayerMove : MonoBehaviour
         {
             return;
         }
+        if (menuPlayer) return;
+
         if (!canMove)
         {
             return;
@@ -298,6 +303,7 @@ public class PlayerMove : MonoBehaviour
         {
             return;
         }
+        if (menuPlayer) return;
         if (!canMove)
         {
             return;
@@ -321,6 +327,7 @@ public class PlayerMove : MonoBehaviour
         {
             return;
         }
+        if (menuPlayer) return;
         if (!canMove)
         {
             return;

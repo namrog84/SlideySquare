@@ -35,7 +35,7 @@ public class teleportController : MonoBehaviour {
         teleport = false;
         GetComponent<BasicGameObject>().TriggerPool += Triggered;
         cooldownTime = 0.0f;
-        ID = BasicGameObject.ToggleID++;
+       // ID = BasicGameObject.ToggleID++;
 
     }
 
@@ -133,7 +133,7 @@ public class teleportController : MonoBehaviour {
                 teleportingObject.transform.position = other.gameObject.transform.position;
                 var derp2 = (GameObject)Instantiate(TeleportImplosion, other.transform.position, other.transform.rotation);
                 Destroy(derp2, 1.0f);
-                //these 2 are the teleporters,  they just activated, so lets set a cooldown
+                //these 2 are the teleporters,  they just activated, so lets set a cool down
                 this.BeginTeleportCoolDown();
                 TeleportsList[i].BeginTeleportCoolDown();
 

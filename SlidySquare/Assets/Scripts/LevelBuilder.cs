@@ -142,7 +142,13 @@ namespace LevelBuilderNameSpace
                 var tileType = (byte)TheBoard[j].GetComponent<LevelBuilderTileButton>().index;
                 m.Board.Add(tileType);
             }
-            FileManager.SaveObjectToFile("level.txt", m);
+            
+            var levelCounter = PlayerPrefs.GetInt("CustomLevels", 0);
+            levelCounter++;
+            PlayerPrefs.SetInt("CustomLevels", levelCounter);
+            PlayerPrefs.Save();
+            var savename = "HomeMadeLevel " + levelCounter +".txt";
+            FileManager.SaveObjectToFile(savename, m);
         }
 
         public void LoadLevel()

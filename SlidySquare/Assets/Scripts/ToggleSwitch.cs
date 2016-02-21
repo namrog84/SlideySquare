@@ -14,7 +14,7 @@ public class ToggleSwitch : MonoBehaviour {
 
     void Start()
 	{
-        ToggleID = BasicGameObject.ToggleID++;
+        //ToggleID = BasicGameObject.ToggleID++;
         ButtonController.toggleSwitches.Add(this);
         InstantiatedBits = Instantiate(TheBits);
         InstantiatedBits.gameObject.SetActive(false);
