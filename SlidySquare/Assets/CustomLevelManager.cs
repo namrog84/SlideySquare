@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Assets.Scripts;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 public class CustomLevelManager : MonoBehaviour {
 
@@ -17,7 +19,7 @@ public class CustomLevelManager : MonoBehaviour {
     public void LocalLevels()
     {
         string url = "http://localhost:61156/api/levels/1";
-        WWW www = new WWW(url);
+        WWW www = new WWW(url); 
         StartCoroutine(WaitForRequest(www));
     }
 
@@ -45,13 +47,27 @@ public class CustomLevelManager : MonoBehaviour {
     }
 
 
-
-    public void UploadLevel(string data)
+    public void UploadLevel(object data)
     {
-        string url = "http://localhost:61156/api/create";
+        string url = "http://localhost:61156/api/uploadlevel";
         WWWForm form = new WWWForm();
-        form.AddField("levelData", data);
+        //form.AddField("levelData", data);
+        form.AddBinaryData("levelData", ObjectToByteArray(data));
         WWW www = new WWW(url, form);
         StartCoroutine(WaitForRequest(www));
     }
+
+    byte[] ObjectToByteArray(object obj)
+    {
+        if (obj == null)
+            return null;
+        BinaryFormatter bf = new BinaryFormatter();
+        using (MemoryStream ms = new MemoryStream())
+        {
+            bf.Serialize(ms, obj);
+            return ms.ToArray();
+        }
+    }
+
+
 }

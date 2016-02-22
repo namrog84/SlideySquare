@@ -2,6 +2,8 @@
 using System.Collections;
 using Assets.Scripts;
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using System;
 
 public class LevelGUISelector : MonoBehaviour {
 
@@ -21,9 +23,15 @@ public class LevelGUISelector : MonoBehaviour {
     public void UploadThisLevel()
     {
         var map = (Map)FileManager.LoadFromFile(filename);
-        var data = JsonUtility.ToJson(map);
-        GetComponent<CustomLevelManager>().UploadLevel(data);
+        //Debug.Log(map);
+
+        //var data = JsonUtility.ToJson(map);
+        //var data = Convert.ToBase64String(ObjectToByteArray(map));
+        //Debug.Log(data);
+        
+        GetComponent<CustomLevelManager>().UploadLevel(map);
     }
+
     public void DeleteCurrentLevel()
     {
         FileManager.Delete(filename);
