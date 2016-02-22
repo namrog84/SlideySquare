@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Assets.Scripts;
+using System.IO;
 
 public class LevelGUISelector : MonoBehaviour {
 
@@ -14,13 +15,23 @@ public class LevelGUISelector : MonoBehaviour {
 	
 	}
 
+    GameObject levelmanager;
     public string filename;
 
+    public void UploadThisLevel()
+    {
+        var map = (Map)FileManager.LoadFromFile(filename);
+        var data = JsonUtility.ToJson(map);
+        GetComponent<CustomLevelManager>().UploadLevel(data);
+    }
     public void DeleteCurrentLevel()
     {
         FileManager.Delete(filename);
         Destroy(gameObject);
     }
+
+
+
     public void PlayCurrentLevel()
     {
         PlayerPrefs.SetInt("CurrentLevel", -3); // -3 is for custom level I guess? 

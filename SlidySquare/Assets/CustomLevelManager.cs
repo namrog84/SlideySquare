@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Assets.Scripts;
 
 public class CustomLevelManager : MonoBehaviour {
 
@@ -15,7 +16,6 @@ public class CustomLevelManager : MonoBehaviour {
 
     public void LocalLevels()
     {
-        Debug.Log("local");
         string url = "http://localhost:61156/api/levels/1";
         WWW www = new WWW(url);
         StartCoroutine(WaitForRequest(www));
@@ -28,7 +28,7 @@ public class CustomLevelManager : MonoBehaviour {
         // check for errors
         if (www.error == null)
         {
-            Debug.Log("WWW Ok!: " + www.data);
+            Debug.Log("WWW Ok!: " + www.text);
         }
         else
         {
@@ -39,12 +39,19 @@ public class CustomLevelManager : MonoBehaviour {
 
     public void OnlineLevels()
     {
-        Debug.Log("online");
-
         string url = "http://localhost:61156/api/levels/2";
         WWW www = new WWW(url);
         StartCoroutine(WaitForRequest(www));
+    }
 
 
+
+    public void UploadLevel(string data)
+    {
+        string url = "http://localhost:61156/api/create";
+        WWWForm form = new WWWForm();
+        form.AddField("levelData", data);
+        WWW www = new WWW(url, form);
+        StartCoroutine(WaitForRequest(www));
     }
 }
