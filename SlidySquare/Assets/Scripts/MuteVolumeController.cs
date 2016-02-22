@@ -16,6 +16,14 @@ public class MuteVolumeController : MonoBehaviour {
     {
         MyButton = GetComponent<Button>();
         MyButton.onClick.AddListener(() => { MyFunction(); });
+        if(AudioListener.volume == 1)
+        {
+            GetComponent<Image>().sprite = notmuted;
+        }
+        else
+        {
+            GetComponent<Image>().sprite = mute;
+        }
     }
 
     private void MyFunction()

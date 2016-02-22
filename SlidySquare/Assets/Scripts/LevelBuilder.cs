@@ -62,8 +62,9 @@ namespace LevelBuilderNameSpace
 
         public void PlayCurrentLevel()
         {
+            var levelCounter = PlayerPrefs.GetInt("CustomLevels", 0);
             PlayerPrefs.SetInt("CurrentLevel", -3); // -3 is for custom level I guess? 
-            PlayerPrefs.SetString("LevelName", "level.txt");
+            PlayerPrefs.SetString("LevelName", "HomeMadeLevel " + levelCounter + ".txt");
             PlayerPrefs.Save();
             StartCoroutine(LoadOut());
         }
@@ -137,10 +138,14 @@ namespace LevelBuilderNameSpace
             Map m = new Map();
             m.height = height;
             m.width = width;
+            
             for (int j = 0; j < TheBoard.Count; j++)
             {
-                var tileType = (byte)TheBoard[j].GetComponent<LevelBuilderTileButton>().index;
+                var tile = TheBoard[j].GetComponent<LevelBuilderTileButton>();
+                var tileType = (byte)tile.index;
                 m.Board.Add(tileType);
+                var tileId = (byte)tile.Id;
+                m.IDsBoard.Add(tileId);
             }
             
             var levelCounter = PlayerPrefs.GetInt("CustomLevels", 0);
@@ -151,24 +156,24 @@ namespace LevelBuilderNameSpace
             FileManager.SaveObjectToFile(savename, m);
         }
 
-        public void LoadLevel()
-        {
-            Map m = (Map)FileManager.LoadFromFile("level.txt");
-            if(m == null)
-            {
-                Debug.Log("ERROR");
-                return;
-            }
+        //public void LoadLevel()
+        //{
+        //    Map m = (Map)FileManager.LoadFromFile("level.txt");
+        //    if(m == null)
+        //    {
+        //        Debug.Log("ERROR");
+        //        return;
+        //    }
 
-            height = m.height;
-            width = m.width;
-            for (int j = 0; j < TheBoard.Count; j++)
-            {
-                TheBoard[j].SetActive(true);
-                TheBoard[j].GetComponent<LevelBuilderTileButton>().SetTile((int)m.Board[j]);
-            }
-            Clickity(); //refresh level
-        }
+        //    height = m.height;
+        //    width = m.width;
+        //    for (int j = 0; j < TheBoard.Count; j++)
+        //    {
+        //        TheBoard[j].SetActive(true);
+        //        TheBoard[j].GetComponent<LevelBuilderTileButton>().SetTile((int)m.Board[j]);
+        //    }
+        //    Clickity(); //refresh level
+        //}
 
         public void Clickity()
         {

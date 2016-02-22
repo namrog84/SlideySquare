@@ -117,12 +117,6 @@ public class teleportController : MonoBehaviour {
 
     public void Teleport(GameObject teleportingObject)
 	{
-		//too soon to teleport?
-		//if (Time.time - lastTeleport < teleportDelay)
-		{
-			//return;
-		}
-
 		//lastTeleport = Time.time;
 
         for (int i = 0; i < TeleportsList.Count; i++)

@@ -6,7 +6,7 @@ using Assets.Scripts;
 
 public class LevelBuilderTileButton : MonoBehaviour {
 
-    private int Id = 0;
+    public int Id = 0;
     public Vector2 location = new Vector2(0, 0);
     public Sprite[] sprites;
     public int index = 0;

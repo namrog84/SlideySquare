@@ -98,6 +98,7 @@ public class LevelLoader : MonoBehaviour {
             {
                 int ID = i + j * 20;
                 CreateTile(i, _height - j, j, ConvertNewToOldIDs(m.Board[ID]), "");
+                SetTileId(i, j, m.IDsBoard[ID]); 
             }
         }
 
@@ -155,6 +156,36 @@ public class LevelLoader : MonoBehaviour {
             return 0;
         }
         return old[newID]+1;
+    }
+
+    private void SetTileId(int x, int y, int id)
+    {
+        if (x < 0 || y < 0 || x >= _width || x >= _height)
+        {
+            return;
+        }
+        if (worldTiles[x, y] != null)
+        {
+            var tele1 = worldTiles[x, y].GetComponent<teleportController>();
+            if (tele1 != null)
+            {
+                tele1.ID = id;
+                tele1.GetComponentInChildren<slowRotater>().SetColor(teleCount);
+                teleCount++;
+            }
+
+            var togglebutton = worldTiles[x, y].GetComponent<ButtonController>();
+            if (togglebutton != null)
+            {
+                togglebutton.ToggleID = id;
+            }
+
+            var togglewall = worldTiles[x, y].GetComponent<ToggleSwitch>();
+            if (togglewall != null)
+            {
+                togglewall.ToggleID = id;
+            }
+        }
     }
 
     private IEnumerator LoadLevel(string filename)
