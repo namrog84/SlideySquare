@@ -124,7 +124,7 @@ public class CustomLevelManager : MonoBehaviour {
         WWWForm form = new WWWForm();
         //form.AddField("levelData", data);
         var dataToSend = Convert.ToBase64String(ObjectToByteArray(data));
-
+        
         form.AddField("levelData", dataToSend);
         Debug.Log(dataToSend);
         WWW www = new WWW(url, form);
@@ -162,6 +162,7 @@ public class CustomLevelManager : MonoBehaviour {
             var leveldata = Convert.FromBase64String(newdata);
             var map = (Map)ByteArrayToObject(leveldata);
             FileManager.SaveObjectToFile(level.PublicName, map);
+
 
 
 
