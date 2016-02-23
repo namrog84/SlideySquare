@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class ButtonController : MonoBehaviour {
 
-	public int ToggleID = 0;
+	public int ButtonToggleID = 0;
 	public static List<ToggleSwitch> toggleSwitches = new List<ToggleSwitch>();
 	public bool singleUse = true;
 	bool canPress = true;
@@ -23,11 +23,8 @@ public class ButtonController : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
-        //ToggleID = BasicGameObject.ToggleID++;
         canPress = true;
-        //Debug.Log(gameObject.name);
 		GetComponent<BasicGameObject>().TriggerPool += Triggered;
-
 	}
 
 	void OnLevelWasLoaded(int level) 
@@ -50,7 +47,7 @@ public class ButtonController : MonoBehaviour {
         }
 		for (int i = 0; i < toggleSwitches.Count; i++)
 		{
-			if (toggleSwitches[i].ToggleID == ToggleID)
+			if (toggleSwitches[i].ToggleID == ButtonToggleID)
 			{
 				toggleSwitches[i].Toggle();
 			}
@@ -62,7 +59,6 @@ public class ButtonController : MonoBehaviour {
 			GetComponent<SpriteRenderer>().sprite = deactivatedSprite;
 		}
 	}
-	
 	
 	void Update () {
 	

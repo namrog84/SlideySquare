@@ -9,10 +9,11 @@ namespace Assets.Scripts
     {
     }
 
-    public class OnlineLevel
+    public class Level
     {
-        public Guid InternalKey;  // used to map to Rating
-        public string PublicName;  //will generate a public name like Gfycat has. (e.g. "PurpleElphantChair" )
+        public int key;
+        // used to map to Rating
+        public string PublicName; //will generate a public name like Gfycat has. (e.g. "PurpleElphantChair" )
         public Guid MachineId; // Owner
         public Guid Passcode;   // TBD
         public DateTime Date;  // upload date
@@ -25,9 +26,10 @@ namespace Assets.Scripts
         public string Solution; // to verify solvable later
         public string SpecialFlag; // TBD
 
-        public OnlineLevel()
+        public Level()
         {
-            InternalKey = new Guid();  // used to map to Rating
+
+            //InternalKey = new Guid();  // used to map to Rating
             PublicName = "none";  //will generate a public name like Gfycat has. (e.g. "PurpleElphantChair" )
             MachineId = Guid.Empty; // Owner
             Passcode = Guid.Empty;   // TBD

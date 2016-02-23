@@ -70,37 +70,40 @@ public class CompleteLevel : MonoBehaviour {
         StartCoroutine(PrepareForWin(ThePlayer.gameObject));
 	}
 
-    
+
     IEnumerator PrepareForWin(GameObject other)
     {
         activatedWin = false;
+        var otherPlayer = other.GetComponent<PlayerMove>();
+        var otherCC2D = other.GetComponent<CharacterController2D>();
+
         while (!activatedWin)
         {
-            if (other.GetComponent<PlayerMove>().currentDirection == PlayerMove.Direction.right)
+            if (otherPlayer.currentDirection == PlayerMove.Direction.right)
             {
 
-                if (transform.position.x - other.transform.position.x <= other.GetComponent<CharacterController2D>().skinWidth)
+                if (transform.position.x - other.transform.position.x <= otherCC2D.skinWidth)
                 {
                     activatedWin = true;
                 }
             }
-            else if (other.GetComponent<PlayerMove>().currentDirection == PlayerMove.Direction.left)
+            else if (otherPlayer.currentDirection == PlayerMove.Direction.left)
             {
-                if (other.transform.position.x - transform.position.x <= other.GetComponent<CharacterController2D>().skinWidth)
+                if (other.transform.position.x - transform.position.x <= otherCC2D.skinWidth)
                 {
                     activatedWin = true;
                 }
             }
-            else if (other.GetComponent<PlayerMove>().currentDirection == PlayerMove.Direction.up)
+            else if (otherPlayer.currentDirection == PlayerMove.Direction.up)
             {
-                if (transform.position.y - other.transform.position.y <= other.GetComponent<CharacterController2D>().skinWidth)
+                if (transform.position.y - other.transform.position.y <= otherCC2D.skinWidth)
                 {
                     activatedWin = true;
                 }
             }
-            else if (other.GetComponent<PlayerMove>().currentDirection == PlayerMove.Direction.down)
+            else if (otherPlayer.currentDirection == PlayerMove.Direction.down)
             {
-                if (other.transform.position.y - gameObject.transform.position.y <= other.GetComponent<CharacterController2D>().skinWidth)
+                if (other.transform.position.y - gameObject.transform.position.y <= otherCC2D.skinWidth)
                 {
                     activatedWin = true;
                 }
@@ -108,18 +111,14 @@ public class CompleteLevel : MonoBehaviour {
             yield return null;
         }
 
-        other.GetComponent<PlayerMove>().CenterOnTile();
-        other.GetComponent<PlayerMove>().isMoving = false;
-        //other.GetComponent<PlayerMove>().canMove = false;
-
-        //Debug.Log("hi " );
+        otherPlayer.CenterOnTile();
+        otherPlayer.isMoving = false;
 
         StartCoroutine(YouWin());
         //delay for another teleport	
         yield return null;
     }
 
-  
 
     IEnumerator YouWin()
 	{

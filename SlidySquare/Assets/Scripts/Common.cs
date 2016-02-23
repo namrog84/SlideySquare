@@ -15,6 +15,8 @@ namespace Assets.Scripts
             byte b = byte.Parse(hex.Substring(4, 2), System.Globalization.NumberStyles.HexNumber);
             return new Color32(r, g, b, 255);
         }
+
+
     }
 
     public enum TileType
@@ -24,6 +26,8 @@ namespace Assets.Scripts
         TurnLeft = 13, TurnUp = 14, TurnRight = 15, TurnDown = 16,
         TurnLeftUp = 17, TurnRightUp = 18, TurnLeftDown = 19, TurnRightDown = 20
     };
+
+
 
     [Serializable]
     public class Map

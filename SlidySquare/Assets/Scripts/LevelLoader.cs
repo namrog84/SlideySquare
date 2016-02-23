@@ -148,6 +148,8 @@ public class LevelLoader : MonoBehaviour {
     //    TurnLeft=13, TurnUp=14, TurnRight=15, TurnDown=16,
     //    TurnLeftUp=17, TurnRightUp=18, TurnLeftDown=19, TurnRightDown=20
     //};
+
+
     int ConvertNewToOldIDs(int newID)
     {
         int[] old = { -1, 0, 15, 8, 1, 6, 3, 4, 12, 5, 2, 9, 10, 17, 18, 19, 16, 25, 27, 24, 26 };
@@ -177,7 +179,7 @@ public class LevelLoader : MonoBehaviour {
             var togglebutton = worldTiles[x, y].GetComponent<ButtonController>();
             if (togglebutton != null)
             {
-                togglebutton.ToggleID = id;
+                togglebutton.ButtonToggleID = id;
             }
 
             var togglewall = worldTiles[x, y].GetComponent<ToggleSwitch>();
@@ -383,7 +385,7 @@ public class LevelLoader : MonoBehaviour {
             var togglewall = worldTiles[x2, y2].GetComponent<ToggleSwitch>();
             if (togglebutton != null && togglewall != null)
             {
-                togglewall.ToggleID = togglebutton.ToggleID;
+                togglewall.ToggleID = togglebutton.ButtonToggleID;
             }
             
             

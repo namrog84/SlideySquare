@@ -28,8 +28,12 @@ public class LevelGUISelector : MonoBehaviour {
         //var data = JsonUtility.ToJson(map);
         //var data = Convert.ToBase64String(ObjectToByteArray(map));
         //Debug.Log(data);
-        
-        GetComponent<CustomLevelManager>().UploadLevel(map);
+        if (customLevelManagerObject == null)
+        {
+            customLevelManagerObject = GameObject.FindObjectOfType<CustomLevelManager>();
+        }
+
+        customLevelManagerObject.UploadLevel(map);
     }
 
     public void DeleteCurrentLevel()
@@ -38,7 +42,15 @@ public class LevelGUISelector : MonoBehaviour {
         Destroy(gameObject);
     }
 
-
+    public CustomLevelManager customLevelManagerObject;
+    public void DownloadLevel()
+    {
+        if(customLevelManagerObject == null)
+        {
+            customLevelManagerObject = GameObject.FindObjectOfType<CustomLevelManager>();
+        }
+        customLevelManagerObject.DownloadLevel(filename);
+    }
 
     public void PlayCurrentLevel()
     {

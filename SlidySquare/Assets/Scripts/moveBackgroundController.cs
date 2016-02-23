@@ -10,7 +10,7 @@ public class moveBackgroundController : MonoBehaviour {
     Transform player;
     bool firsttime = true;
 
-    private Bounds bounds;
+    private Bounds cachedBounds;
     private Vector2 delta;
 
 
@@ -34,11 +34,11 @@ public class moveBackgroundController : MonoBehaviour {
         if(firsttime)
         {
             firsttime = false;
-            bounds = OrthographicBounds(Camera.main);
-            bounds.Expand(5);
-            bounds.center = new Vector3(bounds.center.x, bounds.center.y, 0);
+            cachedBounds = OrthographicBounds(Camera.main);
+            cachedBounds.Expand(5);
+            cachedBounds.center = new Vector3(cachedBounds.center.x, cachedBounds.center.y, 0);
         }
-        if (!bounds.Contains(transform.position))
+        if (!cachedBounds.Contains(transform.position))
         {
             delta.x = -delta.x;
             delta.y = -delta.y;

@@ -21,7 +21,6 @@ public class ArrowPiece : MonoBehaviour
     void Start()
     {
         GetComponent<BasicGameObject>().TriggerPool += Triggered;
-
     }
 
     void Triggered(GameObject other)
