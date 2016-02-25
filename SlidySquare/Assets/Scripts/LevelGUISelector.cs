@@ -23,16 +23,12 @@ public class LevelGUISelector : MonoBehaviour {
     public void UploadThisLevel()
     {
         var map = (Map)FileManager.LoadFromFile(filename);
-        //Debug.Log(map);
-
-        //var data = JsonUtility.ToJson(map);
-        //var data = Convert.ToBase64String(ObjectToByteArray(map));
-        //Debug.Log(data);
         if (customLevelManagerObject == null)
         {
             customLevelManagerObject = GameObject.FindObjectOfType<CustomLevelManager>();
         }
-
+        Debug.Log(map.width);
+        Debug.Log(map.Board);
         customLevelManagerObject.UploadLevel(map);
     }
 

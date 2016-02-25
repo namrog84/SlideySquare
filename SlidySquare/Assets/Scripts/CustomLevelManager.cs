@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Text;
 using System;
+using Unity.IO.Compression;
 
 public class CustomLevelManager : MonoBehaviour {
 
@@ -121,13 +122,25 @@ public class CustomLevelManager : MonoBehaviour {
     public void UploadLevel(object data)
     {
         string url = "http://localhost:61156/api/uploadlevel";
-        WWWForm form = new WWWForm();
-        //form.AddField("levelData", data);
-        var dataToSend = Convert.ToBase64String(ObjectToByteArray(data));
+        Level level = new Level();
         
-        form.AddField("levelData", dataToSend);
-        Debug.Log(dataToSend);
-        WWW www = new WWW(url, form);
+        var mapData = JsonUtility.ToJson((Map)data);
+        level.Data = Convert.ToBase64String(Encoding.ASCII.GetBytes(mapData)); 
+        //level.MachineId already assigned
+        level.Width = ((Map)data).width;
+        level.Height= ((Map)data).height;
+        level.Version = 1;
+        Debug.Log("Attempting to Upload");
+        Debug.Log(level.Width);
+        Debug.Log(mapData);
+        var jsoner = JsonUtility.ToJson(level);
+        Debug.Log(jsoner);
+        var uncompressed = Encoding.ASCII.GetBytes(jsoner);
+        Debug.Log("Uncompressed " + uncompressed.Length);
+        var ddata = Compress(uncompressed);
+        Debug.Log("Compressed " + ddata.Length);
+        WWW www = new WWW(url, ddata);
+        
         StartCoroutine(WaitForRequest(www));
     }
 
@@ -147,38 +160,28 @@ public class CustomLevelManager : MonoBehaviour {
         // check for errors
         if (www.error == null)
         {
-            var derpdata = www.text.Trim(new char[] {'[', ']'});
-            Debug.Log(derpdata);
+            Debug.Log(www.text);
+            Debug.Log(www.bytes.Length);
 
-            Level level = JsonUtility.FromJson<Level>(derpdata);
-            //Debug.Log(level.Data);
-            Debug.Log(level.PublicName.ToString());
-            var newdata = level.Data.Substring(10);
+            Level level = JsonUtility.FromJson<Level>(Encoding.ASCII.GetString(Decompress(www.bytes))); // Encoding.ASCII.GetBytes(JsonUtility.ToJson(mapData)))
+            Level2 level2 = JsonUtility.FromJson<Level2>(Encoding.ASCII.GetString(Decompress(www.bytes))); // Encoding.ASCII.GetBytes(JsonUtility.ToJson(mapData)))
+            Debug.Log(Encoding.ASCII.GetString(Decompress(www.bytes)));
+            Debug.Log(level.PublicName);
             
-
-            newdata = newdata.Replace("%3d", "=");
-            newdata = newdata.Replace("%2f", "/"); 
-            Debug.Log(newdata);
-            var leveldata = Convert.FromBase64String(newdata);
-            var map = (Map)ByteArrayToObject(leveldata);
+            //Level level = (Level)ByteArrayToObject(Decompress(www.bytes));
+            Debug.Log("Something " + level.PublicName.ToString());
+            Debug.Log(level.Data);
+            Debug.Log(level.Data.Length);
+            Debug.Log(level2.Data);
+            Debug.Log(level2.Data.Length);
+            Map map = JsonUtility.FromJson<Map>(Encoding.ASCII.GetString((Convert.FromBase64String(level2.Data))));//(Map)ByteArrayToObject(level.Data);
+            Debug.Log(map.Board);
+            Debug.Log(map.height);
+            Debug.Log(map.IDsBoard);
+            Debug.Log("done convert now saving");
             FileManager.SaveObjectToFile(level.PublicName, map);
 
-
-
-
-            //Debug.Log(level.Date.ToString());
-            //Debug.Log(level.key);
-
-
-
-
-            //Level level2 = (Level)JsonUtility.FromJson(www.text, typeof(Level));
-            //Debug.Log(level.Data);
-           // Debug.Log(level2.PublicName);
-
-            //Map map = (Map)ByteArrayToObject(Encoding.ASCII.GetBytes(level.Data));
-            //Debug.Log(map.name);
-
+            Debug.Log("done saving");
         }
         else
         {
@@ -190,24 +193,76 @@ public class CustomLevelManager : MonoBehaviour {
     {
         if (obj == null)
             return null;
-        BinaryFormatter bf = new BinaryFormatter();
-        using (MemoryStream ms = new MemoryStream())
-        {
-            bf.Serialize(ms, obj);
-            return ms.ToArray();
-        }
+        var data = JsonUtility.ToJson(obj);
+        return System.Text.Encoding.ASCII.GetBytes(data);
+        //BinaryFormatter bf = new BinaryFormatter();
+        //using (MemoryStream ms = new MemoryStream())
+        //{
+        //    bf.Serialize(ms, obj);
+        //    return ms.ToArray();
+        //}
     }
-    object ByteArrayToObject(byte [] obj)
+
+    // DO NOT USE BINARYFORMATTER?
+
+    //object ByteArrayToObject(byte [] obj)
+    //{
+    //    if (obj == null)
+    //        return null;
+    //    var data = JsonUtility.FromJson(obj);
+    //    return System.Text.Encoding.ASCII.GetBytes(data);
+    //    BinaryFormatter bf = new BinaryFormatter();
+    //    using (MemoryStream ms = new MemoryStream(obj))
+    //    {
+    //        return bf.Deserialize(ms);
+    //    }
+    //}
+    public static byte[] Compress(byte[] data)
     {
-        if (obj == null)
-            return null;
-        BinaryFormatter bf = new BinaryFormatter();
-        using (MemoryStream ms = new MemoryStream(obj))
+        using (var compressedStream = new MemoryStream())
+        using (var zipStream = new GZipStream(compressedStream, CompressionMode.Compress))
         {
-            return bf.Deserialize(ms);
-            //return ms.;
+            zipStream.Write(data, 0, data.Length);
+            zipStream.Close();
+            return compressedStream.ToArray();
         }
     }
 
+    public static byte[] Decompress(byte[] gzip)
+    {
+        // Create a GZIP stream with decompression mode.
+        // ... Then create a buffer and write into while reading from the GZIP stream.
+        using (GZipStream stream = new GZipStream(new MemoryStream(gzip), CompressionMode.Decompress))
+        {
+            const int size = 4096;
+            byte[] buffer = new byte[size];
+            using (MemoryStream memory = new MemoryStream())
+            {
+                int count = 0;
+                do
+                {
+                    count = stream.Read(buffer, 0, size);
+                    if (count > 0)
+                    {
+                        memory.Write(buffer, 0, count);
+                    }
+                }
+                while (count > 0);
+                return memory.ToArray();
+            }
+        }
+    }
+
+    //public static byte[] Decompress(byte[] data)
+    //{
+    //    using (var compressedStream = new MemoryStream(data))
+    //    using (var zipStream = new GZipStream(compressedStream, CompressionMode.Decompress))
+    //    using (var resultStream = new MemoryStream()
+    //    {
+            
+    //        //zipStream.CopyTo(resultStream);
+    //        return resultStream.ToArray(); // resultStream.ToArray();
+    //    }
+    //}
 
 }
