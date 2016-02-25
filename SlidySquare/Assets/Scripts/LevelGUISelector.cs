@@ -25,7 +25,7 @@ public class LevelGUISelector : MonoBehaviour {
         var map = (Map)FileManager.LoadFromFile(filename);
         if (customLevelManagerObject == null)
         {
-            customLevelManagerObject = GameObject.FindObjectOfType<CustomLevelManager>();
+            customLevelManagerObject = FindObjectOfType<CustomLevelManager>();
         }
         Debug.Log(map.width);
         Debug.Log(map.Board);
@@ -43,7 +43,7 @@ public class LevelGUISelector : MonoBehaviour {
     {
         if(customLevelManagerObject == null)
         {
-            customLevelManagerObject = GameObject.FindObjectOfType<CustomLevelManager>();
+            customLevelManagerObject = FindObjectOfType<CustomLevelManager>();
         }
         customLevelManagerObject.DownloadLevel(filename);
     }

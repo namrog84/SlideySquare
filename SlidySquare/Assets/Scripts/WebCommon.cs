@@ -45,6 +45,13 @@ namespace Assets.Scripts
             Solution = ""; // to verify solvable later
             SpecialFlag = ""; // TBD
         }
+        public Level(Map map): this()
+        {
+            Data = Common.ConvertEncode(map);
+            Width = map.width;
+            Height = map.height;
+            Version = 1;
+        }
     }
     //public class Level2
     //{

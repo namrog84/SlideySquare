@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using Unity.IO.Compression;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -16,7 +18,72 @@ namespace Assets.Scripts
             return new Color32(r, g, b, 255);
         }
 
+        internal static string ConvertEncode(Map map)
+        {
+            var mapData = JsonUtility.ToJson(map);
+            return Convert.ToBase64String(Encoding.ASCII.GetBytes(mapData));
+        }
 
+        public static byte[] Compress(byte[] data)
+        {
+            using (var compressedStream = new MemoryStream())
+            using (var zipStream = new GZipStream(compressedStream, CompressionMode.Compress))
+            {
+                zipStream.Write(data, 0, data.Length);
+                zipStream.Close();
+                return compressedStream.ToArray();
+            }
+        }
+
+        public static byte[] Decompress(byte[] gzip)
+        {
+            // Create a GZIP stream with decompression mode.
+            // ... Then create a buffer and write into while reading from the GZIP stream.
+            using (GZipStream stream = new GZipStream(new MemoryStream(gzip), CompressionMode.Decompress))
+            {
+                const int size = 4096;
+                byte[] buffer = new byte[size];
+                using (MemoryStream memory = new MemoryStream())
+                {
+                    int count = 0;
+                    do
+                    {
+                        count = stream.Read(buffer, 0, size);
+                        if (count > 0)
+                        {
+                            memory.Write(buffer, 0, count);
+                        }
+                    }
+                    while (count > 0);
+                    return memory.ToArray();
+                }
+            }
+        }
+
+        internal static Level DecompressAndDecodeLevel(byte[] data)
+        {
+            return JsonUtility.FromJson<Level>(Encoding.ASCII.GetString(Common.Decompress(data)));
+        }
+
+        internal static Map DecodeMap(int version, string data)
+        {
+            if(version == 1)
+            {
+                return JsonUtility.FromJson<Map>(Encoding.ASCII.GetString((Convert.FromBase64String(data))));
+            }
+            else
+            {
+                Debug.Log("Invalid version");
+                return null;
+            }
+        }
+
+        internal static byte [] CompressAndEncodeLevel(Level level)
+        {
+            var jsoner = JsonUtility.ToJson(level);
+            var uncompressed = Encoding.ASCII.GetBytes(jsoner);
+            return Common.Compress(uncompressed);
+        }
     }
 
     public enum TileType
