@@ -26,6 +26,8 @@ public class teleportController : MonoBehaviour {
    //     this.y = y;
    // }
 
+
+
 	void Start () {
 		if (TeleportsList == null)
 		{
@@ -117,25 +119,32 @@ public class teleportController : MonoBehaviour {
 
     public void Teleport(GameObject teleportingObject)
 	{
-		//lastTeleport = Time.time;
-
+        //lastTeleport = Time.time;
+        var TeleportMatches = new List<teleportController>();
         for (int i = 0; i < TeleportsList.Count; i++)
 		{
 			if(TeleportsList[i].ID == this.ID && this != TeleportsList[i])
 			{
-                var other = TeleportsList[i];
-                teleportingObject.transform.position = other.gameObject.transform.position;
-                var derp2 = (GameObject)Instantiate(TeleportImplosion, other.transform.position, other.transform.rotation);
-                Destroy(derp2, 1.0f);
-                //these 2 are the teleporters,  they just activated, so lets set a cool down
-                this.BeginTeleportCoolDown();
-                TeleportsList[i].BeginTeleportCoolDown();
-
-                break;
+                TeleportMatches.Add(TeleportsList[i]);
+                //break;
 			}
 
 		}
-	}
+
+        if(TeleportMatches.Count > 0)
+        {
+            //select 1 of the matches randomly. 
+            var other = TeleportsList[UnityEngine.Random.Range(0, TeleportMatches.Count)];
+
+            teleportingObject.transform.position = other.gameObject.transform.position;
+            var derp2 = (GameObject)Instantiate(TeleportImplosion, other.transform.position, other.transform.rotation);
+            Destroy(derp2, 1.0f);
+            //these 2 are the teleporters,  they just activated, so lets set a cool down
+            this.BeginTeleportCoolDown();
+            other.BeginTeleportCoolDown();
+        }
+
+    }
 
     private void BeginTeleportCoolDown()
     {

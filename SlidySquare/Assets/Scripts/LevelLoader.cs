@@ -354,6 +354,7 @@ public class LevelLoader : MonoBehaviour {
         HitWall.HitWallCount = GameObject.FindGameObjectsWithTag("HitWall").Length;
     }
 
+    public List<int> TeleIDCount = new List<int>();
     private void ConnectTiles(int x, int y, int x2, int y2)
     {
         if (x < 0 || y < 0 || x >= _width || x >= _height)
@@ -363,22 +364,28 @@ public class LevelLoader : MonoBehaviour {
         }
         if (x2 < 0 || y2 < 0 || x2 >= _width || x2 >= _height)
         {
-            //Debug.Log("2");
             return;
         }
 
-        //Debug.Log(x+","+y +"   " + x2+","+ y2);
         if (worldTiles[x, y] != null && worldTiles[x2, y2] != null)
         {
             var tele1 = worldTiles[x, y].GetComponent<teleportController>();
             var tele2 = worldTiles[x2, y2].GetComponent<teleportController>();
             if (tele1 != null && tele2 != null)
             {
-               // Debug.Log("Setting Tele");
+                //add if it doesn't exist in list
+                if(!TeleIDCount.Contains(tele1.ID))
+                {
+                    TeleIDCount.Add(tele1.ID);
+                }
+                //make sure they are synced
                 tele2.ID = tele1.ID;
-                tele1.GetComponentInChildren<slowRotater>().SetColor(teleCount);
-                tele2.GetComponentInChildren<slowRotater>().SetColor(teleCount);
-                teleCount++;
+
+                //what color did we set it to last time? lets choose that again
+                var teleColor = TeleIDCount.IndexOf(tele1.ID);
+                tele1.GetComponentInChildren<slowRotater>().SetColor(teleColor);
+                tele2.GetComponentInChildren<slowRotater>().SetColor(teleColor);
+                
             }
 
             var togglebutton = worldTiles[x, y].GetComponent<ButtonController>();
