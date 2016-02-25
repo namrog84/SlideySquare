@@ -102,6 +102,9 @@ public class CustomLevelManager : MonoBehaviour {
         string url = "http://localhost:61156/api/uploadlevel";
 
         Level level = new Level(map);
+        level.Solution = PlayerPrefs.GetString("HistoryList", "?");
+
+
         var data = Common.CompressAndEncodeLevel(level);
         Debug.Log("Compressed " + data.Length);
         WWW www = new WWW(url, data);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 //using System.Collections;
@@ -60,6 +61,10 @@ public class PlayerMove : MonoBehaviour
         bounds = OrthographicBounds(Camera.main);
         bounds.Expand(2);
         bounds.center = new Vector3(bounds.center.x, bounds.center.y, 0);
+        if(HistoryMoves != null)
+        {
+            HistoryMoves.Clear();
+        }
     }
 
     internal void preventContinuedDirection()
@@ -77,6 +82,8 @@ public class PlayerMove : MonoBehaviour
             new Vector3(cameraHeight * screenAspect, cameraHeight, 0));
         return bounds;
     }
+
+    public bool lastFrameIsMoving = false;
 
     void Update()
     {
@@ -98,7 +105,15 @@ public class PlayerMove : MonoBehaviour
             LastStoppedLocation = transform.position;
             isMoving = false;
         }
+
+        if(isMoving && !lastFrameIsMoving)
+        {
+            HistoryMoves.Add(currentDirection);
+        }
+        lastFrameIsMoving = isMoving;
+
     }
+    public static List<Direction> HistoryMoves = new List<Direction>();
 
     private void Move()
     {

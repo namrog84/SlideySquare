@@ -27,8 +27,6 @@ public class LevelGUISelector : MonoBehaviour {
         {
             customLevelManagerObject = FindObjectOfType<CustomLevelManager>();
         }
-        Debug.Log(map.width);
-        Debug.Log(map.Board);
         customLevelManagerObject.UploadLevel(map);
     }
 

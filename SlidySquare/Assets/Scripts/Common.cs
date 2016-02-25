@@ -82,7 +82,14 @@ namespace Assets.Scripts
         {
             var jsoner = JsonUtility.ToJson(level);
             var uncompressed = Encoding.ASCII.GetBytes(jsoner);
+            Debug.Log("Uncompressed " + uncompressed.Length);
             return Common.Compress(uncompressed);
+        }
+        internal static byte[] CompressAndEncodeHistory(List<PlayerMove.Direction> historyMoves)
+        {
+            var jsoner = JsonUtility.ToJson(historyMoves);
+            var uncompressed = Encoding.ASCII.GetBytes(jsoner);
+            return Compress(uncompressed);
         }
     }
 

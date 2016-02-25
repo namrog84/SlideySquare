@@ -2,6 +2,8 @@
 using System.Collections;
 using UnityEngine.UI;
 using GoogleMobileAds.Api;
+using Assets.Scripts;
+using System;
 
 public class CompleteLevel : MonoBehaviour {
     public AudioClip nomnomnom;
@@ -132,10 +134,17 @@ public class CompleteLevel : MonoBehaviour {
         totalCompleted++;
         PlayerPrefs.SetInt("TotalLevels", totalCompleted);
 
+        string history = Convert.ToBase64String(Common.CompressAndEncodeHistory(PlayerMove.HistoryMoves));
+        PlayerPrefs.SetString("HistoryList", history);
+        Debug.Log(history);
         PlayerPrefs.Save();
         AudioSource.PlayClipAtPoint(nomnomnom, transform.position);
         GameObject.FindGameObjectWithTag("Win").GetComponent<Text>().enabled = true;
         Handheld.Vibrate();
+
+        
+        
+
         yield return new WaitForSeconds(1.1f);
 
         //Application.LoadLevel("level " + (1 + 1 + PlayerPrefs.GetInt("CurrentLevel")));// int.Parse(Application.loadedLevelName.Split(new char[] { ' ' })[1]))); // Split()[1])))
