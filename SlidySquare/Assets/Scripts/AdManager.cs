@@ -5,7 +5,10 @@ using GoogleMobileAds.Api;
 public class AdManager : MonoBehaviour {
 
     static int count = 0;
-	// Use this for initialization
+    // Use this for initialization
+    public static float TimePlayed = 0;
+
+
 	void Start () {
         count++;
         if (count != 1)
@@ -21,11 +24,14 @@ public class AdManager : MonoBehaviour {
             DontDestroyOnLoad(gameObject);
             RequestInterstitial();
         }
+
+        TimePlayed = PlayerPrefs.GetFloat("TotalTime", 0);
     }
+
 	
 	// Update is called once per frame
 	void Update () {
-	
+        TimePlayed += Time.deltaTime;
 	}
 
     public static int PlayCount = 0;

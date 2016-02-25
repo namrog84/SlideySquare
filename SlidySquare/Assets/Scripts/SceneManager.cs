@@ -15,6 +15,7 @@ public class SceneManager : MonoBehaviour {
 #endif
     }
 
+    
 
 
     public void PlayAd()
@@ -44,10 +45,13 @@ public class SceneManager : MonoBehaviour {
         LoadLevel("About");
     }
 
-
+   
 
     private void LoadLevel(string name)
     {
+        PlayerPrefs.SetFloat("TotalTime", AdManager.TimePlayed);
+        PlayerPrefs.Save();
+
         nextSceneName = name;
         Time.timeScale = 1.0f; //just incase something has paused, lets unpause!
         if (!isLevelExiting)

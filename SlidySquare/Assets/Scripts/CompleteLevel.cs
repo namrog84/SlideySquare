@@ -126,7 +126,12 @@ public class CompleteLevel : MonoBehaviour {
         {
             PlayerPrefs.SetInt("BaseGameLevelsCompleted", PlayerPrefs.GetInt("CurrentLevel"));
         }
-        
+        PlayerPrefs.SetFloat("TotalTime", AdManager.TimePlayed);
+
+        int totalCompleted = PlayerPrefs.GetInt("TotalLevels", 0);
+        totalCompleted++;
+        PlayerPrefs.SetInt("TotalLevels", totalCompleted);
+
         PlayerPrefs.Save();
         AudioSource.PlayClipAtPoint(nomnomnom, transform.position);
         GameObject.FindGameObjectWithTag("Win").GetComponent<Text>().enabled = true;
