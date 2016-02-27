@@ -34,6 +34,7 @@ public class CustomLevelManager : MonoBehaviour {
 
     public void LocalLevels()
     {
+        TurnOnLocalChoices(true);
         foreach (var item in TheList)
         {
             Destroy(item);
@@ -60,7 +61,7 @@ public class CustomLevelManager : MonoBehaviour {
 
     public void OnlineLevels()
     {
-
+        TurnOnLocalChoices(false);
         foreach (var item in TheList)
         {
             Destroy(item);
@@ -156,6 +157,38 @@ public class CustomLevelManager : MonoBehaviour {
             Debug.Log("WWW Error: " + www.error);
         }
     }
+
+
+
+
+
+    public GameObject offlinePanel;
+    public GameObject onlinePanel;
+    public void TurnOnLocalChoices(bool val)
+    {
+        if (val)
+        {
+            onlinePanel.SetActive(false);
+            offlinePanel.SetActive(true);
+        }
+        else
+        {
+            onlinePanel.SetActive(true);
+            offlinePanel.SetActive(false);
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
+
 
     
 
