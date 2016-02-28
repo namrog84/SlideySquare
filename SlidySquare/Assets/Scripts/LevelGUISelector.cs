@@ -54,6 +54,15 @@ public class LevelGUISelector : MonoBehaviour {
         StartCoroutine(LoadOut());
     }
 
+
+    public void EditCurrentLevel()
+    {
+        PlayerPrefs.SetInt("CurrentLevel", -3); // -3 is for custom level I guess? 
+        PlayerPrefs.SetString("LevelName", filename);
+        PlayerPrefs.Save();
+        StartCoroutine(LoadOut());
+    }
+
     private IEnumerator LoadOut()
     {
         var fader = GameObject.Find("SceneFader");

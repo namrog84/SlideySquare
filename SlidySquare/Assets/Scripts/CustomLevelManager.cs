@@ -11,7 +11,8 @@ using Unity.IO.Compression;
 
 public class CustomLevelManager : MonoBehaviour {
 
-    public GameObject LevelItem; //this is where the level list lives
+    public GameObject MyLevelGUIItem;
+    public GameObject OnlineGUIItem;
 
     public GameObject ContentList;
     public List<GameObject> TheList = new List<GameObject>();
@@ -45,7 +46,7 @@ public class CustomLevelManager : MonoBehaviour {
         foreach (var file in filenames)
         {
             //Debug.Log(file);
-            var item = Instantiate(LevelItem);
+            var item = Instantiate(MyLevelGUIItem);
             item.transform.SetParent(ContentList.transform);
             item.GetComponentInChildren<Text>().text = file.TrimEnd('.');
             item.GetComponent<LevelGUISelector>().filename = file;
@@ -83,7 +84,7 @@ public class CustomLevelManager : MonoBehaviour {
             for (int i = 0; i < MyList.levelNames.Count; i++)
             {
                 //Debug.Log(file);
-                var item = Instantiate(LevelItem);
+                var item = Instantiate(OnlineGUIItem);
                 item.transform.SetParent(ContentList.transform);
                 item.GetComponentInChildren<Text>().text = MyList.levelNames[i].TrimEnd('.');
 
@@ -180,6 +181,8 @@ public class CustomLevelManager : MonoBehaviour {
     }
 
 
+
+    
 
 
 
