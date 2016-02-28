@@ -142,8 +142,8 @@ public class CompleteLevel : MonoBehaviour {
         GameObject.FindGameObjectWithTag("Win").GetComponent<Text>().enabled = true;
         Handheld.Vibrate();
 
-        
-        
+
+
 
         yield return new WaitForSeconds(1.1f);
 
@@ -156,8 +156,16 @@ public class CompleteLevel : MonoBehaviour {
         if (!Application.isLoadingLevel)
 		{
 #pragma warning restore 0618
-            PlayerPrefs.SetInt("CurrentLevel", 1 + PlayerPrefs.GetInt("CurrentLevel"));
-            PlayerPrefs.Save();
+            if (PlayerPrefs.GetInt("CurrentLevel") == LevelGUISelector.MY_CUSTOM_LEVEL)
+            {
+                LevelToLoad = 7; //vote level? 
+            }
+            else
+            {
+                LevelToLoad = 4; // next dynamic level
+                PlayerPrefs.SetInt("CurrentLevel", 1 + PlayerPrefs.GetInt("CurrentLevel"));
+                PlayerPrefs.Save();
+            }
 
             StartCoroutine(LoadOut());
 		}
@@ -165,6 +173,8 @@ public class CompleteLevel : MonoBehaviour {
 		yield return null;
 
 	}
+
+    public int LevelToLoad = 4;
     private IEnumerator LoadOut()
     {
         var fader = GameObject.Find("SceneFader");
@@ -178,7 +188,8 @@ public class CompleteLevel : MonoBehaviour {
     {
         Time.timeScale = 1;
 #pragma warning disable 0618
-        Application.LoadLevel(4);
+        
+        Application.LoadLevel(LevelToLoad);
 #pragma warning restore 0618
     }
 

@@ -10,6 +10,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using Unity.IO.Compression;
 using LevelBuilderNameSpace;
 using Assets.Scripts;
+using System;
 
 public class LevelLoader : MonoBehaviour {
 
@@ -62,6 +63,8 @@ public class LevelLoader : MonoBehaviour {
             AdManager.RequestInterstitial();
         }
         Time.timeScale = 1;
+
+        
     }
    
     private IEnumerator LoadLevelNew(string filename)
@@ -76,6 +79,10 @@ public class LevelLoader : MonoBehaviour {
             Debug.Log("ERROR");
             yield break;
         }
+
+        PlayerPrefs.SetInt("isSubmitted", Convert.ToInt32(m.isSubmitted));
+        PlayerPrefs.Save();
+
 
         _width = m.width;
         _height = m.height;

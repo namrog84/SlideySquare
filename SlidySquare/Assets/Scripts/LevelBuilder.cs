@@ -152,7 +152,8 @@ namespace LevelBuilderNameSpace
             levelCounter++;
             PlayerPrefs.SetInt("CustomLevels", levelCounter);
             PlayerPrefs.Save();
-            var savename = "HomeMadeLevel " + levelCounter +".txt";
+            var savename = "MyLevel " + levelCounter;
+            m.name = savename;
             FileManager.SaveObjectToFile(savename, m);
         }
 

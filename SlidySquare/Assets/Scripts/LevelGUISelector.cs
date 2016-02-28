@@ -19,16 +19,15 @@ public class LevelGUISelector : MonoBehaviour {
 
     GameObject levelmanager;
     public string filename;
+    public CustomLevelManager customLevelManagerObject;
+    public static int MY_CUSTOM_LEVEL = -3;
+    public static int DOWNLOADED_LEVEL = -4;
 
-    public void UploadThisLevel()
-    {
-        var map = (Map)FileManager.LoadFromFile(filename);
-        if (customLevelManagerObject == null)
-        {
-            customLevelManagerObject = FindObjectOfType<CustomLevelManager>();
-        }
-        customLevelManagerObject.UploadLevel(map);
-    }
+
+
+    
+
+
 
     public void DeleteCurrentLevel()
     {
@@ -36,7 +35,6 @@ public class LevelGUISelector : MonoBehaviour {
         Destroy(gameObject);
     }
 
-    public CustomLevelManager customLevelManagerObject;
     public void DownloadLevel()
     {
         if(customLevelManagerObject == null)
@@ -46,11 +44,15 @@ public class LevelGUISelector : MonoBehaviour {
         customLevelManagerObject.DownloadLevel(filename);
     }
 
+
     public void PlayCurrentLevel()
     {
+
         PlayerPrefs.SetInt("CurrentLevel", -3); // -3 is for custom level I guess? 
+
         PlayerPrefs.SetString("LevelName", filename);
         PlayerPrefs.Save();
+        LevelToLoad = 4;
         StartCoroutine(LoadOut());
     }
 
@@ -60,6 +62,7 @@ public class LevelGUISelector : MonoBehaviour {
         PlayerPrefs.SetInt("CurrentLevel", -3); // -3 is for custom level I guess? 
         PlayerPrefs.SetString("LevelName", filename);
         PlayerPrefs.Save();
+        LevelToLoad = 6;
         StartCoroutine(LoadOut());
     }
 
@@ -71,14 +74,22 @@ public class LevelGUISelector : MonoBehaviour {
         yield return new WaitForEndOfFrame();
         fader.GetComponent<SceneFadeInOut>().FinishedFade += LoadLevelOnFinished;
     }
+
+    public int LevelToLoad = 4;
     void LoadLevelOnFinished()
     {
         Time.timeScale = 1;
 #pragma warning disable 0618
-        Application.LoadLevel(4);
+        Application.LoadLevel(LevelToLoad);
 #pragma warning restore 0618
         //Application.LoadLevel(Application.loadedLevel);
     }
+
+
+
+
+
+
 
 
 }

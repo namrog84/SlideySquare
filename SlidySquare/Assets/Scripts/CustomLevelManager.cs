@@ -56,9 +56,47 @@ public class CustomLevelManager : MonoBehaviour {
     }
 
 
-   
-   
 
+    public void MostDownloadedLevels()
+    {
+        TurnOnLocalChoices(false);
+        foreach (var item in TheList)
+        {
+            Destroy(item);
+        }
+        TheList.Clear();
+
+        string url = "http://localhost:61156/api/mostdownloads/1";
+        WWW www = new WWW(url);
+        StartCoroutine(WaitForOnlineLevel(www));
+    }
+
+    public void NewestLevels()
+    {
+        TurnOnLocalChoices(false);
+        foreach (var item in TheList)
+        {
+            Destroy(item);
+        }
+        TheList.Clear();
+
+        string url = "http://localhost:61156/api/newest/1";
+        WWW www = new WWW(url);
+        StartCoroutine(WaitForOnlineLevel(www));
+    }
+    public void HighestRatedLevels()
+    {
+        TurnOnLocalChoices(false);
+        foreach (var item in TheList)
+        {
+            Destroy(item);
+        }
+        TheList.Clear();
+
+        string url = "http://localhost:61156/api/highestrating/1";
+        WWW www = new WWW(url);
+        StartCoroutine(WaitForOnlineLevel(www));
+    }
 
     public void OnlineLevels()
     {
@@ -69,7 +107,7 @@ public class CustomLevelManager : MonoBehaviour {
         }
         TheList.Clear();
 
-        string url = "http://localhost:61156/api/levels/2";
+        string url = "http://localhost:61156/api/levels/1";
         WWW www = new WWW(url);
         StartCoroutine(WaitForOnlineLevel(www));
     }
@@ -80,6 +118,7 @@ public class CustomLevelManager : MonoBehaviour {
         // check for errors
         if (www.error == null)
         {
+            Debug.Log(www.text);
             var MyList = (LevelList)JsonUtility.FromJson(www.text, typeof(LevelList));
             for (int i = 0; i < MyList.levelNames.Count; i++)
             {
@@ -149,7 +188,7 @@ public class CustomLevelManager : MonoBehaviour {
         {
             Level level = Common.DecompressAndDecodeLevel(www.bytes);
             Map map = Common.DecodeMap(level.Version, level.Data);
-
+            map.onlineKey = level.key;
             FileManager.SaveObjectToFile(level.PublicName, map);
             Debug.Log("done saving");
         }
@@ -167,8 +206,13 @@ public class CustomLevelManager : MonoBehaviour {
     public GameObject onlinePanel;
     public void TurnOnLocalChoices(bool val)
     {
+        if (onlinePanel == null || offlinePanel == null)
+        {
+            return;
+        }
         if (val)
         {
+            
             onlinePanel.SetActive(false);
             offlinePanel.SetActive(true);
         }
@@ -192,7 +236,5 @@ public class CustomLevelManager : MonoBehaviour {
 
 
 
-
-    
 
 }

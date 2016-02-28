@@ -91,6 +91,16 @@ namespace Assets.Scripts
             var uncompressed = Encoding.ASCII.GetBytes(jsoner);
             return Compress(uncompressed);
         }
+
+        public static byte[] ConvertRating(Rating r)
+        {
+            var rat = JsonUtility.ToJson(r);
+            var vanilla = Encoding.ASCII.GetBytes(rat);
+            return vanilla;
+        }
+
+        
+
     }
 
     public enum TileType
@@ -115,6 +125,6 @@ namespace Assets.Scripts
         //optional
         public string name; // ??  saves submitted name?
         public bool isSubmitted; //  has this been submitted already?
-
+        public int onlineKey = 25; // used for voting
     }
 }

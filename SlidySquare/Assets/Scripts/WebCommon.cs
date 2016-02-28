@@ -10,6 +10,27 @@ namespace Assets.Scripts
     {
     }
 
+    public class Rating
+    {
+        public int key;
+        public string MachineId;   // will be generated once for a given device.
+        public int LevelKey;   //what did they vote for
+        public DateTime Date;  //when did they vote
+        public float Vote;            //rating will be either be a thumbs up, meh, and thumbs down, similiar to Steam  (0, 0.5, 1) or something)
+
+
+        public Rating()
+        {
+            MachineId = SystemInfo.deviceUniqueIdentifier;   // will be generated once for a given device.
+            //InternalKey = Guid.Empty;   //what did they vote for
+            Date = DateTime.UtcNow;  //when did they vote
+            Vote = 0.0f;
+        }
+    }
+
+
+
+
     public class Level
     {
         public int key; //SQL Key
