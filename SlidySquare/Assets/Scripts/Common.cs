@@ -8,6 +8,15 @@ using UnityEngine;
 
 namespace Assets.Scripts
 {
+    public static class GameCore
+    {
+        public static string nextLevel = "";
+        public static bool wasSubmitted = true;
+        public static Map currentMap; // saves current/last map;
+
+
+    }
+
     public static class Common
     {
         public static Color HexToColor(string hex)
