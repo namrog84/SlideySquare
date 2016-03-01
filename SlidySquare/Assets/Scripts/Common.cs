@@ -13,8 +13,9 @@ namespace Assets.Scripts
         public static string nextLevel = "";
         public static bool wasSubmitted = true;
         public static Map currentMap; // saves current/last map;
+        internal static int currentLevel;
 
-
+        public static string LevelName { get; internal set; }
     }
 
     public static class Common

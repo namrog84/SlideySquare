@@ -80,6 +80,7 @@ public class LevelLoader : MonoBehaviour {
             yield break;
         }
 
+        GameCore.currentMap = m;
         PlayerPrefs.SetInt("isSubmitted", Convert.ToInt32(m.isSubmitted));
         PlayerPrefs.Save();
 

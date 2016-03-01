@@ -59,6 +59,8 @@ public class LevelGUISelector : MonoBehaviour {
 
     public void EditCurrentLevel()
     {
+        GameCore.currentLevel = -3;
+        GameCore.LevelName = filename;
         PlayerPrefs.SetInt("CurrentLevel", -3); // -3 is for custom level I guess? 
         PlayerPrefs.SetString("LevelName", filename);
         PlayerPrefs.Save();
