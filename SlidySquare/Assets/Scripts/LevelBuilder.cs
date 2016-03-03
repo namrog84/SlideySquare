@@ -230,8 +230,9 @@ namespace LevelBuilderNameSpace
                     temp = TheBoard[ID];
 
                     temp.GetComponent<RectTransform>().sizeDelta = new Vector2(dw, dh);
-                    
+                    temp.GetComponent<RectTransform>().localScale = Vector3.one;
                     var btncontroller = temp.GetComponent<LevelBuilderTileButton>();
+
                     //btncontroller.Id = ID;// i + j * w;
                     btncontroller.setLocation(i, j);
 

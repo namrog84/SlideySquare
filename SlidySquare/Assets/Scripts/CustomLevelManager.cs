@@ -73,6 +73,7 @@ public class CustomLevelManager : MonoBehaviour {
             var item = Instantiate(MyLevelGUIItem);
             item.transform.SetParent(ContentList.transform);
             item.GetComponentInChildren<Text>().text = file.TrimEnd('.');
+            item.GetComponent<LevelGUISelector>().DisableEditButton();
             item.GetComponent<LevelGUISelector>().filename = "downloaded/"+file;
             TheList.Add(item);
         }

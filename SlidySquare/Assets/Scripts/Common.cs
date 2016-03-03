@@ -20,7 +20,23 @@ namespace Assets.Scripts
 
         public static string LevelName { get; internal set; } // ?? whats this for? 
         public static string tempLevelName { get; internal set; }
+
+        public static string PersistentPath {
+            get
+            {
+                string pathLoc = Application.persistentDataPath + "/levels";
+                if (!Directory.Exists(pathLoc))
+                {
+                    Directory.CreateDirectory(pathLoc);
+                }
+                return pathLoc;
+            }
+        }
+
     }
+
+
+
 
     public static class Common
     {

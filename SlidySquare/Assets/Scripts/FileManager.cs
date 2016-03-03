@@ -15,9 +15,10 @@ namespace Assets.Scripts
     {
         public static void SaveObjectToFile(string filename, object theObject)
         {
-            Debug.Log("Save " + Application.persistentDataPath + "/" + filename);
+            string saveLoc = GameCore.PersistentPath + "/" + filename;
+            Debug.Log("Saving " + saveLoc);
             IFormatter formatter = new BinaryFormatter();
-            using (var stream = new FileStream(Application.persistentDataPath + "/" + filename, FileMode.Create, FileAccess.Write, FileShare.None))
+            using (var stream = new FileStream(saveLoc, FileMode.Create, FileAccess.Write, FileShare.None))
             {
                 using (var zipper = new GZipStream(stream, CompressionMode.Compress, false))
                 {
@@ -28,7 +29,7 @@ namespace Assets.Scripts
 
         internal static void SaveDownloadedToFile(string filename, Map map)
         {
-            var downloadLoc = Application.persistentDataPath + "/downloaded";
+            var downloadLoc = GameCore.PersistentPath + "/downloaded";
             if (!Directory.Exists(downloadLoc))
             {
                 Directory.CreateDirectory(downloadLoc);
@@ -40,15 +41,15 @@ namespace Assets.Scripts
 
         internal static void Delete(string filename)
         {
-            File.Delete(Application.persistentDataPath + "/" + filename);
+            File.Delete(GameCore.PersistentPath + "/" + filename);
         }
 
         public static object LoadFromFile(string filename)
         {
             object result;
             IFormatter formatter = new BinaryFormatter();
-            Debug.Log("Load " + Application.persistentDataPath + "/" + filename);
-            using (Stream stream = new FileStream(Application.persistentDataPath + "/" + filename, FileMode.Open, FileAccess.Read, FileShare.Read))
+            Debug.Log("Load " + GameCore.PersistentPath + "/" + filename);
+            using (Stream stream = new FileStream(GameCore.PersistentPath + "/" + filename, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 using (var zipper = new GZipStream(stream, CompressionMode.Decompress))
                 {
@@ -59,11 +60,11 @@ namespace Assets.Scripts
         }
         internal static List<string> GetSavedLevelNames()
         {
-            return Directory.GetFiles(Application.persistentDataPath).Select(fullname => Path.GetFileName(fullname)).ToList();
+            return Directory.GetFiles(GameCore.PersistentPath).Select(fullname => Path.GetFileName(fullname)).ToList();
         }
         internal static List<string> GetDownloadedLevelNames()
         {
-            var downloadLoc = Application.persistentDataPath +"/downloaded";
+            var downloadLoc = GameCore.PersistentPath + "/downloaded";
             if (!Directory.Exists(downloadLoc))
             {
                 Directory.CreateDirectory(downloadLoc);

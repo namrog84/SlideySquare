@@ -7,11 +7,19 @@ using System;
 
 public class LevelGUISelector : MonoBehaviour {
 
+    public GameObject editbutton;
 	// Use this for initialization
 	void Start () {
         GameCore.IsLoadingExisting = false;
+        transform.localScale = Vector3.one;
+
     }
 	
+    public void DisableEditButton()
+    {
+        editbutton.SetActive(false);
+    }
+
 	// Update is called once per frame
 	void Update () {
 	
