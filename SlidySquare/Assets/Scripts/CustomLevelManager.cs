@@ -16,6 +16,7 @@ public class CustomLevelManager : MonoBehaviour {
 
     public GameObject ContentList;
     public List<GameObject> TheList = new List<GameObject>();
+    private string coreURL = "http://ssapi-v2-2016.azurewebsites.net";
     public class LevelList
     {
         public List<string> levelNames = new List<string>();
@@ -25,6 +26,9 @@ public class CustomLevelManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        GameCore.isDownloaded = false;
+        GameCore.PreppingForSubmit = false;
+
         LocalLevels();
     }
 	
@@ -52,7 +56,26 @@ public class CustomLevelManager : MonoBehaviour {
             item.GetComponent<LevelGUISelector>().filename = file;
             TheList.Add(item);
         }
+    }
+    public void DownloadedLevels()
+    {
+        TurnOnLocalChoices(true);
+        foreach (var item in TheList)
+        {
+            Destroy(item);
+        }
+        TheList.Clear();
 
+        var filenames = FileManager.GetDownloadedLevelNames();
+        foreach (var file in filenames)
+        {
+            //Debug.Log(file);
+            var item = Instantiate(MyLevelGUIItem);
+            item.transform.SetParent(ContentList.transform);
+            item.GetComponentInChildren<Text>().text = file.TrimEnd('.');
+            item.GetComponent<LevelGUISelector>().filename = "downloaded/"+file;
+            TheList.Add(item);
+        }
     }
 
 
@@ -66,7 +89,7 @@ public class CustomLevelManager : MonoBehaviour {
         }
         TheList.Clear();
 
-        string url = "http://localhost:61156/api/mostdownloads/1";
+        string url = coreURL + "/api/mostdownloads/1";
         WWW www = new WWW(url);
         StartCoroutine(WaitForOnlineLevel(www));
     }
@@ -80,7 +103,7 @@ public class CustomLevelManager : MonoBehaviour {
         }
         TheList.Clear();
 
-        string url = "http://localhost:61156/api/newest/1";
+        string url = coreURL + "/api/newest/1";
         WWW www = new WWW(url);
         StartCoroutine(WaitForOnlineLevel(www));
     }
@@ -93,7 +116,7 @@ public class CustomLevelManager : MonoBehaviour {
         }
         TheList.Clear();
 
-        string url = "http://localhost:61156/api/highestrating/1";
+        string url = coreURL + "/api/highestrating/1";
         WWW www = new WWW(url);
         StartCoroutine(WaitForOnlineLevel(www));
     }
@@ -107,7 +130,7 @@ public class CustomLevelManager : MonoBehaviour {
         }
         TheList.Clear();
 
-        string url = "http://localhost:61156/api/levels/1";
+        string url = coreURL + "/api/levels/1";
         WWW www = new WWW(url);
         StartCoroutine(WaitForOnlineLevel(www));
     }
@@ -140,7 +163,7 @@ public class CustomLevelManager : MonoBehaviour {
 
     public void UploadLevel(Map map)
     {
-        string url = "http://localhost:61156/api/uploadlevel";
+        string url = coreURL + "/api/uploadlevel";
 
         Level level = new Level(map);
         level.Solution = PlayerPrefs.GetString("HistoryList", "?");
@@ -173,7 +196,7 @@ public class CustomLevelManager : MonoBehaviour {
     public void DownloadLevel(string key)
     {
         Debug.Log("Downloading");
-        string url = "http://localhost:61156/api/download/"+key;
+        string url = coreURL + "/api/download/" + key;
         WWW www = new WWW(url);
         StartCoroutine(WaitForDownload(www));
         
@@ -189,7 +212,7 @@ public class CustomLevelManager : MonoBehaviour {
             Level level = Common.DecompressAndDecodeLevel(www.bytes);
             Map map = Common.DecodeMap(level.Version, level.Data);
             map.onlineKey = level.key;
-            FileManager.SaveObjectToFile(level.PublicName, map);
+            FileManager.SaveDownloadedToFile(level.PublicName, map);
             Debug.Log("done saving");
         }
         else

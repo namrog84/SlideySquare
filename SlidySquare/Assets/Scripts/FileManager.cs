@@ -26,6 +26,18 @@ namespace Assets.Scripts
             }
         }
 
+        internal static void SaveDownloadedToFile(string filename, Map map)
+        {
+            var downloadLoc = Application.persistentDataPath + "/downloaded";
+            if (!Directory.Exists(downloadLoc))
+            {
+                Directory.CreateDirectory(downloadLoc);
+            }
+            SaveObjectToFile("downloaded/" + filename, map);
+        }
+
+      
+
         internal static void Delete(string filename)
         {
             File.Delete(Application.persistentDataPath + "/" + filename);
@@ -35,7 +47,7 @@ namespace Assets.Scripts
         {
             object result;
             IFormatter formatter = new BinaryFormatter();
-            Debug.Log("Load " + Application.dataPath + "/" + filename);
+            Debug.Log("Load " + Application.persistentDataPath + "/" + filename);
             using (Stream stream = new FileStream(Application.persistentDataPath + "/" + filename, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 using (var zipper = new GZipStream(stream, CompressionMode.Decompress))
@@ -45,12 +57,20 @@ namespace Assets.Scripts
             }
             return result;
         }
-
-
         internal static List<string> GetSavedLevelNames()
         {
             return Directory.GetFiles(Application.persistentDataPath).Select(fullname => Path.GetFileName(fullname)).ToList();
         }
+        internal static List<string> GetDownloadedLevelNames()
+        {
+            var downloadLoc = Application.persistentDataPath +"/downloaded";
+            if (!Directory.Exists(downloadLoc))
+            {
+                Directory.CreateDirectory(downloadLoc);
+            }
+            return Directory.GetFiles(downloadLoc).Select(fullname => Path.GetFileName(fullname)).ToList();
+        }
+
 
     }
 }

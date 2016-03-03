@@ -10,12 +10,16 @@ namespace Assets.Scripts
 {
     public static class GameCore
     {
-        public static string nextLevel = "";
-        public static bool wasSubmitted = true;
-        public static Map currentMap; // saves current/last map;
-        internal static int currentLevel;
+        public static string nextLevel = ""; // ??? 
+        public static bool IsLoadingExisting = false;
+        public static bool PreppingForSubmit = false; //show 'upload after completion'
+        public static bool isDownloaded = false; //yes to show vote
 
-        public static string LevelName { get; internal set; }
+        public static Map currentMap; // saves current/last map;
+        internal static int currentLevel; // to keep track of progress or something? 
+
+        public static string LevelName { get; internal set; } // ?? whats this for? 
+        public static string tempLevelName { get; internal set; }
     }
 
     public static class Common

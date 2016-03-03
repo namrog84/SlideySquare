@@ -202,7 +202,7 @@ public class LevelLoader : MonoBehaviour {
     {
         //ReadFile(filename)
         //var fpath = GetFilePath(filename);
-        string fpath = Path.Combine(Application.streamingAssetsPath, filename);
+        string fpath = Path.Combine(Application.persistentDataPath, filename);
         //if (Application.platform == RuntimePlatform.Android)
         {
         //    fpath = "jar:file://" + Application.dataPath + "!/assets/StreamingAssets/levels/" + filename;

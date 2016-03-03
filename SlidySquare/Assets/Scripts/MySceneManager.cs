@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Assets.Scripts;
 
-public class SceneManager : MonoBehaviour {
+public class MySceneManager : MonoBehaviour {
 
     private string nextSceneName;
     private bool isLevelExiting = false;
@@ -33,6 +34,13 @@ public class SceneManager : MonoBehaviour {
     }
     public void GoToLevelEditor()
     {
+        //creating a new level? Lets save it here
+        var levelCounter = PlayerPrefs.GetInt("CustomLevels", 0);
+        levelCounter++;
+        PlayerPrefs.SetInt("CustomLevels", levelCounter);
+        PlayerPrefs.Save();
+        GameCore.tempLevelName = "MyLevel " + levelCounter;
+
         LoadLevel("LevelEditor");
     }
     public void GoToCustomLevelSelect()

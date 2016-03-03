@@ -1,10 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Assets.Scripts;
+using UnityEngine.SceneManagement;
 
 public class VoteSubmitSceneController : MonoBehaviour {
     private string filename;
     public CustomLevelManager customLevelManagerObject;
+
+    public GameObject VotePanel;
+    public GameObject UploadPanel;
 
     // Use this for initialization
     void Start () {
@@ -13,16 +17,22 @@ public class VoteSubmitSceneController : MonoBehaviour {
         map = (Map)FileManager.LoadFromFile(filename);
 
 
-        var isSubmitted = PlayerPrefs.GetInt("isSubmitted", -1);
-        if(isSubmitted != 1)
-        {
-            //show submit button
-        }
+        //disable all
+        VotePanel.SetActive(false);
+        UploadPanel.SetActive(false);
 
-        bool isVoted = false;
-        if (isVoted)
+        if (GameCore.PreppingForSubmit)
         {
-            //show vote buttons
+            UploadPanel.SetActive(true);
+        }
+        else if (GameCore.isDownloaded)
+        {
+            VotePanel.SetActive(true);
+        }
+        else
+        {
+            //we shouldn't be here, go back to level selector thingy?
+            SceneManager.LoadScene("MakeShareDownloadSelector"); //go there now
         }
         //
     }
@@ -43,7 +53,7 @@ public class VoteSubmitSceneController : MonoBehaviour {
 
     public void UploadLevel(Map map)
     {
-        string url = "http://localhost:61156/api/uploadlevel";
+        string url = "http://ssapi-v2-2016.azurewebsites.net/api/uploadlevel";
 
         Level level = new Level(map);
         level.Solution = PlayerPrefs.GetString("HistoryList", "?");
@@ -105,7 +115,7 @@ public class VoteSubmitSceneController : MonoBehaviour {
 
     public void VoteThisLevel(float value)
     {
-        string url = "http://localhost:61156/api/vote/";
+        string url = "http://ssapi-v2-2016.azurewebsites.net/api/vote/";
 
         Rating r = new Rating();
         r.LevelKey = map.onlineKey;
@@ -115,7 +125,7 @@ public class VoteSubmitSceneController : MonoBehaviour {
         StartCoroutine(WaitForVote(www));
     }
 
-    public SceneManager scenemanager;
+    public MySceneManager scenemanager;
     IEnumerator WaitForVote(WWW www)
     {
         yield return www;

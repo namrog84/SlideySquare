@@ -53,6 +53,13 @@ namespace LevelBuilderNameSpace
                 }
             }
             Clickity();
+
+            //load the level?
+            if (GameCore.IsLoadingExisting)
+            {
+                LoadLevel();
+            }
+            
         }
 
 
@@ -62,9 +69,12 @@ namespace LevelBuilderNameSpace
 
         public void PlayCurrentLevel()
         {
+            GameCore.PreppingForSubmit = true;
+            SaveLevel(); // save it!
+
             var levelCounter = PlayerPrefs.GetInt("CustomLevels", 0);
             PlayerPrefs.SetInt("CurrentLevel", -3); // -3 is for custom level I guess? 
-            PlayerPrefs.SetString("LevelName", "HomeMadeLevel " + levelCounter + ".txt");
+            PlayerPrefs.SetString("LevelName", GameCore.tempLevelName); //  removing + ".txt"
             PlayerPrefs.Save();
             StartCoroutine(LoadOut());
         }
@@ -135,6 +145,7 @@ namespace LevelBuilderNameSpace
 
         public void SaveLevel()
         {
+
             Map m = new Map();
             m.height = height;
             m.width = width;
@@ -147,34 +158,30 @@ namespace LevelBuilderNameSpace
                 var tileId = (byte)tile.Id;
                 m.IDsBoard.Add(tileId);
             }
-            
-            var levelCounter = PlayerPrefs.GetInt("CustomLevels", 0);
-            levelCounter++;
-            PlayerPrefs.SetInt("CustomLevels", levelCounter);
-            PlayerPrefs.Save();
-            var savename = "MyLevel " + levelCounter;
-            m.name = savename;
-            FileManager.SaveObjectToFile(savename, m);
+
+            m.name = GameCore.tempLevelName;
+            FileManager.SaveObjectToFile(m.name, m);
         }
 
-        //public void LoadLevel()
-        //{
-        //    Map m = (Map)FileManager.LoadFromFile("level.txt");
-        //    if(m == null)
-        //    {
-        //        Debug.Log("ERROR");
-        //        return;
-        //    }
+        public void LoadLevel()
+        {
+            Debug.Log(GameCore.tempLevelName);
+            Map m = (Map)FileManager.LoadFromFile(GameCore.tempLevelName);
+            if (m == null)
+            {
+                Debug.Log("ERROR");
+                return;
+            }
 
-        //    height = m.height;
-        //    width = m.width;
-        //    for (int j = 0; j < TheBoard.Count; j++)
-        //    {
-        //        TheBoard[j].SetActive(true);
-        //        TheBoard[j].GetComponent<LevelBuilderTileButton>().SetTile((int)m.Board[j]);
-        //    }
-        //    Clickity(); //refresh level
-        //}
+            height = m.height;
+            width = m.width;
+            for (int j = 0; j < TheBoard.Count; j++)
+            {
+                TheBoard[j].SetActive(true);
+                TheBoard[j].GetComponent<LevelBuilderTileButton>().SetTile((int)m.Board[j]);
+            }
+            Clickity(); //refresh level
+        }
 
         public void Clickity()
         {
