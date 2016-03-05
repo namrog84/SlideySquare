@@ -27,7 +27,7 @@ public class CustomLevelManager : MonoBehaviour {
     // Use this for initialization
     void Start () {
         GameCore.isDownloaded = false;
-        GameCore.PreppingForSubmit = false;
+        GameCore.PlayingLevelFromEditor = false;
 
         LocalLevels();
     }
@@ -213,7 +213,7 @@ public class CustomLevelManager : MonoBehaviour {
             Level level = Common.DecompressAndDecodeLevel(www.bytes);
             Map map = Common.DecodeMap(level.Version, level.Data);
             map.onlineKey = level.key;
-            FileManager.SaveDownloadedToFile(level.PublicName, map);
+            FileManager.SaveDownloadedToFile("downloads", map);
             Debug.Log("done saving");
         }
         else

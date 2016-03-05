@@ -3,17 +3,28 @@ using System.Collections;
 using UnityEngine.UI;
 using LevelBuilderNameSpace;
 using Assets.Scripts;
+using Assets.Scripts.Gameplay;
+using System;
+using System.Collections.Generic;
 
+[RequireComponent(typeof(Sprite))]
+[RequireComponent(typeof(Button))]
 public class LevelBuilderTileButton : MonoBehaviour {
 
-    public int Id = 0;
     public Vector2 location = new Vector2(0, 0);
     public Sprite[] sprites;
-    public int index = 0;
 
+    public Tile tile;
+
+    private Text TileText;
+    private Sprite sprite;
+    private Button button; 
 
     void Start () {
-        LevelBuilder.Toggler += Tiggler;
+        LevelEditorController.ToggleModeOnTileButtons += Tiggler;
+        TileText = GetComponentInChildren<Text>();
+        sprite = GetComponent<Sprite>();
+        button = GetComponent<Button>();
     }
 
     private bool isIdMode = false;
@@ -21,113 +32,93 @@ public class LevelBuilderTileButton : MonoBehaviour {
     {
         isIdMode = !isIdMode;
 
-        if (isIdMode && !IsIdTile(index))
+        if (isIdMode && !tile.NeedsID())
         {
-            updateAlpha(0, 0.2f);
-            GetComponent<Button>().interactable = false;
+            setAlpha(Tile.TileType.None, 0.2f);
+            button.interactable = false;
         }
         else
         {
-            updateAlpha(index);
-            GetComponent<Button>().interactable = true;
+            setAlpha(tile.type);
+            button.interactable = true;
         }
     }
 
-
-
-    //public enum TileType
-    //{
-    //    None = 0,
-    //    Player = 1, Gold = 2, Goal = 3, Wall = 4, BlueBlock = 5, PurpleBlock = 6, OrangeWall = 7, OrangeButton = 8, TurnOnWall = 9, TurnOffWall = 10, Teleporter = 11, GreenButton = 12,
-    //    TurnLeft = 13, TurnUp = 14, TurnRight = 15, TurnDown = 16,
-    //    TurnLeftUp = 17, TurnRightUp = 18, TurnLeftDown = 19, TurnRightDown = 20
-    //};
-
-    private bool IsIdTile(int x)
+    private void setAlpha(Tile.TileType tt, float newAlpha = 0.5f)
     {
-        if (x == (int)TileType.Teleporter ||  //teleporter
-            x == (int)TileType.OrangeButton || x == (int)TileType.OrangeWall ||  //toggle button/wall
-            x == (int)TileType.GreenButton || x == (int)TileType.TurnOnWall || x == (int)TileType.TurnOffWall)  //turn on/off wall
+        //THIS SHIT RIGHT HERE UNITY, SCREW THIS BULLSHIT
+        var c = button.colors;
+        var norm = c.normalColor;
+        norm.a = 1.0f;
+        if (tt == Tile.TileType.None)
         {
-            return true;
+            norm.a = newAlpha;
         }
-        return false;
-
+        c.normalColor = norm;
+        button.colors = c;
     }
+
 
     void Update () {
 	}
 
 
-
-    public void Derp()
+    public void IncreaseID()
     {
         if (!isIdMode)
         {
-            index = (int)LevelBuilderNameSpace.LevelBuilderID.selectedTile;
-            GetComponent<Image>().sprite = sprites[index];
-            updateAlpha(index);
+            SetTileGraphic(tile.type);
+            setAlpha(tile.type);
         }
-        else if(IsIdTile(index))
+        else if(tile.NeedsID())
         {
-            Id++;
-            GetComponentInChildren<Text>().text = "" + Id;
-        }
-    }
+            var ListTiles = LevelEditorController.currentBoard.GetSortedIDs();
 
-    public void SetTile(int ind)
-    {
-        index = ind;
-        //index = (int)LevelBuilderNameSpace.LevelBuilderID.selectedTile;
-        GetComponent<Image>().sprite = sprites[index];
-        updateAlpha(index);
-    }
-
-
-    private void updateAlpha(int x, float newAlpha = 0.5f)
-    {
-        //THIS SHIT RIGHT HERE UNITY, SCREW THIS BULLSHIT
-        var c = GetComponent<Button>().colors;
-        var norm = c.normalColor;
-        norm.a = 1.0f;
-        if (x == 0)
-        {
-            norm.a = newAlpha;
-        }
-        c.normalColor = norm;
-        GetComponent<Button>().colors = c;
-    }
-    public void Derp2()
-    {
-        if (!isIdMode)
-        {
-            if (Application.isMobilePlatform || Input.GetMouseButton(0) || Input.GetMouseButton(1) || Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
+            //if its currently the highest, and the 2nd highest isn't at the same, we need to wrap around
+            if(ListTiles[0] == tile.TileID && ListTiles[1] != tile.TileID)
             {
-                index = (int)LevelBuilderNameSpace.LevelBuilderID.selectedTile;
-                GetComponent<Image>().sprite = sprites[index];
-                updateAlpha(index);
+                tile.TileID = 0;
             }
+            else
+            {
+                tile.TileID++;
+            }
+
+            TileText.text = "" + tile.TileID;
         }
     }
-    //  None,
-   // Player, Gold, Goal, Wall,  BlueBlock, PurpleBlock, OrangeWall, OrangeButton,  TurnOnWall, TurnOffWall, Teleporter, GreenButton,
-   //     TurnLeft, TurnUp, TurnRight, TurnDown,
-   //     TurnLeftUp, TurnRightUp, TurnLeftDown, TurnRightDown
 
-internal void setLocation(int i, int j)
+    public void SetTile(Tile t)
     {
-        location = new Vector2(i, j);
-        //if (i % 2 == 0 || j % 2 == 0)
+        tile = t;
+
+        SetTileGraphic(tile.type);
+        setAlpha(tile.type);
+    }
+
+    private void SetTileGraphic(Tile.TileType type)
+    {
+        sprite = sprites[(int)type];
+    }
+
+
+    public void OnTileClickedSetTileType()
+    {
+        if (isIdMode) // if in ID mode, don't change tilegraphic.
         {
-            //var temp = GetComponent<Button>().colors;
-            //temp.normalColor = Color.white;
-            //GetComponent<Button>().colors = temp;
+            return;
         }
-        //else
-        //{
-        //    var temp = GetComponent<Button>().colors;
-        //    temp.normalColor = Color.white;
-        //    GetComponent<Button>().colors = temp;
-        //}
+        if (Application.isMobilePlatform || Input.GetMouseButton(0) || Input.GetMouseButton(1) || Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
+        {
+            var TileType = LevelBuilderID.selectedTile;
+            SetTileGraphic(TileType);
+            setAlpha(TileType);
+        }
+    }
+
+    public void setLocation(int i, int j)
+    {
+        location.x = i;
+        location.y = j;
     }
 }

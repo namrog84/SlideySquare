@@ -21,7 +21,7 @@ public class VoteSubmitSceneController : MonoBehaviour {
         VotePanel.SetActive(false);
         UploadPanel.SetActive(false);
 
-        if (GameCore.PreppingForSubmit)
+        if (GameCore.PlayingLevelFromEditor)
         {
             UploadPanel.SetActive(true);
         }

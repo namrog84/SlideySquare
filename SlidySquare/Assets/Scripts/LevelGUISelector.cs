@@ -10,7 +10,7 @@ public class LevelGUISelector : MonoBehaviour {
     public GameObject editbutton;
 	// Use this for initialization
 	void Start () {
-        GameCore.IsLoadingExisting = false;
+        GameCore.IsNewMap = false;
         transform.localScale = Vector3.one;
 
     }
@@ -33,14 +33,14 @@ public class LevelGUISelector : MonoBehaviour {
     public static int DOWNLOADED_LEVEL = -4;
 
 
-
-    
-
-
-
-    public void DeleteCurrentLevel()
+    public void DeleteCustomCurrentLevel()
     {
-        FileManager.Delete(filename);
+        FileManager.Delete("custom", filename);
+        Destroy(gameObject);
+    }
+    public void DeleteDownloadedCurrentLevel()
+    {
+        FileManager.Delete("downloads", filename);
         Destroy(gameObject);
     }
 
@@ -75,7 +75,7 @@ public class LevelGUISelector : MonoBehaviour {
         
         GameCore.currentLevel = -3;
 
-        GameCore.IsLoadingExisting = true;
+        GameCore.IsNewMap = true;
         GameCore.tempLevelName = filename;
         Debug.Log(filename);
         

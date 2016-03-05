@@ -3,6 +3,25 @@ using System.Collections;
 
 public class SceneFadeInOut : MonoBehaviour {
 
+
+    public static IEnumerator LoadToDynamicScene()
+    {
+        var fader = GameObject.Find("SceneFader");
+        fader.GetComponent<SceneFadeInOut>().fadeDir *= -1;
+        fader.GetComponent<SceneFadeInOut>().startTime = 0;
+        yield return new WaitForEndOfFrame();
+        fader.GetComponent<SceneFadeInOut>().FinishedFade += LoadDynamicSceneOnFinished;
+    }
+    private static void LoadDynamicSceneOnFinished()
+    {
+        Time.timeScale = 1;
+#pragma warning disable 0618
+        Application.LoadLevel(4);
+#pragma warning restore 0618
+    }
+
+
+
     public float fadeSpeed = 0.5f;
     public float [,] gridStartTime;
     //public float[,] gridFadeRate;

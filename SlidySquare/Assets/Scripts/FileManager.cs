@@ -8,63 +8,26 @@ using System.IO;
 using UnityEngine;
 using Unity.IO.Compression;
 using System.Runtime.Serialization.Formatters.Binary;
+using Assets.Scripts.Gameplay;
 
 namespace Assets.Scripts
 {
     public static class FileManager
     {
-        public static void SaveObjectToFile(string filename, object theObject)
+
+        public static void Delete(string folder, string filename)
         {
-            string saveLoc = GameCore.PersistentPath + "/" + filename;
-            Debug.Log("Saving " + saveLoc);
-            IFormatter formatter = new BinaryFormatter();
-            using (var stream = new FileStream(saveLoc, FileMode.Create, FileAccess.Write, FileShare.None))
-            {
-                using (var zipper = new GZipStream(stream, CompressionMode.Compress, false))
-                {
-                    formatter.Serialize(zipper, theObject);
-                }
-            }
+            File.Delete(GameCore.PersistentPath + "/" + folder + "/" + filename);
         }
 
-        internal static void SaveDownloadedToFile(string filename, Map map)
-        {
-            var downloadLoc = GameCore.PersistentPath + "/downloaded";
-            if (!Directory.Exists(downloadLoc))
-            {
-                Directory.CreateDirectory(downloadLoc);
-            }
-            SaveObjectToFile("downloaded/" + filename, map);
-        }
-
-      
-
-        internal static void Delete(string filename)
-        {
-            File.Delete(GameCore.PersistentPath + "/" + filename);
-        }
-
-        public static object LoadFromFile(string filename)
-        {
-            object result;
-            IFormatter formatter = new BinaryFormatter();
-            Debug.Log("Load " + GameCore.PersistentPath + "/" + filename);
-            using (Stream stream = new FileStream(GameCore.PersistentPath + "/" + filename, FileMode.Open, FileAccess.Read, FileShare.Read))
-            {
-                using (var zipper = new GZipStream(stream, CompressionMode.Decompress))
-                {
-                    result = formatter.Deserialize(zipper);
-                }
-            }
-            return result;
-        }
-        internal static List<string> GetSavedLevelNames()
+        public static List<string> GetSavedLevelNames()
         {
             return Directory.GetFiles(GameCore.PersistentPath).Select(fullname => Path.GetFileName(fullname)).ToList();
         }
-        internal static List<string> GetDownloadedLevelNames()
+
+        public static List<string> GetDownloadedLevelNames()
         {
-            var downloadLoc = GameCore.PersistentPath + "/downloaded";
+            var downloadLoc = GameCore.PersistentPath + "/downloads";
             if (!Directory.Exists(downloadLoc))
             {
                 Directory.CreateDirectory(downloadLoc);
@@ -73,5 +36,57 @@ namespace Assets.Scripts
         }
 
 
+        public static void SaveBoardToFile(GameBoard currentBoard)
+        {
+            SaveBoardToFile("custom", currentBoard);
+            
+        }
+
+        public static void SaveBoardToFile(string folderName, GameBoard currentBoard)
+        {
+            var FolderPath = GameCore.PersistentPath + "/" + folderName;
+            if (!Directory.Exists(FolderPath))
+            {
+                Directory.CreateDirectory(FolderPath);
+            }
+
+            string saveLoc = FolderPath + "/" + currentBoard.name;
+            Debug.Log("Saving " + saveLoc);
+
+            IFormatter formatter = new BinaryFormatter();
+            using (var stream = new FileStream(saveLoc, FileMode.Create, FileAccess.Write, FileShare.None))
+            {
+                using (var zipper = new GZipStream(stream, CompressionMode.Compress, false))
+                {
+                    formatter.Serialize(zipper, currentBoard);
+                }
+            }
+            //TODO: GENERATE THUMBNAIL
+        }
+
+
+        public static GameBoard LoadBoardFromFile(string foldername, string filename)
+        {
+            string path = GameCore.PersistentPath + "/" + foldername + "/" + filename;
+            Debug.Log("Loading " + path);
+
+            GameBoard result;
+            IFormatter formatter = new BinaryFormatter();
+
+            if (!File.Exists(path))
+            {
+                Debug.Log("File Not Found!");
+                return null;
+            }
+
+            using (Stream stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                using (var zipper = new GZipStream(stream, CompressionMode.Decompress))
+                {
+                    result = (GameBoard)formatter.Deserialize(zipper);
+                }
+            }
+            return result;
+        }
     }
 }

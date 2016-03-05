@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Gameplay;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,12 +12,14 @@ namespace Assets.Scripts
     public static class GameCore
     {
         public static string nextLevel = ""; // ??? 
-        public static bool IsLoadingExisting = false;
-        public static bool PreppingForSubmit = false; //show 'upload after completion'
+        public static bool IsNewMap = false;
+        public static bool PlayingLevelFromEditor = false; //show 'upload after completion'
         public static bool isDownloaded = false; //yes to show vote
 
-        public static Map currentMap; // saves current/last map;
-        internal static int currentLevel; // to keep track of progress or something? 
+        public static GameBoard currentBoard; // saves current/last map;
+        public static int currentLevel; // to keep track of progress or something? 
+        public static string LevelNameToLoad;
+        public static bool CustomLevel;
 
         public static string LevelName { get; internal set; } // ?? whats this for? 
         public static string tempLevelName { get; internal set; }
@@ -133,28 +136,22 @@ namespace Assets.Scripts
 
     }
 
-    public enum TileType
-    {
-        None = 0,
-        Player = 1, Gold = 2, Goal = 3, Wall = 4, BlueBlock = 5, PurpleBlock = 6, OrangeWall = 7, OrangeButton = 8, TurnOnWall = 9, TurnOffWall = 10, Teleporter = 11, GreenButton = 12,
-        TurnLeft = 13, TurnUp = 14, TurnRight = 15, TurnDown = 16,
-        TurnLeftUp = 17, TurnRightUp = 18, TurnLeftDown = 19, TurnRightDown = 20
-    };
 
 
 
-    [Serializable]
-    public class Map
-    {
-        //Required
-        public int width; // map width
-        public int height; // map height 
-        public List<byte> Board = new List<byte>(); //Full Board
-        public List<byte> IDsBoard = new List<byte>(); //Full Board ID  (For teleporters and buttons)
 
-        //optional
-        public string name; // ??  saves submitted name?
-        public bool isSubmitted; //  has this been submitted already?
-        public int onlineKey = 25; // used for voting
-    }
+    //[Serializable]
+    //public class Map
+    //{
+    //    //Required
+    //    public int width; // map width
+    //    public int height; // map height 
+    //    public List<byte> Board = new List<byte>(); //Full Board
+    //    public List<byte> IDsBoard = new List<byte>(); //Full Board ID  (For teleporters and buttons)
+
+    //    //optional
+    //    public string name; // ??  saves submitted name?
+    //    public bool isSubmitted; //  has this been submitted already?
+    //    public int onlineKey = 25; // used for voting
+    //}
 }
