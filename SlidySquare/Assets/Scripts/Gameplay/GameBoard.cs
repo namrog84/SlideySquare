@@ -1,13 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using UnityEngine;
 
 namespace Assets.Scripts.Gameplay
 {
     
     public class GameBoard
     {
+        public Texture2D thumbnail;
+        public GameBoard()
+        {
+            //setup default thumbnail
+            thumbnail = new Texture2D(16, 16, TextureFormat.ARGB32, false);
+            thumbnail.filterMode = FilterMode.Point;
+            generateRandomTexture(thumbnail);
+            thumbnail.Apply();
+        }
+
+        private void generateRandomTexture(Texture2D texture)
+        {
+            int tiles = 16;
+
+            var textureData = new Color[tiles, tiles];
+
+            for (int i = 0; i < tiles; i++)
+            {
+                for (int j = 0; j < tiles; j++)
+                {
+                    thumbnail.SetPixel(i, j, Random.ColorHSV());
+                    
+                }
+            }
+            
+        }
+        
+
         //Required
         public int width; // map width
         public int height; // map height 
@@ -31,6 +58,10 @@ namespace Assets.Scripts.Gameplay
                 Board.Add(key, tile);
             }
         }
+        internal void SetTile(Vector2 location, Tile t)
+        {
+            SetTile((int)location.x, (int)location.y, t);
+        }
 
         public List<int> GetSortedIDs()
         {
@@ -47,7 +78,13 @@ namespace Assets.Scripts.Gameplay
             return Board[key];
         }
 
-       
+      
+
+        public Tile GetTile(Vector2 location)
+        {
+            return GetTile((int)location.x, (int)location.y);
+        }
+
     }
 
 

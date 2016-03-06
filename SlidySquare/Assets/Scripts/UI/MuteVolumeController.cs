@@ -7,8 +7,8 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Image))]
 public class MuteVolumeController : MonoBehaviour {
 
-    private Sprite mute;
-    private Sprite notmuted;
+    public Sprite mute;
+    public Sprite notmuted;
 
     private Image image;
     private Button myButton; // assign in the editor

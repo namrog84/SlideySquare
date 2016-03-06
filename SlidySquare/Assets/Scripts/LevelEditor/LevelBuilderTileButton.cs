@@ -7,23 +7,23 @@ using Assets.Scripts.Gameplay;
 using System;
 using System.Collections.Generic;
 
-[RequireComponent(typeof(Sprite))]
+[RequireComponent(typeof(Image))]
 [RequireComponent(typeof(Button))]
 public class LevelBuilderTileButton : MonoBehaviour {
 
     public Vector2 location = new Vector2(0, 0);
     public Sprite[] sprites;
 
-    public Tile tile;
-
     private Text TileText;
-    private Sprite sprite;
-    private Button button; 
+    private Image image;
+    private Button button;
+
+    public static Vector2 LastPlayerPosition = Vector2.zero;
 
     void Start () {
         LevelEditorController.ToggleModeOnTileButtons += Tiggler;
         TileText = GetComponentInChildren<Text>();
-        sprite = GetComponent<Sprite>();
+        image = GetComponent<Image>();
         button = GetComponent<Button>();
     }
 
@@ -32,14 +32,14 @@ public class LevelBuilderTileButton : MonoBehaviour {
     {
         isIdMode = !isIdMode;
 
-        if (isIdMode && !tile.NeedsID())
+        if (isIdMode && !GameCore.currentBoard.GetTile(location).NeedsID())
         {
             setAlpha(Tile.TileType.None, 0.2f);
             button.interactable = false;
         }
         else
         {
-            setAlpha(tile.type);
+            setAlpha(GameCore.currentBoard.GetTile(location).type);
             button.interactable = true;
         }
     }
@@ -67,38 +67,66 @@ public class LevelBuilderTileButton : MonoBehaviour {
     {
         if (!isIdMode)
         {
-            SetTileGraphic(tile.type);
-            setAlpha(tile.type);
+            SetTileGraphic(GameCore.currentBoard.GetTile(location).type);
+            setAlpha(GameCore.currentBoard.GetTile(location).type);
         }
-        else if(tile.NeedsID())
+        else if(GameCore.currentBoard.GetTile(location).NeedsID())
         {
-            var ListTiles = LevelEditorController.currentBoard.GetSortedIDs();
+            var ListTiles = GameCore.currentBoard.GetSortedIDs();
 
             //if its currently the highest, and the 2nd highest isn't at the same, we need to wrap around
-            if(ListTiles[0] == tile.TileID && ListTiles[1] != tile.TileID)
+            if(ListTiles[0] == GameCore.currentBoard.GetTile(location).TileID && ListTiles[1] != GameCore.currentBoard.GetTile(location).TileID)
             {
-                tile.TileID = 0;
+                GameCore.currentBoard.GetTile(location).TileID = 0;
             }
             else
             {
-                tile.TileID++;
+                GameCore.currentBoard.GetTile(location).TileID++;
             }
 
-            TileText.text = "" + tile.TileID;
+            TileText.text = "" + GameCore.currentBoard.GetTile(location).TileID;
         }
     }
 
     public void SetTile(Tile t)
     {
-        tile = t;
+        GameCore.currentBoard.SetTile(location, t);
 
-        SetTileGraphic(tile.type);
-        setAlpha(tile.type);
+        SetTileGraphic(GameCore.currentBoard.GetTile(location).type);
+        setAlpha(GameCore.currentBoard.GetTile(location).type);
     }
 
     private void SetTileGraphic(Tile.TileType type)
     {
-        sprite = sprites[(int)type];
+        var newsprite = sprites[(int)type];
+        if (type==Tile.TileType.Player)
+        {
+            for(int i = 0; i < LevelEditorController.TheBoardOfButtons.Count; i++)
+            {
+                var temp = LevelEditorController.TheBoardOfButtons[i];
+                if (temp.activeSelf)
+                {
+                    if (temp.GetComponent<LevelBuilderTileButton>().image.sprite == newsprite)
+                    {
+                        LevelEditorController.TheBoardOfButtons[i].GetComponent<LevelBuilderTileButton>().SetTileGraphic(Tile.TileType.None);
+                    }
+
+                }
+            }
+        }
+        var col = image.color;
+        if (type == Tile.TileType.None)
+        {
+            col.a = 0.5f;
+        }
+        else
+        {
+            col.a = 1.0f;
+        }
+
+        image.sprite = newsprite;
+        image.color = col;
+
     }
 
 

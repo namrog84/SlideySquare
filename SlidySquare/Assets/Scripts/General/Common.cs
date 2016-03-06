@@ -12,7 +12,7 @@ namespace Assets.Scripts
     public static class GameCore
     {
         public static string nextLevel = ""; // ??? 
-        public static bool IsNewMap = false;
+        public static bool IsNewMap = true;
         public static bool PlayingLevelFromEditor = false; //show 'upload after completion'
         public static bool isDownloaded = false; //yes to show vote
 
@@ -20,6 +20,8 @@ namespace Assets.Scripts
         public static int currentLevel; // to keep track of progress or something? 
         public static string LevelNameToLoad;
         public static bool CustomLevel;
+        internal static int CampaignLevelToLoad;
+        internal static bool IsCampaign;
 
         public static string LevelName { get; internal set; } // ?? whats this for? 
         public static string tempLevelName { get; internal set; }

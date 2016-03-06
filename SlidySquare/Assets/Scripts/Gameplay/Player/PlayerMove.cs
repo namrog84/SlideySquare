@@ -44,7 +44,7 @@ public class PlayerMove : MonoBehaviour
     internal void AddMoney(int amount)
     {
         goldAmount += amount;
-        GameObject.FindGameObjectWithTag("GoldUI").GetComponent<Text>().text = ""+goldAmount;
+        //GameObject.FindGameObjectWithTag("GoldUI").GetComponent<Text>().text = ""+goldAmount;
     }
 
     void Start()
@@ -55,7 +55,7 @@ public class PlayerMove : MonoBehaviour
         startToken.transform.position = transform.position;
 
         goldAmount = PlayerPrefs.GetInt("Gold");
-        GameObject.FindGameObjectWithTag("GoldUI").GetComponent<Text>().text = "" + goldAmount;
+        //GameObject.FindGameObjectWithTag("GoldUI").GetComponent<Text>().text = "" + goldAmount;
         cc2d = GetComponent<CharacterController2D>();
 
         bounds = OrthographicBounds(Camera.main);

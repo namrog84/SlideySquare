@@ -22,7 +22,6 @@ namespace LevelBuilderNameSpace
                     currentSelected.TurnOffBorder();
                 }
                 TurnOnBorder();
-                Debug.Log(ThisTile);
                 selectedTile = ThisTile;
                 currentSelected = this;
             }

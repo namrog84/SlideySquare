@@ -2,7 +2,7 @@
 using System.Collections;
 using Assets.Scripts;
 using UnityEngine.SceneManagement;
-
+using System;
 
 [RequireComponent(typeof(SceneFadeInOut))]
 public class MySceneManager : MonoBehaviour {
@@ -10,6 +10,11 @@ public class MySceneManager : MonoBehaviour {
     public void Start()
     {
         sceneFader = GetComponent<SceneFadeInOut>();
+        if(sceneFader == null)
+        {
+            Debug.Log("why am i null?");
+
+        }
         sceneFader.FinishedFade += OnFinishedLoadScene;
     }
 
@@ -33,6 +38,16 @@ public class MySceneManager : MonoBehaviour {
         AdManager.PlayAd();
     }
 
+    internal void LoadCampaignLevel(int levelNumber)
+    {
+        if (levelNumber != 0)
+        {
+            GameCore.IsCampaign = true;
+            GameCore.CampaignLevelToLoad = levelNumber;
+            LoadToDynamicScene();
+        }
+    }
+
     public void GoToIntroScene()
     {
         LoadLevel("introScene");
@@ -54,7 +69,7 @@ public class MySceneManager : MonoBehaviour {
     }
     public void GoToCustomLevelSelect()
     {
-        LoadLevel("MakeShareDownloadSelector");
+        LoadLevel("CustomLevelSelect");
     }
 
     public void GoToAboutScene()
@@ -97,15 +112,8 @@ public class MySceneManager : MonoBehaviour {
     public void OnFinishedLoadScene()
     {
         Time.timeScale = 1;
-        if (SceneManager.GetSceneByName(nextSceneName).IsValid())
-        {
-            SceneManager.LoadScene(nextSceneName);
-        }
-        else
-        {
-            Debug.Log("Error Loading scene");
-            SceneManager.LoadScene("introScene");
-        }
+        SceneManager.LoadScene(nextSceneName);
+
     }
 
 

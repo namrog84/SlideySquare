@@ -21,17 +21,17 @@ namespace LevelBuilderNameSpace
         public GameObject MapPanel;
         public GameObject theButton;
 
-        public static GameBoard currentBoard = new GameBoard();
+        //public static GameBoard currentBoard = new GameBoard();
 
-        public List<GameObject> TheBoardOfButtons;
+        public static List<GameObject> TheBoardOfButtons;
 
 
         public delegate void ToggleGroup();
         public static ToggleGroup ToggleModeOnTileButtons;
 
 
-        private int gameBoardCurrentWidth = 8;
-        private int gameBoardCurrentHeight = 6;
+        //private int gameBoardCurrentWidth = 8;
+        //private int gameBoardCurrentHeight = 6;
 
         private int gameBoardMaxWidth = 20;
         private int gameBoardMaxHeight = 20;
@@ -47,7 +47,11 @@ namespace LevelBuilderNameSpace
 
         void Start()
         {
-            TheBoardOfButtons = new List<GameObject>();
+            if (GameCore.IsNewMap)
+            {
+                GameCore.currentBoard = new GameBoard();
+            }
+                TheBoardOfButtons = new List<GameObject>();
             for (int j = 0; j < gameBoardMaxHeight; j++)
             {
                 for (int i = 0; i < gameBoardMaxWidth; i++)
@@ -78,7 +82,7 @@ namespace LevelBuilderNameSpace
             SaveLevel(); // save it!
 
             GameCore.CustomLevel = true;
-            GameCore.LevelNameToLoad = currentBoard.name;
+            GameCore.LevelNameToLoad = GameCore.currentBoard.name;
 
             //TODO cache or singleton it up?
             FindObjectOfType<MySceneManager>().LoadToDynamicScene();
@@ -105,61 +109,60 @@ namespace LevelBuilderNameSpace
 
         public void IncreaseWidth()
         {
-            gameBoardCurrentWidth++;
+            GameCore.currentBoard.width++;
             RefreshBoard();
         }
         public void DecreaseWidth()
         {
-            gameBoardCurrentWidth--;
+            GameCore.currentBoard.width--;
             RefreshBoard();
         }
         public void IncreaseHeight()
         {
-            gameBoardCurrentHeight++;
+            GameCore.currentBoard.height++;
             RefreshBoard();
         }
         public void DecreaseHeight()
         {
-            gameBoardCurrentHeight--;
+            GameCore.currentBoard.height--;
             RefreshBoard();
         }
 
 
         public void SaveLevel()
         {
-            for (int j = 0; j < TheBoardOfButtons.Count; j++)
-            {
-                var tileButton = TheBoardOfButtons[j].GetComponent<LevelBuilderTileButton>();
+            //no longer needed becaue we always keep it up to date now?
+            //for (int j = 0; j < TheBoardOfButtons.Count; j++)
+            //{
+                //var tileButton = TheBoardOfButtons[j].GetComponent<LevelBuilderTileButton>();
 
-                int tempTileX = j % gameBoardCurrentWidth;
-                int tempTileY = j / gameBoardCurrentHeight;
-                currentBoard.SetTile(tempTileX, tempTileY, tileButton.tile);
-            }
+                //int tempTileX = j % GameCore.currentBoard.width;
+                //int tempTileY = j / GameCore.currentBoard.height;
+                //GameCore.currentBoard.SetTile(tempTileX, tempTileY, tileButton.tile);
+            //}
 
-            FileManager.SaveBoardToFile(currentBoard);
+            FileManager.SaveBoardToFile(GameCore.currentBoard);
         }
 
         public void LoadLevel()
         {
             Debug.Log("Loading: " + GameCore.LevelNameToLoad);
-            currentBoard = (GameBoard)FileManager.LoadBoardFromFile("custom", GameCore.LevelNameToLoad);
+            GameCore.currentBoard = (GameBoard)FileManager.LoadBoardFromFile("custom", GameCore.LevelNameToLoad);
 
-            if (currentBoard == null)
+            if (GameCore.currentBoard == null)
             {
                 Debug.Log("ERROR loading level");
                 return;
             }
 
-            gameBoardCurrentHeight = currentBoard.height;
-            gameBoardCurrentWidth = currentBoard.width;
             for (int j = 0; j < TheBoardOfButtons.Count; j++)
             {
                 TheBoardOfButtons[j].SetActive(true);
 
-                int tempTileX = j % gameBoardCurrentWidth;
-                int tempTileY = j / gameBoardCurrentHeight;
+                int tempTileX = j % GameCore.currentBoard.width;
+                int tempTileY = j / GameCore.currentBoard.height;
 
-                Tile tile = currentBoard.GetTile(tempTileX, tempTileY);
+                Tile tile = GameCore.currentBoard.GetTile(tempTileX, tempTileY);
                 TheBoardOfButtons[j].GetComponent<LevelBuilderTileButton>().SetTile(tile);
             }
 
@@ -169,8 +172,9 @@ namespace LevelBuilderNameSpace
 
         public void RefreshBoard()
         {
-            gameBoardCurrentWidth = Mathf.Clamp(gameBoardCurrentWidth, 4, gameBoardMaxWidth);
-            gameBoardCurrentHeight = Mathf.Clamp(gameBoardCurrentHeight, 4, gameBoardMaxHeight);
+            //move to inside gameboard?
+            GameCore.currentBoard.width = Mathf.Clamp(GameCore.currentBoard.width, 4, gameBoardMaxWidth);
+            GameCore.currentBoard.height = Mathf.Clamp(GameCore.currentBoard.height, 4, gameBoardMaxHeight);
 
             //DisableAllButtonsFirst
             for (int i = 0; i < TheBoardOfButtons.Count; i++) //deactivate ALL!
@@ -179,19 +183,19 @@ namespace LevelBuilderNameSpace
             }
           
             //Resolve size constraints
-            if (gameBoardCurrentWidth > gameBoardCurrentHeight)
+            if (GameCore.currentBoard.width > GameCore.currentBoard.height)
             {
                 MapPanel.GetComponent<GridLayoutGroup>().constraint = GridLayoutGroup.Constraint.FixedColumnCount;
-                MapPanel.GetComponent<GridLayoutGroup>().constraintCount = gameBoardCurrentWidth;
+                MapPanel.GetComponent<GridLayoutGroup>().constraintCount = GameCore.currentBoard.width;
             }
             else
             {
                 MapPanel.GetComponent<GridLayoutGroup>().constraint = GridLayoutGroup.Constraint.FixedRowCount;
-                MapPanel.GetComponent<GridLayoutGroup>().constraintCount = gameBoardCurrentHeight;
+                MapPanel.GetComponent<GridLayoutGroup>().constraintCount = GameCore.currentBoard.height;
             }
 
-            var dw = (int)MapPanel.GetComponent<RectTransform>().rect.width / gameBoardCurrentWidth;
-            var dh = (int)MapPanel.GetComponent<RectTransform>().rect.height / gameBoardCurrentHeight;
+            var dw = (int)MapPanel.GetComponent<RectTransform>().rect.width / GameCore.currentBoard.width;
+            var dh = (int)MapPanel.GetComponent<RectTransform>().rect.height / GameCore.currentBoard.height;
 
             //Go with side that is smaller
             var size = Mathf.Min(dw, dh, maxTileSize);
@@ -201,9 +205,9 @@ namespace LevelBuilderNameSpace
             dw = size;
             dh = size;
 
-            for (int y = 0; y < gameBoardCurrentHeight; y++)
+            for (int y = 0; y < GameCore.currentBoard.height; y++)
             {
-                for (int x = 0; x < gameBoardCurrentWidth; x++)
+                for (int x = 0; x < GameCore.currentBoard.width; x++)
                 {
                     int ID = x + y * gameBoardMaxWidth;
 
