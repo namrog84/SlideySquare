@@ -5,16 +5,25 @@ using UnityEngine;
 namespace Assets.Scripts.Gameplay
 {
     
+    [System.Serializable]
     public class GameBoard
     {
-        public Texture2D thumbnail;
+        public byte[] pngImage;
         public GameBoard()
         {
+            CreateRandomThumbnail();
+            
+        }
+
+        private void CreateRandomThumbnail()
+        {
             //setup default thumbnail
-            thumbnail = new Texture2D(16, 16, TextureFormat.ARGB32, false);
+            Texture2D thumbnail = new Texture2D(16, 16, TextureFormat.ARGB32, false);
             thumbnail.filterMode = FilterMode.Point;
             generateRandomTexture(thumbnail);
             thumbnail.Apply();
+
+            pngImage = thumbnail.EncodeToPNG();
         }
 
         private void generateRandomTexture(Texture2D texture)
@@ -27,8 +36,7 @@ namespace Assets.Scripts.Gameplay
             {
                 for (int j = 0; j < tiles; j++)
                 {
-                    thumbnail.SetPixel(i, j, Random.ColorHSV());
-                    
+                    texture.SetPixel(i, j, UnityEngine.Random.ColorHSV());
                 }
             }
             
@@ -48,7 +56,14 @@ namespace Assets.Scripts.Gameplay
         //Set the Tile
         internal void SetTile(int x, int y, Tile tile)
         {
-            int key = (x << 16) & y;
+
+            //don't add nulls
+            if (tile == null)
+            {
+                return;
+            }
+
+            int key = (x << 16) | y;
             if (Board.ContainsKey(key))
             {
                 Board[key] = tile;
@@ -57,10 +72,16 @@ namespace Assets.Scripts.Gameplay
             {
                 Board.Add(key, tile);
             }
+
+            //oops, didn't want to add these!
+            if(tile.type == Tile.TileType.None)
+            {
+                Board.Remove(key);
+            }
         }
         internal void SetTile(Vector2 location, Tile t)
         {
-            SetTile((int)location.x, (int)location.y, t);
+           SetTile((int)location.x, (int)location.y, t);
         }
 
         public List<int> GetSortedIDs()
@@ -69,12 +90,12 @@ namespace Assets.Scripts.Gameplay
         }
         public Tile GetTile(int x, int y)
         {
-            int key = (x << 16) & y;
+            int key = (x << 16) | y;
             if (!Board.ContainsKey(key))
             {
-                
                 return new Tile(); //empty tile
             }
+            Debug.Log(x + " " + y + " " + Board[key].type);
             return Board[key];
         }
 

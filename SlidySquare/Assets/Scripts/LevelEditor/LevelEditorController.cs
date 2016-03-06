@@ -51,7 +51,7 @@ namespace LevelBuilderNameSpace
             {
                 GameCore.currentBoard = new GameBoard();
             }
-                TheBoardOfButtons = new List<GameObject>();
+            TheBoardOfButtons = new List<GameObject>();
             for (int j = 0; j < gameBoardMaxHeight; j++)
             {
                 for (int i = 0; i < gameBoardMaxWidth; i++)
@@ -78,11 +78,13 @@ namespace LevelBuilderNameSpace
 
         public void PlayCurrentLevel()
         {
-            GameCore.PlayingLevelFromEditor = true;
-            SaveLevel(); // save it!
 
+            GameCore.PlayingLevelFromEditor = true;
             GameCore.CustomLevel = true;
-            GameCore.LevelNameToLoad = GameCore.currentBoard.name;
+
+            //unneeded because its already in gamecore current map? 
+            //GameCore.LevelNameToLoad = GameCore.currentBoard.name;
+            SaveLevel(); //save it!
 
             //TODO cache or singleton it up?
             FindObjectOfType<MySceneManager>().LoadToDynamicScene();
@@ -134,39 +136,42 @@ namespace LevelBuilderNameSpace
             //no longer needed becaue we always keep it up to date now?
             //for (int j = 0; j < TheBoardOfButtons.Count; j++)
             //{
-                //var tileButton = TheBoardOfButtons[j].GetComponent<LevelBuilderTileButton>();
+            //var tileButton = TheBoardOfButtons[j].GetComponent<LevelBuilderTileButton>();
 
-                //int tempTileX = j % GameCore.currentBoard.width;
-                //int tempTileY = j / GameCore.currentBoard.height;
-                //GameCore.currentBoard.SetTile(tempTileX, tempTileY, tileButton.tile);
+            //int tempTileX = j % GameCore.currentBoard.width;
+            //int tempTileY = j / GameCore.currentBoard.height;
+            //GameCore.currentBoard.SetTile(tempTileX, tempTileY, tileButton.tile);
             //}
-
-            FileManager.SaveBoardToFile(GameCore.currentBoard);
+            if(GameCore.currentBoard.name == null || GameCore.currentBoard.name == "")
+            {
+                GameCore.currentBoard.name = "BeepBoop" + UnityEngine.Random.Range(1, 100); ;
+            }
+            //FileManager.SaveBoardToFile(GameCore.currentBoard);
         }
 
         public void LoadLevel()
         {
-            Debug.Log("Loading: " + GameCore.LevelNameToLoad);
-            GameCore.currentBoard = (GameBoard)FileManager.LoadBoardFromFile("custom", GameCore.LevelNameToLoad);
+            //Debug.Log("Loading: " + GameCore.LevelNameToLoad);
+            //GameCore.currentBoard = (GameBoard)FileManager.LoadBoardFromFile("custom", GameCore.LevelNameToLoad);
 
-            if (GameCore.currentBoard == null)
-            {
-                Debug.Log("ERROR loading level");
-                return;
-            }
+            //if (GameCore.currentBoard == null)
+            //{
+            //    Debug.Log("ERROR loading level");
+            //    return;
+            //}
 
-            for (int j = 0; j < TheBoardOfButtons.Count; j++)
-            {
-                TheBoardOfButtons[j].SetActive(true);
+            //for (int j = 0; j < TheBoardOfButtons.Count; j++)
+            //{
+            //    TheBoardOfButtons[j].SetActive(true);
 
-                int tempTileX = j % GameCore.currentBoard.width;
-                int tempTileY = j / GameCore.currentBoard.height;
+            //    int tempTileX = j % GameCore.currentBoard.width;
+            //    int tempTileY = j / GameCore.currentBoard.height;
 
-                Tile tile = GameCore.currentBoard.GetTile(tempTileX, tempTileY);
-                TheBoardOfButtons[j].GetComponent<LevelBuilderTileButton>().SetTile(tile);
-            }
+            //    Tile tile = GameCore.currentBoard.GetTile(tempTileX, tempTileY);
+            //    TheBoardOfButtons[j].GetComponent<LevelBuilderTileButton>().SetTile(tile);
+            //}
 
-            RefreshBoard(); //refresh level
+            //RefreshBoard(); //refresh level
         }
 
 

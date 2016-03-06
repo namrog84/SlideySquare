@@ -33,26 +33,30 @@ public class LevelLoader : MonoBehaviour {
     void Start () {
         Analytics.CustomEvent("LevelStart", new Dictionary<string, object>{ { "Level", PlayerPrefs.GetInt("CurrentLevel", -1) } });
 
-        HitWall.HitWallCount = GameObject.FindGameObjectsWithTag("HitWall").Length;
-       
-        //AdManager.PlayAd();
-        //Debug.Log("Level Starting is " + PlayerPrefs.GetInt("CurrentLevel"));
-        levelname = PlayerPrefs.GetInt("CurrentLevel", 1) + ".tmx";
+        //HitWall.HitWallCount = GameObject.FindGameObjectsWithTag("HitWall").Length;
         offset = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, 0);
-        Debug.Log("What? " + levelname);
-        if(PlayerPrefs.GetInt("CurrentLevel", 1) == -3)
+
+
+        if(GameCore.PlayingLevelFromEditor)
         {
-            //custom new level design
-            var filename = PlayerPrefs.GetString("LevelName");
-            Debug.Log(filename);
-            Debug.Log(filename);
-            StartCoroutine(LoadLevelNew(filename));
+            StartCoroutine(LoadCurrentLevel());
+
         }
-        else
-        {
-            Debug.Log("Old Format removed");
-            FindObjectOfType<MySceneManager>().GoToIntroScene();
-        }
+
+
+        //if(PlayerPrefs.GetInt("CurrentLevel", 1) == -3)
+        //{
+        //    //custom new level design
+        //    var filename = PlayerPrefs.GetString("LevelName");
+        //    Debug.Log(filename);
+        //    Debug.Log(filename);
+        //    StartCoroutine(LoadLevelNew(filename));
+        //}
+        //else
+        //{
+        //    Debug.Log("Old Format removed");
+        //    FindObjectOfType<MySceneManager>().GoToIntroScene();
+        //}
 
         if (AdManager.PlayCount == 4 || AdManager.Skipped)
         {
@@ -65,6 +69,45 @@ public class LevelLoader : MonoBehaviour {
         Time.timeScale = 1;
     }
    
+
+    public IEnumerator LoadCurrentLevel()
+    {
+        yield return new WaitForEndOfFrame();
+
+        GameBoard board = GameCore.currentBoard;
+
+        _width = board.width;
+        _height = board.height;
+        mapOffset = new Vector3(_width / 2, _height / 2, 0);
+        worldTiles = new GameObject[_width, _height];
+        //Debug.Log(_width + " " + _height);
+        Camera.main.GetComponent<CameraController>().AdjustViewHeight(_width);//.UnitsHigh = _height;//(_width / 2)+1;
+        if (_width % 2 == 1)
+        {
+            Camera.main.transform.position += new Vector3(-0.5f, 0.0f);
+        }
+        Debug.Log(board.name);
+        //Debug.Log("Creating");
+        //Debug.Log(_width + " " + _height);
+        //scan tile data layer
+        for (int j = 0; j < _height; j++)
+        {
+            //Debug.Log("Height!");
+            for (int i = 0; i < _width; i++)
+            {
+                //Debug.Log(board.GetTile(i,j).type);
+
+                CreateTile(i, _height - j, j, board.GetTile(i, j), "");
+                //SetTileId(i, j, board.GetTile(i, j).TileID);
+            }
+        }
+
+        HitWall.HitWallCount = GameObject.FindGameObjectsWithTag("HitWall").Length;
+
+
+    }
+
+
     private IEnumerator LoadLevelNew(string filename)
     {
         //string fpath = Path.Combine(Application.streamingAssetsPath, filename);
@@ -99,8 +142,8 @@ public class LevelLoader : MonoBehaviour {
         {
             for (int i = 0; i < _width; i++)
             {
-                CreateTile(i, _height - j, j, board.GetTile(i,j).type, "");
-                SetTileId(i, j, board.GetTile(i,j).TileID); 
+                //CreateTile(i, _height - j, j, board.GetTile(i,j).type, "");
+                //SetTileId(i, j, board.GetTile(i,j).TileID); 
             }
         }
 
@@ -186,21 +229,24 @@ public class LevelLoader : MonoBehaviour {
         
     }
     
-    private void CreateTile(int x, int y, int trueY, Tile.TileType tileType, string name)
+    private void CreateTile(int x, int y, int trueY, Tile tile, string name)
     {
-        if (tileType == Tile.TileType.None)
+
+        int tileIndex = (int)tile.type;
+        if (tile.type == Tile.TileType.None || tileIndex == 0)
             return;
 
-        if (tiles[(int)tileType] == null)
+        if (tiles[tileIndex] == null)
         {
             return;
         }
-        GameObject newTile = (GameObject)Instantiate(tiles[(int)tileType]); //create tile
-
+    
+        GameObject newTile = Instantiate(tiles[tileIndex]); //create tile
         worldTiles[x, trueY] = newTile;
 
         newTile.transform.position = new Vector3(x, y, 0) + offset - mapOffset; //set position
         newTile.transform.parent = gameObject.transform; //make child of this object
+
 
     }
     

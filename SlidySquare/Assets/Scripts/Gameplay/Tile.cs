@@ -1,6 +1,9 @@
 ﻿
+using System;
+
 namespace Assets.Scripts.Gameplay
 {
+    [Serializable]
     public class Tile
     {
         public TileType type;

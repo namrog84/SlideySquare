@@ -34,28 +34,31 @@ public class LevelBuilderTileButton : MonoBehaviour {
 
         if (isIdMode && !GameCore.currentBoard.GetTile(location).NeedsID())
         {
-            setAlpha(Tile.TileType.None, 0.2f);
+            setAlpha(0.2f);
             button.interactable = false;
         }
         else
         {
-            setAlpha(GameCore.currentBoard.GetTile(location).type);
+            setAlpha(1.0f);
             button.interactable = true;
         }
     }
 
-    private void setAlpha(Tile.TileType tt, float newAlpha = 0.5f)
+    private void setAlpha(float newAlpha = 0.5f)
     {
         //THIS SHIT RIGHT HERE UNITY, SCREW THIS BULLSHIT
-        var c = button.colors;
-        var norm = c.normalColor;
-        norm.a = 1.0f;
-        if (tt == Tile.TileType.None)
+        var c = image.color;
+        //c.a = 1.0f;
+        //if (tt == Tile.TileType.None)
+        //{
+        //    norm.a = 0.5f;
+        //}
+        //else
         {
-            norm.a = newAlpha;
+            c.a = newAlpha;
         }
-        c.normalColor = norm;
-        button.colors = c;
+        //c.normalColor = norm;
+        image.color = c;
     }
 
 
@@ -65,12 +68,7 @@ public class LevelBuilderTileButton : MonoBehaviour {
 
     public void IncreaseID()
     {
-        if (!isIdMode)
-        {
-            SetTileGraphic(GameCore.currentBoard.GetTile(location).type);
-            setAlpha(GameCore.currentBoard.GetTile(location).type);
-        }
-        else if(GameCore.currentBoard.GetTile(location).NeedsID())
+        if(GameCore.currentBoard.GetTile(location).NeedsID())
         {
             var ListTiles = GameCore.currentBoard.GetSortedIDs();
 
@@ -88,13 +86,13 @@ public class LevelBuilderTileButton : MonoBehaviour {
         }
     }
 
-    public void SetTile(Tile t)
-    {
-        GameCore.currentBoard.SetTile(location, t);
+    //public void SetTile(Tile t)
+    //{
+    //    GameCore.currentBoard.SetTile(location, t);
+    //    SetTileGraphic(GameCore.currentBoard.GetTile(location).type);
+    //    setAlpha(1.0f);
 
-        SetTileGraphic(GameCore.currentBoard.GetTile(location).type);
-        setAlpha(GameCore.currentBoard.GetTile(location).type);
-    }
+    //}
 
     private void SetTileGraphic(Tile.TileType type)
     {
@@ -109,38 +107,38 @@ public class LevelBuilderTileButton : MonoBehaviour {
                     if (temp.GetComponent<LevelBuilderTileButton>().image.sprite == newsprite)
                     {
                         LevelEditorController.TheBoardOfButtons[i].GetComponent<LevelBuilderTileButton>().SetTileGraphic(Tile.TileType.None);
+                        LevelEditorController.TheBoardOfButtons[i].GetComponent<LevelBuilderTileButton>().setAlpha(0.5f);
+                        break;
                     }
 
                 }
             }
         }
-        var col = image.color;
-        if (type == Tile.TileType.None)
-        {
-            col.a = 0.5f;
-        }
-        else
-        {
-            col.a = 1.0f;
-        }
+
+        Debug.Log(location);
+        var tile = GameCore.currentBoard.GetTile(location);
+        tile.type = type;
+        GameCore.currentBoard.SetTile(location, tile);
 
         image.sprite = newsprite;
-        image.color = col;
-
     }
 
 
     public void OnTileClickedSetTileType()
     {
-        if (isIdMode) // if in ID mode, don't change tilegraphic.
+        if (isIdMode) // if in ID mode, don't change tile graphic.
         {
+            IncreaseID();
             return;
         }
+        
         if (Application.isMobilePlatform || Input.GetMouseButton(0) || Input.GetMouseButton(1) || Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
         {
-            var TileType = LevelBuilderID.selectedTile;
-            SetTileGraphic(TileType);
-            setAlpha(TileType);
+            
+            SetTileGraphic(LevelBuilderID.selectedTile);
+            setAlpha(1.0f);
+            
+
         }
     }
 
