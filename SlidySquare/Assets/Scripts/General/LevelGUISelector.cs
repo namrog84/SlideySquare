@@ -44,14 +44,14 @@ public class LevelGUISelector : MonoBehaviour {
         Destroy(gameObject);
     }
 
-    public void DownloadLevel()
-    {
-        if(customLevelManagerObject == null)
-        {
-            customLevelManagerObject = FindObjectOfType<CustomLevelManager>();
-        }
-        customLevelManagerObject.DownloadLevel(filename);
-    }
+    //public void DownloadLevel()
+    //{
+    //    if(customLevelManagerObject == null)
+    //    {
+    //        customLevelManagerObject = FindObjectOfType<CustomLevelManager>();
+    //    }
+    //    customLevelManagerObject.DownloadLevel(filename);
+    //}
 
 
     public void PlayCurrentLevel()

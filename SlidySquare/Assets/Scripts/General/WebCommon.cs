@@ -30,7 +30,6 @@ namespace Assets.Scripts
 
 
 
-
     public class Level
     {
         public int key; //SQL Key
@@ -66,14 +65,16 @@ namespace Assets.Scripts
             Solution = ""; // to verify solvable later
             SpecialFlag = ""; // TBD
         }
-        public Level(Map map): this()
-        {
-            Data = Common.ConvertEncode(map);
-            Width = map.width;
-            Height = map.height;
-            Version = 1;
-        }
+        //public Level(Map map): this()
+        //{
+        //    Data = "";// Common.ConvertEncode(map);
+        //    Width = map.width;
+        //    Height = map.height;
+        //    Version = 1;
+        //}
     }
+
+
     //public class Level2
     //{
     //    public int key; //SQL Key

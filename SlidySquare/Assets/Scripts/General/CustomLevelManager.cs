@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Text;
 using System;
 using Unity.IO.Compression;
+using Assets.Scripts.Gameplay;
 
 public class CustomLevelManager : MonoBehaviour {
 
@@ -162,11 +163,11 @@ public class CustomLevelManager : MonoBehaviour {
     }
 
 
-    public void UploadLevel(Map map)
+    public void UploadLevel(GameBoard board)
     {
         string url = coreURL + "/api/uploadlevel";
 
-        Level level = new Level(map);
+        Level level = new Level();
         level.Solution = PlayerPrefs.GetString("HistoryList", "?");
 
 
@@ -194,33 +195,33 @@ public class CustomLevelManager : MonoBehaviour {
 
 
 
-    public void DownloadLevel(string key)
-    {
-        Debug.Log("Downloading");
-        string url = coreURL + "/api/download/" + key;
-        WWW www = new WWW(url);
-        StartCoroutine(WaitForDownload(www));
+    //public void DownloadLevel(string key)
+    //{
+    //    Debug.Log("Downloading");
+    //    string url = coreURL + "/api/download/" + key;
+    //    WWW www = new WWW(url);
+    //    StartCoroutine(WaitForDownload(www));
         
 
-    }
-    IEnumerator WaitForDownload(WWW www)
-    {
-        yield return www;
+    //}
+    //IEnumerator WaitForDownload(WWW www)
+    //{
+    //    yield return www;
 
-        // check for errors
-        if (www.error == null)
-        {
-            Level level = Common.DecompressAndDecodeLevel(www.bytes);
-            Map map = Common.DecodeMap(level.Version, level.Data);
-            map.onlineKey = level.key;
-            FileManager.SaveDownloadedToFile("downloads", map);
-            Debug.Log("done saving");
-        }
-        else
-        {
-            Debug.Log("WWW Error: " + www.error);
-        }
-    }
+    //    // check for errors
+    //    if (www.error == null)
+    //    {
+    //        Level level = Common.DecompressAndDecodeLevel(www.bytes);
+    //        Map map = Common.DecodeMap(level.Version, level.Data);
+    //        map.onlineKey = level.key;
+    //        FileManager.SaveDownloadedToFile("downloads", map);
+    //        Debug.Log("done saving");
+    //    }
+    //    else
+    //    {
+    //        Debug.Log("WWW Error: " + www.error);
+    //    }
+    //}
 
 
 

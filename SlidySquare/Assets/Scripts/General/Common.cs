@@ -51,11 +51,11 @@ namespace Assets.Scripts
             return new Color32(r, g, b, 255);
         }
 
-        internal static string ConvertEncode(Map map)
-        {
-            var mapData = JsonUtility.ToJson(map);
-            return Convert.ToBase64String(Encoding.ASCII.GetBytes(mapData));
-        }
+        //internal static string ConvertEncode(Map map)
+        //{
+        //    var mapData = JsonUtility.ToJson(map);
+        //    return Convert.ToBase64String(Encoding.ASCII.GetBytes(mapData));
+        //}
 
         public static byte[] Compress(byte[] data)
         {
@@ -98,18 +98,18 @@ namespace Assets.Scripts
             return JsonUtility.FromJson<Level>(Encoding.ASCII.GetString(Common.Decompress(data)));
         }
 
-        internal static Map DecodeMap(int version, string data)
-        {
-            if(version == 1)
-            {
-                return JsonUtility.FromJson<Map>(Encoding.ASCII.GetString((Convert.FromBase64String(data))));
-            }
-            else
-            {
-                Debug.Log("Invalid version");
-                return null;
-            }
-        }
+        //internal static Map DecodeMap(int version, string data)
+        //{
+        //    if(version == 1)
+        //    {
+        //        return JsonUtility.FromJson<Map>(Encoding.ASCII.GetString((Convert.FromBase64String(data))));
+        //    }
+        //    else
+        //    {
+        //        Debug.Log("Invalid version");
+        //        return null;
+        //    }
+        //}
 
         internal static byte [] CompressAndEncodeLevel(Level level)
         {

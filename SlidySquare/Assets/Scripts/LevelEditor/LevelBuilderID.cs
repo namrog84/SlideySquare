@@ -1,16 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
-using Assets.Scripts;
 using Assets.Scripts.Gameplay;
+
 namespace LevelBuilderNameSpace
 {
     public class LevelBuilderID : MonoBehaviour
     {
         public Tile.TileType ThisTile;
         public static LevelBuilderID currentSelected;
-        public static Tile.TileType selectedTile;
 
+        //public static LevelBuilderID currentSelected;
+        public static Tile.TileType selectedTile;
 
         public void ClickMe()
         {

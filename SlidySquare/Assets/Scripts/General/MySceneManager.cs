@@ -1,11 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Assets.Scripts;
+using UnityEngine.SceneManagement;
 
+
+[RequireComponent(typeof(SceneFadeInOut))]
 public class MySceneManager : MonoBehaviour {
+
+    public void Start()
+    {
+        sceneFader = GetComponent<SceneFadeInOut>();
+        sceneFader.FinishedFade += OnFinishedLoadScene;
+    }
+
 
     private string nextSceneName;
     private bool isLevelExiting = false;
+    private SceneFadeInOut sceneFader;
 
     public void RateUsClick()
     {
@@ -15,8 +26,6 @@ public class MySceneManager : MonoBehaviour {
             Application.OpenURL("itms-apps://itunes.apple.com/app/idYOUR_ID");
 #endif
     }
-
-    
 
 
     public void PlayAd()
@@ -53,7 +62,23 @@ public class MySceneManager : MonoBehaviour {
         LoadLevel("About");
     }
 
-   
+    public void LoadToDynamicScene()
+    {
+        LoadLevel("DynamicLevel");
+    }
+    public void ReloadCurrentLevel()
+    {
+        LoadLevel(SceneManager.GetActiveScene().name);
+    }
+
+    public void SkipToNextCampaignLevel()
+    {
+        AdManager.Skipped = true;
+        PlayerPrefs.SetInt("CurrentLevel", 1 + PlayerPrefs.GetInt("CurrentLevel"));
+        PlayerPrefs.Save();
+        LoadLevel("DynamicLevel");
+    }
+
 
     private void LoadLevel(string name)
     {
@@ -61,32 +86,27 @@ public class MySceneManager : MonoBehaviour {
         PlayerPrefs.Save();
 
         nextSceneName = name;
-        Time.timeScale = 1.0f; //just incase something has paused, lets unpause!
+        Time.timeScale = 1.0f; //just in case something has paused, lets unpause!
         if (!isLevelExiting)
         {
             isLevelExiting = true;
-            StartCoroutine(LevelSelect());
+            sceneFader.StartSceneFadeOut();
         }
     }
 
-    private IEnumerator LevelSelect()
+    public void OnFinishedLoadScene()
     {
-        var fader = GameObject.Find("SceneFader");
-        fader.GetComponent<SceneFadeInOut>().fadeDir *= -1;
-        fader.GetComponent<SceneFadeInOut>().startTime = 0;
-        yield return new WaitForEndOfFrame();
-
-        fader.GetComponent<SceneFadeInOut>().FinishedFade += Finished;
+        Time.timeScale = 1;
+        if (SceneManager.GetSceneByName(nextSceneName).IsValid())
+        {
+            SceneManager.LoadScene(nextSceneName);
+        }
+        else
+        {
+            Debug.Log("Error Loading scene");
+            SceneManager.LoadScene("introScene");
+        }
     }
-
-    private void Finished()
-    {
-#pragma warning disable 0618
-        Application.LoadLevel(nextSceneName);
-#pragma warning restore 0618
-
-    }
-
 
 
 }

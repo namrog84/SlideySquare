@@ -9,6 +9,7 @@ using System.Runtime.Serialization;
 using Unity.IO.Compression;
 using Assets.Scripts;
 using Assets.Scripts.Gameplay;
+using UnityEngine.SceneManagement;
 
 namespace LevelBuilderNameSpace
 {
@@ -79,8 +80,9 @@ namespace LevelBuilderNameSpace
             GameCore.CustomLevel = true;
             GameCore.LevelNameToLoad = currentBoard.name;
 
-
-            StartCoroutine(SceneFadeInOut.LoadToDynamicScene());
+            //TODO cache or singleton it up?
+            FindObjectOfType<MySceneManager>().LoadToDynamicScene();
+            
         }
 
 

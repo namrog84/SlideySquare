@@ -1,24 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
+using UnityEngine.SceneManagement;
 
 public class SceneFadeInOut : MonoBehaviour {
 
+    public  void StartSceneFadeOut()
+    {
+        fadeDir *= -1;
+        startTime = 0;
+    }
 
-    public static IEnumerator LoadToDynamicScene()
-    {
-        var fader = GameObject.Find("SceneFader");
-        fader.GetComponent<SceneFadeInOut>().fadeDir *= -1;
-        fader.GetComponent<SceneFadeInOut>().startTime = 0;
-        yield return new WaitForEndOfFrame();
-        fader.GetComponent<SceneFadeInOut>().FinishedFade += LoadDynamicSceneOnFinished;
-    }
-    private static void LoadDynamicSceneOnFinished()
-    {
-        Time.timeScale = 1;
-#pragma warning disable 0618
-        Application.LoadLevel(4);
-#pragma warning restore 0618
-    }
 
 
 
@@ -56,7 +48,7 @@ public class SceneFadeInOut : MonoBehaviour {
         {
             for (int j = 0; j < hei; j++)
             {
-                gridStartTime[i, j] = Random.Range(0.5f, 1.1f); //till start of fade
+                gridStartTime[i, j] = UnityEngine.Random.Range(0.5f, 1.1f); //till start of fade
                 alphas[i, j] = 1.0f;
                 //gridFadeRate[i,j] =  // unused fade rate
             }
