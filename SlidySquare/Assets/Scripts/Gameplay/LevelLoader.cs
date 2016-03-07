@@ -86,7 +86,6 @@ public class LevelLoader : MonoBehaviour {
         {
             Camera.main.transform.position += new Vector3(-0.5f, 0.0f);
         }
-        Debug.Log(board.name);
         //Debug.Log("Creating");
         //Debug.Log(_width + " " + _height);
         //scan tile data layer

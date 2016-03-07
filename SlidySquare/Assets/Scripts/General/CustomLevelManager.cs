@@ -48,13 +48,25 @@ public class CustomLevelManager : MonoBehaviour {
         TheList.Clear();
 
         var filenames = FileManager.GetSavedLevelNames();
-        foreach (var file in filenames)
+        BoardBank.LoadFromFile();
+
+        foreach (var board in BoardBank.boards)
         {
             //Debug.Log(file);
             var item = Instantiate(MyLevelGUIItem);
             item.transform.SetParent(ContentList.transform);
-            item.GetComponentInChildren<Text>().text = file.TrimEnd('.');
-            item.GetComponent<LevelGUISelector>().filename = file;
+            item.GetComponentInChildren<Text>().text = board.name;// file.TrimEnd('.');
+            item.GetComponent<LevelGUISelector>().filename = board.name;
+            var images = item.GetComponentsInChildren<Image>();
+            foreach(var image in images)
+            {
+                if(image.name == "preview")
+                {
+                image.sprite = board.GetSprite();
+
+                }
+            }
+            
             TheList.Add(item);
         }
     }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -12,8 +13,74 @@ namespace Assets.Scripts.Gameplay
         public GameBoard()
         {
             CreateRandomThumbnail();
-            
         }
+
+        public Sprite GetSprite()
+        {
+            //UpdateThumbnail();
+            var tex = new Texture2D(4*width, 4 * height);
+            tex.filterMode = FilterMode.Point;
+            tex.LoadImage(pngImage);
+            return Sprite.Create(tex, new Rect(0, 0, width, height), Vector2.zero);
+        }
+
+        public void UpdateThumbnail()
+        {
+
+            Texture2D thumbnail = new Texture2D(width, height, TextureFormat.ARGB32, false);
+            thumbnail.filterMode = FilterMode.Bilinear;
+
+            for (int i = 0; i < width; i++)
+            {
+                for (int k = 0; k < height; k++)
+                {
+                    var type = GetTile(i, k).type;
+                    int j = height - k - 1;
+                    if (type == Tile.TileType.Player)
+                    {
+                        thumbnail.SetPixel(i, j, Common.HexToColor("E60C0BFF"));
+                    }
+                    else if (type == Tile.TileType.Wall)
+                    {
+                        thumbnail.SetPixel(i, j, Common.HexToColor("94A5A5FF"));
+                    }
+                    else if (type == Tile.TileType.OrangeWall)
+                            thumbnail.SetPixel(i, j, Common.HexToColor("E77D21FF"));
+                    else if (type == Tile.TileType.PurpleBlock)
+                            thumbnail.SetPixel(i, j, Common.HexToColor("8F44ADFF"));
+                    else if (type == Tile.TileType.TurnOnWall)
+                            thumbnail.SetPixel(i, j, Common.HexToColor("16A184FF"));
+                    else if (type == Tile.TileType.Teleporter)
+                            thumbnail.SetPixel(i, j, Common.HexToColor("3499DCFF"));
+                    else if (type == Tile.TileType.BlueBlock)
+                            thumbnail.SetPixel(i, j, Common.HexToColor("2980BBFF"));
+                    else if (type == Tile.TileType.Goal)
+                            thumbnail.SetPixel(i, j, Common.HexToColor("26AE60FF"));
+                    else if (type == Tile.TileType.TurnDown || type == Tile.TileType.TurnLeft || type == Tile.TileType.TurnRight || type == Tile.TileType.TurnUp
+                    || type == Tile.TileType.TurnLeftDown || type == Tile.TileType.TurnLeftUp
+                    || type == Tile.TileType.TurnRightUp || type == Tile.TileType.TurnRightDown)
+                    {
+                        thumbnail.SetPixel(i, j, Common.HexToColor("E74C3CFF"));
+                    }
+                    else if (type == Tile.TileType.Gold)
+                            thumbnail.SetPixel(i, j, Common.HexToColor("F2C410FF"));
+                    else if (type == Tile.TileType.None)
+                    {
+
+                        thumbnail.SetPixel(i, j, new Color(0, 0, 0, 0));
+                    }
+                    else
+                    {
+                        thumbnail.SetPixel(i, j, new Color(0,0,0,0));
+                    }
+                }
+            }
+
+            thumbnail.Apply();
+            pngImage = thumbnail.EncodeToPNG();
+
+        }
+
 
         private void CreateRandomThumbnail()
         {
@@ -95,7 +162,6 @@ namespace Assets.Scripts.Gameplay
             {
                 return new Tile(); //empty tile
             }
-            Debug.Log(x + " " + y + " " + Board[key].type);
             return Board[key];
         }
 

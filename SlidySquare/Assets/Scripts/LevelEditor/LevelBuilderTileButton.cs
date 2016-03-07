@@ -115,7 +115,6 @@ public class LevelBuilderTileButton : MonoBehaviour {
             }
         }
 
-        Debug.Log(location);
         var tile = GameCore.currentBoard.GetTile(location);
         tile.type = type;
         GameCore.currentBoard.SetTile(location, tile);

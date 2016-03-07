@@ -142,11 +142,17 @@ namespace LevelBuilderNameSpace
             //int tempTileY = j / GameCore.currentBoard.height;
             //GameCore.currentBoard.SetTile(tempTileX, tempTileY, tileButton.tile);
             //}
+            GameCore.currentBoard.name = GameObject.FindGameObjectWithTag("InputField").GetComponent<Text>().text;
+
             if(GameCore.currentBoard.name == null || GameCore.currentBoard.name == "")
             {
                 GameCore.currentBoard.name = "BeepBoop" + UnityEngine.Random.Range(1, 100); ;
             }
+            GameCore.currentBoard.UpdateThumbnail();
             //FileManager.SaveBoardToFile(GameCore.currentBoard);
+            BoardBank.LoadFromFile();
+            BoardBank.boards.Add(GameCore.currentBoard);
+            BoardBank.SaveToFile();
         }
 
         public void LoadLevel()
