@@ -15,6 +15,14 @@ namespace Assets.Scripts.Gameplay
             
         }
 
+        //public Texture2D GetTextureThumbnail()
+        //{
+        //    var tex = new Texture2D(1, 1);
+        //    tex.LoadImage(pngImage);
+        //    return tex;
+        //}
+
+
         private void CreateRandomThumbnail()
         {
             //setup default thumbnail
@@ -24,6 +32,7 @@ namespace Assets.Scripts.Gameplay
             thumbnail.Apply();
 
             pngImage = thumbnail.EncodeToPNG();
+
         }
 
         private void generateRandomTexture(Texture2D texture)

@@ -133,7 +133,7 @@ namespace LevelBuilderNameSpace
 
         public void SaveLevel()
         {
-            //no longer needed becaue we always keep it up to date now?
+            //no longer needed because we always keep it up to date now?
             //for (int j = 0; j < TheBoardOfButtons.Count; j++)
             //{
             //var tileButton = TheBoardOfButtons[j].GetComponent<LevelBuilderTileButton>();
@@ -146,6 +146,8 @@ namespace LevelBuilderNameSpace
             {
                 GameCore.currentBoard.name = "BeepBoop" + UnityEngine.Random.Range(1, 100); ;
             }
+           // BoardBank.boards.Add(GameCore.currentBoard);
+            //BoardBank.SaveToFile();
             //FileManager.SaveBoardToFile(GameCore.currentBoard);
         }
 
@@ -177,7 +179,7 @@ namespace LevelBuilderNameSpace
 
         public void RefreshBoard()
         {
-            //move to inside gameboard?
+            //move to inside game board?
             GameCore.currentBoard.width = Mathf.Clamp(GameCore.currentBoard.width, 4, gameBoardMaxWidth);
             GameCore.currentBoard.height = Mathf.Clamp(GameCore.currentBoard.height, 4, gameBoardMaxHeight);
 
