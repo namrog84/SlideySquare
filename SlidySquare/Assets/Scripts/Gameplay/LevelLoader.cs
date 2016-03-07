@@ -36,8 +36,9 @@ public class LevelLoader : MonoBehaviour {
         //HitWall.HitWallCount = GameObject.FindGameObjectsWithTag("HitWall").Length;
         offset = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, 0);
 
-
-        if(GameCore.PlayingLevelFromEditor)
+        Debug.Log(GameCore.currentBoard.name);
+        
+       // if(GameCore.PlayingLevelFromEditor)
         {
             StartCoroutine(LoadCurrentLevel());
 

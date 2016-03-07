@@ -14,6 +14,10 @@ public class BoardBank : MonoBehaviour
     {
         var path = Application.persistentDataPath + "/board.vault";
 
+        if(!File.Exists(path))
+        {
+            return;
+        }
         // Creates serializer.
         var serializer = SerializationContext.Default.GetSerializer<List<GameBoard>>();
         using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))

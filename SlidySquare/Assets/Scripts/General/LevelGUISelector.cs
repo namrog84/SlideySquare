@@ -62,11 +62,15 @@ public class LevelGUISelector : MonoBehaviour {
         }
 
         PlayerPrefs.SetInt("CurrentLevel", -3); // -3 is for custom level I guess? 
+        
 
         PlayerPrefs.SetString("LevelName", filename);
         PlayerPrefs.Save();
-        LevelToLoad = 4;
-        StartCoroutine(LoadOut());
+        GameCore.currentBoard = BoardBank.boards.Find(x => x.name == filename);
+
+        Debug.Log(GameCore.currentBoard.Board[0].type);
+        Debug.Log(GameCore.currentBoard.Board[1].type);
+        FindObjectOfType<MySceneManager>().LoadToDynamicScene();
     }
 
 
@@ -82,30 +86,8 @@ public class LevelGUISelector : MonoBehaviour {
         PlayerPrefs.SetInt("CurrentLevel", -3); // -3 is for custom level I guess? 
         PlayerPrefs.SetString("LevelName", filename);
         PlayerPrefs.Save();
-        LevelToLoad = 6;
-        StartCoroutine(LoadOut());
+        FindObjectOfType<MySceneManager>().GoToLevelEditor();
     }
-
-    private IEnumerator LoadOut()
-    {
-        var fader = GameObject.Find("SceneFader");
-        fader.GetComponent<SceneFadeInOut>().fadeDir *= -1;
-        fader.GetComponent<SceneFadeInOut>().startTime = 0;
-        yield return new WaitForEndOfFrame();
-        fader.GetComponent<SceneFadeInOut>().FinishedFade += LoadLevelOnFinished;
-    }
-
-    public int LevelToLoad = 4;
-    void LoadLevelOnFinished()
-    {
-        Time.timeScale = 1;
-#pragma warning disable 0618
-        Application.LoadLevel(LevelToLoad);
-#pragma warning restore 0618
-        //Application.LoadLevel(Application.loadedLevel);
-    }
-
-
 
 
 

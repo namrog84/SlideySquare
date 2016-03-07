@@ -62,6 +62,7 @@ namespace LevelBuilderNameSpace
                     TheBoardOfButtons.Add(temp);
                 }
             }
+
             RefreshBoard();
 
             //Are we loading or making new?
@@ -183,6 +184,10 @@ namespace LevelBuilderNameSpace
 
         public void RefreshBoard()
         {
+            if(GameCore.currentBoard == null)
+            {
+                GameCore.currentBoard = new GameBoard();
+            }
             //move to inside gameboard?
             GameCore.currentBoard.width = Mathf.Clamp(GameCore.currentBoard.width, 4, gameBoardMaxWidth);
             GameCore.currentBoard.height = Mathf.Clamp(GameCore.currentBoard.height, 4, gameBoardMaxHeight);
