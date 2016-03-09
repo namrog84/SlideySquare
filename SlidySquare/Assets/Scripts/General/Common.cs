@@ -16,7 +16,7 @@ namespace Assets.Scripts
         public static bool PlayingLevelFromEditor = false; //show 'upload after completion'
         public static bool isDownloaded = false; //yes to show vote
 
-        public static GameBoard currentBoard; // saves current/last map;
+        public static GameBoard currentBoard; // saves current/last map; 
         public static int currentLevel; // to keep track of progress or something? 
         public static string LevelNameToLoad;
         public static bool CustomLevel;

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Assets.Scripts.Gameplay;
 using MsgPack.Serialization;
 using System.IO;
+using Assets.Scripts;
 
 public class BoardBank : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class BoardBank : MonoBehaviour
 
     public static void LoadFromFile()
     {
-        var path = Application.persistentDataPath + "/board.vault";
+        var path = GameCore.PersistentPath+ "/board.vault";
 
         if(!File.Exists(path))
         {
@@ -29,7 +30,7 @@ public class BoardBank : MonoBehaviour
 
     public static void SaveToFile()
     {
-        var path = Application.persistentDataPath + "/board.vault";
+        var path = GameCore.PersistentPath + "/board.vault";
 
         // Creates serializer.
         var serializer = SerializationContext.Default.GetSerializer<List<GameBoard>>();
