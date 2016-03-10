@@ -4,6 +4,8 @@ using Assets.Scripts;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System;
+using UnityEngine.UI;
+using DG.Tweening;
 
 public class LevelGUISelector : MonoBehaviour {
 
@@ -33,11 +35,76 @@ public class LevelGUISelector : MonoBehaviour {
     public static int DOWNLOADED_LEVEL = -4;
 
 
+    private GameObject popupDeletePanel;
+    private GameObject backgroundPanel;
+    private GameObject DeleteButton;
+
+    
+
+    public void CancelDeleteCustomCurrentLevel()
+    {
+        backgroundPanel = GameObject.Find("backgroundPanel");
+        DeleteButton = GameObject.Find("TrueDeleteButton");
+        popupDeletePanel = GameObject.Find("DeleteConfirmPopUpPanel");
+        if (backgroundPanel != null)
+        {
+            backgroundPanel.GetComponent<Image>().enabled = false;
+        }
+        popupDeletePanel.transform.DOMove(popupDeletePanel.transform.position + new Vector3(0, -1500, 0), .3f).SetUpdate(true);
+        DeleteButton.GetComponent<Button>().onClick.RemoveAllListeners();
+        FileToDelete = "";
+    }
+    
+
     public void DeleteCustomCurrentLevel()
     {
-        FileManager.Delete("custom", filename);
-        Destroy(gameObject);
+
+        backgroundPanel = GameObject.Find("backgroundPanel");
+        DeleteButton = GameObject.Find("TrueDeleteButton");
+        popupDeletePanel = GameObject.Find("DeleteConfirmPopUpPanel");
+        
+            
+        GameObject.Find("LevelNameToBeDeleted").GetComponent<Text>().text = filename;
+
+        if (backgroundPanel != null)
+        {
+            backgroundPanel.GetComponent<Image>().enabled = true;
+        }
+        if(popupDeletePanel == null)
+        {
+            Debug.Log("No Delete Panel!");
+        }
+        if (DeleteButton == null)
+        {
+            Debug.Log("No DeleteButton!");
+        }
+        if (backgroundPanel == null)
+        {
+            Debug.Log("No backgroundPanel!");
+        }
+        popupDeletePanel.transform.DOMove(backgroundPanel.transform.position, .3f).SetUpdate(true);
+        FileToDelete = filename;
+        DeleteButton.GetComponent<Button>().onClick.AddListener(() => { ActuallyDeleteLevel(); });
     }
+    public static string FileToDelete = "";
+
+    private void ActuallyDeleteLevel()
+    {
+        if (FileToDelete == "")
+        {
+        }
+        else
+        {
+            FileManager.Delete("custom", FileToDelete);
+            DeleteButton.GetComponent<Button>().onClick.RemoveAllListeners();
+            Destroy(gameObject);
+        }
+        CancelDeleteCustomCurrentLevel();
+        
+    }
+
+
+
     public void DeleteDownloadedCurrentLevel()
     {
         FileManager.Delete("downloads", filename);
