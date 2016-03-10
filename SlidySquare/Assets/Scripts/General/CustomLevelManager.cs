@@ -23,6 +23,7 @@ public class CustomLevelManager : MonoBehaviour {
         public List<string> levelNames = new List<string>();
         public List<int> levelIds = new List<int>();
     }
+    public GameObject LoadingShieldForOnline;
 
 
     // Use this for initialization
@@ -96,6 +97,7 @@ public class CustomLevelManager : MonoBehaviour {
 
     public void MostDownloadedLevels()
     {
+        LoadingShieldForOnline.SetActive(true);
         TurnOnLocalChoices(false);
         foreach (var item in TheList)
         {
@@ -110,6 +112,7 @@ public class CustomLevelManager : MonoBehaviour {
 
     public void NewestLevels()
     {
+        LoadingShieldForOnline.SetActive(true);
         TurnOnLocalChoices(false);
         foreach (var item in TheList)
         {
@@ -123,6 +126,7 @@ public class CustomLevelManager : MonoBehaviour {
     }
     public void HighestRatedLevels()
     {
+        LoadingShieldForOnline.SetActive(true);
         TurnOnLocalChoices(false);
         foreach (var item in TheList)
         {
@@ -137,6 +141,7 @@ public class CustomLevelManager : MonoBehaviour {
 
     public void OnlineLevels()
     {
+        LoadingShieldForOnline.SetActive(true);
         TurnOnLocalChoices(false);
         foreach (var item in TheList)
         {
@@ -151,11 +156,11 @@ public class CustomLevelManager : MonoBehaviour {
     IEnumerator WaitForOnlineLevel(WWW www)
     {
         yield return www;
-
+        LoadingShieldForOnline.SetActive(false);
         // check for errors
         if (www.error == null)
         {
-            Debug.Log(www.text);
+            //Debug.Log(www.text);
             var MyList = (LevelList)JsonUtility.FromJson(www.text, typeof(LevelList));
             for (int i = 0; i < MyList.levelNames.Count; i++)
             {
