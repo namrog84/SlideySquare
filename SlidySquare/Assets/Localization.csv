@@ -1,0 +1,10 @@
+﻿Key,Type,Desc,English,Spanish,German,French,Portuguese,Italian,Japanese,Korean,Dutch,Chinese
+OFFLINE,Text,,OFFLINE,[i2auto]DESCONECTADO,[i2auto]OFFLINE,[i2auto]HORS LIGNE,[i2auto]OFF-LINE,[i2auto]DISCONNESSO,[i2auto]オフライン,[i2auto]오프라인,[i2auto]OFFLINE,[i2auto]当前离线
+ONLINE,Text,,ONLINE,[i2auto]EN LÍNEA,[i2auto]ONLINE,[i2auto]EN LIGNE,[i2auto]CONECTADOS,[i2auto]ON-LINE,[i2auto]オンライン,[i2auto]온라인으로,[i2auto]ONLINE,[i2auto]线上
+MY LEVELS,Text,,MY LEVELS,[i2auto]MIS NIVELES,[i2auto]MEINE EBENEN,[i2auto]MES NIVEAUX,[i2auto]MEUS NÍVEIS,[i2auto]I MIEI LIVELLI,[i2auto]私のレベル,[i2auto]내 수준,[i2auto]MIJN NIVEAU,[i2auto]我的等级
+DOWNLOADED,Text,,DOWNLOADED,[i2auto]DESCARGADO,[i2auto]HERUNTERGELADEN,[i2auto]TÉLÉCHARGÉ,[i2auto]BAIXADO,[i2auto]SCARICATO,[i2auto]ダウンロード,[i2auto]다운로드,[i2auto]GEDOWNLOAD,[i2auto]下载
+PLAY,Text,,PLAY,[i2auto]JUGAR,[i2auto]SPIELEN,[i2auto]JOUER,[i2auto]TOQUE,[i2auto]GIOCARE,[i2auto]遊びます,[i2auto]놀이,[i2auto]SPELEN,[i2auto]玩
+EDIT,Text,,EDIT,[i2auto]EDITAR,[i2auto]BEARBEITEN,[i2auto]MODIFIER,[i2auto]EDITAR,[i2auto]MODIFICA,[i2auto]編集,[i2auto]편집하다,[i2auto]BEWERK,[i2auto]编辑
+Background,Text,,Level Selector!,,,,,,,,,
+Level Selector,Text,,Level Selector!,[i2auto]Selector De Nivel!,[i2auto]Pegelwahl!,[i2auto]Sélecteur De Niveau!,[i2auto]Selector De Nível!,[i2auto]Selettore Di Livello!,[i2auto]レベル選択！,[i2auto]레벨 선택!,[i2auto]Niveau Selector!,[i2auto]电平选择！
+CREATE NEW,Text,,CREATE NEW LEVEL,[i2auto]CREAR NUEVO NIVEL,[i2auto]SCHAFFEN NEUE EBENE,[i2auto]CRÉER UN NOUVEAU NIVEAU,[i2auto]CRIAR NOVO NÍVEL,[i2auto]CREARE NUOVO LIVELLO,[i2auto]新しいレベルを作成します,[i2auto]새로운 레벨을 작성,[i2auto]HET CREËREN VAN NIEUWE LEVEL,[i2auto]创造新的水平
