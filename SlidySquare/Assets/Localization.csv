@@ -1,10 +1,81 @@
-﻿Key,Type,Desc,English,Spanish,German,French,Portuguese,Italian,Japanese,Korean,Dutch,Chinese
-OFFLINE,Text,,OFFLINE,[i2auto]DESCONECTADO,[i2auto]OFFLINE,[i2auto]HORS LIGNE,[i2auto]OFF-LINE,[i2auto]DISCONNESSO,[i2auto]オフライン,[i2auto]오프라인,[i2auto]OFFLINE,[i2auto]当前离线
-ONLINE,Text,,ONLINE,[i2auto]EN LÍNEA,[i2auto]ONLINE,[i2auto]EN LIGNE,[i2auto]CONECTADOS,[i2auto]ON-LINE,[i2auto]オンライン,[i2auto]온라인으로,[i2auto]ONLINE,[i2auto]线上
-MY LEVELS,Text,,MY LEVELS,[i2auto]MIS NIVELES,[i2auto]MEINE EBENEN,[i2auto]MES NIVEAUX,[i2auto]MEUS NÍVEIS,[i2auto]I MIEI LIVELLI,[i2auto]私のレベル,[i2auto]내 수준,[i2auto]MIJN NIVEAU,[i2auto]我的等级
-DOWNLOADED,Text,,DOWNLOADED,[i2auto]DESCARGADO,[i2auto]HERUNTERGELADEN,[i2auto]TÉLÉCHARGÉ,[i2auto]BAIXADO,[i2auto]SCARICATO,[i2auto]ダウンロード,[i2auto]다운로드,[i2auto]GEDOWNLOAD,[i2auto]下载
-PLAY,Text,,PLAY,[i2auto]JUGAR,[i2auto]SPIELEN,[i2auto]JOUER,[i2auto]TOQUE,[i2auto]GIOCARE,[i2auto]遊びます,[i2auto]놀이,[i2auto]SPELEN,[i2auto]玩
-EDIT,Text,,EDIT,[i2auto]EDITAR,[i2auto]BEARBEITEN,[i2auto]MODIFIER,[i2auto]EDITAR,[i2auto]MODIFICA,[i2auto]編集,[i2auto]편집하다,[i2auto]BEWERK,[i2auto]编辑
-Background,Text,,Level Selector!,,,,,,,,,
-Level Selector,Text,,Level Selector!,[i2auto]Selector De Nivel!,[i2auto]Pegelwahl!,[i2auto]Sélecteur De Niveau!,[i2auto]Selector De Nível!,[i2auto]Selettore Di Livello!,[i2auto]レベル選択！,[i2auto]레벨 선택!,[i2auto]Niveau Selector!,[i2auto]电平选择！
-CREATE NEW,Text,,CREATE NEW LEVEL,[i2auto]CREAR NUEVO NIVEL,[i2auto]SCHAFFEN NEUE EBENE,[i2auto]CRÉER UN NOUVEAU NIVEAU,[i2auto]CRIAR NOVO NÍVEL,[i2auto]CREARE NUOVO LIVELLO,[i2auto]新しいレベルを作成します,[i2auto]새로운 레벨을 작성,[i2auto]HET CREËREN VAN NIEUWE LEVEL,[i2auto]创造新的水平
+﻿Key	Type	Desc	English	Spanish	German	French	Portuguese	Italian	Japanese	Korean	Dutch	Chinese
+OFFLINE	Text		OFFLINE	[i2auto]DESCONECTADO	[i2auto]OFFLINE	[i2auto]HORS LIGNE	[i2auto]OFF-LINE	[i2auto]DISCONNESSO	[i2auto]オフライン	[i2auto]오프라인	[i2auto]OFFLINE	[i2auto]当前离线
+ONLINE	Text		ONLINE	[i2auto]EN LÍNEA	[i2auto]ONLINE	[i2auto]EN LIGNE	[i2auto]CONECTADOS	[i2auto]ON-LINE	[i2auto]オンライン	[i2auto]온라인으로	[i2auto]ONLINE	[i2auto]线上
+MY LEVELS	Text		MY LEVELS	[i2auto]MIS NIVELES	[i2auto]MEINE EBENEN	[i2auto]MES NIVEAUX	[i2auto]MEUS NÍVEIS	[i2auto]I MIEI LIVELLI	[i2auto]私のレベル	[i2auto]내 수준	[i2auto]MIJN NIVEAU	[i2auto]我的等级
+DOWNLOADED	Text		DOWNLOADED	[i2auto]DESCARGADO	[i2auto]HERUNTERGELADEN	[i2auto]TÉLÉCHARGÉ	[i2auto]BAIXADO	[i2auto]SCARICATO	[i2auto]ダウンロード	[i2auto]다운로드	[i2auto]GEDOWNLOAD	[i2auto]下载
+PLAY	Text		PLAY	[i2auto]JUGAR	[i2auto]SPIELEN	[i2auto]JOUER	[i2auto]TOQUE	[i2auto]GIOCARE	[i2auto]遊びます	[i2auto]놀이	[i2auto]SPELEN	[i2auto]玩
+EDIT	Text		EDIT	[i2auto]EDITAR	[i2auto]BEARBEITEN	[i2auto]MODIFIER	[i2auto]EDITAR	[i2auto]MODIFICA	[i2auto]編集	[i2auto]편집하다	[i2auto]BEWERK	[i2auto]编辑
+Background	Text		Level Selector!									
+Level Selector	Text		Level Selector!	[i2auto]Selector De Nivel!	[i2auto]Pegelwahl!	[i2auto]Sélecteur De Niveau!	[i2auto]Selector De Nível!	[i2auto]Selettore Di Livello!	[i2auto]レベル選択！	[i2auto]레벨 선택!	[i2auto]Niveau Selector!	[i2auto]电平选择！
+CREATE NEW	Text		CREATE NEW LEVEL	[i2auto]CREAR NUEVO NIVEL	[i2auto]SCHAFFEN NEUE EBENE	[i2auto]CRÉER UN NOUVEAU NIVEAU	[i2auto]CRIAR NOVO NÍVEL	[i2auto]CREARE NUOVO LIVELLO	[i2auto]新しいレベルを作成します	[i2auto]새로운 레벨을 작성	[i2auto]HET CREËREN VAN NIEUWE LEVEL	[i2auto]创造新的水平
+START	Text		START	[i2auto]COMIENZO	[i2auto]ANFANG	[i2auto]DÉMARRER	[i2auto]COMEÇAR	[i2auto]INIZIO	[i2auto]開始	[i2auto]스타트	[i2auto]BEGIN	[i2auto]开始
+About	Text		About	[i2auto]Acerca de	[i2auto]Etwa	[i2auto]Sur	[i2auto]Sobre	[i2auto]Di	[i2auto]約	[i2auto]약	[i2auto]Over	[i2auto]关于
+AboutDescription	Text		"This is Slidey Square!
+
+Made by Adam Gorman (namrog84)
+
+With assistance from Jim Bach (imdigitaljim)
+
+Special Thanks for playtesting: Teresa, Tom, & Andrew
+"	[i2auto]"esto es cuadrada slidey!
+
+Gorman hecha por Adam (namrog84)
+
+con la asistencia de bach jim (imdigitaljim)
+
+gracias especiales para las pruebas de juego: Teresa, tom,"	[i2auto]"dies ist slidey Platz!
+
+made by adam Gorman (namrog84)
+
+mit Hilfe von jim bach (imdigitaljim)
+
+Besonderer Dank für Spieltests: teresa, tom,"	[i2auto]"c'est carré slidey!
+
+faite par adam gorman (namrog84)
+
+avec l'aide de bach jim (imdigitaljim)
+
+remerciements spéciaux pour playtesting: teresa, tom,"	[i2auto]"este é quadrado slidey!
+
+feita por Gorman adam (namrog84)
+
+com a ajuda de bach jim (imdigitaljim)
+
+graças especiais para playtesting: teresa, tom,"	[i2auto]"questo è quadrata slidey!
+
+fatta da Adam Gorman (namrog84)
+
+con l'assistenza di bach jim (imdigitaljim)
+
+Un ringraziamento speciale per playtesting: Teresa, Tom,"	[i2auto]"これはslidey正方形であります！
+
+アダムゴーマン（namrog84）によって作られました
+
+ジム・バッハ（imdigitaljim）からの支援を受けて
+
+プレイテストのための特別な感謝：テレサ、トム、"	[i2auto]"이 slidey 광장입니다!
+
+아담의 고만 만든 (namrog84)
+
+짐 바흐의 지원과 (imdigitaljim)
+
+플레이 테스트에 대한 특별 감사 : 테레사, 톰,"	[i2auto]"dit is slidey plein!
+
+gemaakt door adam Gorman (namrog84)
+
+met hulp van jim bach (imdigitaljim)
+
+speciale dank voor playtesting: teresa, tom,"	[i2auto]"这是slidey不散！
+
+亚当·戈尔曼提出（namrog84）
+
+从吉姆·巴赫援助（imdigitaljim）
+
+对于游戏测试特别感谢：邓丽君，汤姆，"
+AboutSeconds	Text		Seconds Played: 	[i2auto]Segundos Jugados:	[i2auto]Sekunden Gespielt:	[i2auto]Secondes Jouées:	[i2auto]Segundos Jogado:	[i2auto]Secondi Effettuati:	[i2auto]秒が再生します：	[i2auto]초 재생 :	[i2auto]Seconden Gespeeld:	[i2auto]秒出场：
+GoldCollected	Text		Gold Collected: 	[i2auto]El Oro Recogido:	[i2auto]Gold Gesammelt:	[i2auto]Or Collectées:	[i2auto]Ouro Recolhidos:	[i2auto]Oro Raccolte:	[i2auto]金を収集します：	[i2auto]금 수집 :	[i2auto]Goud Verzameld:	[i2auto]黄金收集：
+LevelsCompleted	Text		Levels Completed: 	[i2auto]Niveles Pasados:	[i2auto]Ebenen Abgeschlossen:	[i2auto]Niveaux Complétés:	[i2auto]Níveis Completou:	[i2auto]Livelli Finiti:	[i2auto]完成レベル：	[i2auto]레벨을 완료 :	[i2auto]Afgeronde Niveaus:	[i2auto]级别完成：
+START CUSTOM	Text		START CUSTOM	[i2auto]INICIAR PERSONALIZADA	[i2auto]START BENUTZERDEFINIERTE	[i2auto]COMMENCER PERSONNALISÉ	[i2auto]INICIAR PERSONALIZADO	[i2auto]AVVIARE PERSONALIZZATO	[i2auto]カスタム開始	[i2auto]사용자 정의 시작	[i2auto]START OP MAAT	[i2auto]自启动
+RATE US	Text		RATE US	[i2auto]NOS CLASIFICARÍA	[i2auto]BEWERTEN SIE UNS	[i2auto]ÉVALUEZ NOUS	[i2auto]NOS AVALIE	[i2auto]TASSO DEGLI STATI UNITI	[i2auto]評価してください	[i2auto]우리 평가	[i2auto]BEOORDEEL ONS	[i2auto]我们评分
+PLAY AD	Text		PLAY AD	[i2auto]REPRODUCCIÓN DEL ANUNCIO	[i2auto]PLAY AD	[i2auto]JEU AD	[i2auto]AD JOGO	[i2auto]ANNUNCIO GIOCO	[i2auto]広告を再生	[i2auto]플레이 광고	[i2auto]PLAY AD	[i2auto]游戏广告
+SHARE	Text		SHARE	[i2auto]COMPARTIR	[i2auto]AKTIE	[i2auto]PARTAGER	[i2auto]COMPARTILHAR	[i2auto]CONDIVIDERE	[i2auto]シェア	[i2auto]몫	[i2auto]DELEN	[i2auto]分享

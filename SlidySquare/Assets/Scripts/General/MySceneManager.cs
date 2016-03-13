@@ -3,12 +3,16 @@ using System.Collections;
 using Assets.Scripts;
 using UnityEngine.SceneManagement;
 using System;
+using I2.Loc;
 
 [RequireComponent(typeof(SceneFadeInOut))]
 public class MySceneManager : MonoBehaviour {
 
     public void Start()
     {
+        LocalizationManager.CurrentLanguage = PlayerPrefs.GetString("Lang", "English");
+
+
         sceneFader = GetComponent<SceneFadeInOut>();
         if(sceneFader == null)
         {

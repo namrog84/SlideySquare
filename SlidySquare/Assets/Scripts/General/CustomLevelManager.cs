@@ -29,7 +29,7 @@ public class CustomLevelManager : MonoBehaviour {
     // Use this for initialization
     void Start () {
         GameCore.isDownloaded = false;
-        GameCore.PlayingLevelFromEditor = false;
+        GameCore.PlayingLevelFrom = GameCore.PlayingFromState.Custom;
 
         LocalLevels();
     }

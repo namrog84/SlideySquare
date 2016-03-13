@@ -13,7 +13,10 @@ namespace Assets.Scripts
     {
         public static string nextLevel = ""; // ??? 
         public static bool IsNewMap = true;
-        public static bool PlayingLevelFromEditor = false; //show 'upload after completion'
+
+        public enum PlayingFromState { Standard, Editor, Custom };
+        public static PlayingFromState PlayingLevelFrom;
+
         public static bool isDownloaded = false; //yes to show vote
 
         public static GameBoard currentBoard; // saves current/last map; 
@@ -22,6 +25,8 @@ namespace Assets.Scripts
         public static bool CustomLevel;
         internal static int CampaignLevelToLoad;
         internal static bool IsCampaign;
+
+        
 
         public static string LevelName { get; internal set; } // ?? whats this for? 
         public static string tempLevelName { get; internal set; }
