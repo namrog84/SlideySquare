@@ -17,7 +17,6 @@ public class CameraController : MonoBehaviour
     
     public void AdjustView()
     {
-        Debug.Log(UnitsHigh);
         s_baseOrthographicSize = Mathf.Round(UnitsHigh / 2) + 1.5f; //// (32.0f * UnitsHigh) / Screen.height;
         Camera.main.orthographicSize = s_baseOrthographicSize;
     }

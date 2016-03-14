@@ -17,7 +17,7 @@ public class CustomLevelManager : MonoBehaviour {
 
     public GameObject ContentList;
     public List<GameObject> TheList = new List<GameObject>();
-    private string coreURL = "http://ssapi-v2-2016.azurewebsites.net";
+    public static string coreURL { get { return "http://ssapi-v2-2016.azurewebsites.net"; } }
     public class LevelList
     {
         public List<string> levelNames = new List<string>();
@@ -212,33 +212,33 @@ public class CustomLevelManager : MonoBehaviour {
 
 
 
-    //public void DownloadLevel(string key)
-    //{
-    //    Debug.Log("Downloading");
-    //    string url = coreURL + "/api/download/" + key;
-    //    WWW www = new WWW(url);
-    //    StartCoroutine(WaitForDownload(www));
-        
+    public void DownloadLevel(string key)
+    {
+        Debug.Log("Downloading");
+        string url = coreURL + "/api/download/" + key;
+        WWW www = new WWW(url);
+        StartCoroutine(WaitForDownload(www));
 
-    //}
-    //IEnumerator WaitForDownload(WWW www)
-    //{
-    //    yield return www;
+    }
+    IEnumerator WaitForDownload(WWW www)
+    {
+        yield return www;
 
-    //    // check for errors
-    //    if (www.error == null)
-    //    {
-    //        Level level = Common.DecompressAndDecodeLevel(www.bytes);
-    //        Map map = Common.DecodeMap(level.Version, level.Data);
-    //        map.onlineKey = level.key;
-    //        FileManager.SaveDownloadedToFile("downloads", map);
-    //        Debug.Log("done saving");
-    //    }
-    //    else
-    //    {
-    //        Debug.Log("WWW Error: " + www.error);
-    //    }
-    //}
+        // check for errors
+        if (www.error == null)
+        {
+            //Boardlevel = Common.DecompressAndDecodeLevel(www.bytes);
+            //Map map = Common.DecodeMap(level.Version, level.Data);
+            //map.onlineKey = level.key;
+            //FileManager.SaveDownloadedToFile("downloads", map);
+
+            Debug.Log("done saving");
+        }
+        else
+        {
+            Debug.Log("WWW Error: " + www.error);
+        }
+    }
 
 
 

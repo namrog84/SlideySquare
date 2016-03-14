@@ -29,6 +29,7 @@ public class LevelGUISelector : MonoBehaviour {
 
     GameObject levelmanager;
     public string filename;
+    public string key;
 
     public CustomLevelManager customLevelManagerObject;
     public static int MY_CUSTOM_LEVEL = -3;
@@ -111,18 +112,27 @@ public class LevelGUISelector : MonoBehaviour {
         Destroy(gameObject);
     }
 
-    //public void DownloadLevel()
-    //{
-    //    if(customLevelManagerObject == null)
-    //    {
-    //        customLevelManagerObject = FindObjectOfType<CustomLevelManager>();
-    //    }
-    //    customLevelManagerObject.DownloadLevel(filename);
-    //}
+    public void DownloadLevel()
+    {
+        int downloadedLevels = PlayerPrefs.GetInt("DownloadedLevels", 0);
+        downloadedLevels++;
+        PlayerPrefs.SetInt("DownloadedLevels", downloadedLevels);
+
+
+        if (customLevelManagerObject == null)
+        {
+            customLevelManagerObject = FindObjectOfType<CustomLevelManager>();
+        }
+        customLevelManagerObject.DownloadLevel(key);
+    }
 
 
     public void PlayCurrentLevel()
     {
+        int playedcustom = PlayerPrefs.GetInt("PlayedCustomLevel", 0);
+        playedcustom++;
+        PlayerPrefs.SetInt("PlayedCustomLevel", playedcustom);
+
         if (filename.Contains("downloaded"))
         {
             GameCore.isDownloaded = true;

@@ -188,12 +188,12 @@ public class PlayerMove : MonoBehaviour
             return;
         }
         //yes you can move
-        if (isMoving)
+        if (!isMoving)
         {
-
-            return;
+            CenterOnTile();
+            //  return;
         }
-        CenterOnTile();
+       
         //you are not currently moving;
 
         bool left = Input.GetKeyDown(KeyCode.A);

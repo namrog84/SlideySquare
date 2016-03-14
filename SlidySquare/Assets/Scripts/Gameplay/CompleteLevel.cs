@@ -143,8 +143,6 @@ public class CompleteLevel : MonoBehaviour {
         Handheld.Vibrate();
 
 
-
-
         yield return new WaitForSeconds(1.1f);
 
         //Application.LoadLevel("level " + (1 + 1 + PlayerPrefs.GetInt("CurrentLevel")));// int.Parse(Application.loadedLevelName.Split(new char[] { ' ' })[1]))); // Split()[1])))
