@@ -21,7 +21,7 @@ namespace Assets.Scripts.Gameplay
             var tex = new Texture2D(4*width, 4 * height);
             tex.filterMode = FilterMode.Point;
             tex.LoadImage(pngImage);
-            return Sprite.Create(tex, new Rect(0, 0, width, height), Vector2.zero);
+            return Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), Vector2.zero);
         }
 
         public void UpdateThumbnail()

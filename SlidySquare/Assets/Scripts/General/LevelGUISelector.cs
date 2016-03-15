@@ -14,7 +14,6 @@ public class LevelGUISelector : MonoBehaviour {
 	void Start () {
         GameCore.IsNewMap = false;
         transform.localScale = Vector3.one;
-
     }
 	
     public void DisableEditButton()
@@ -145,8 +144,6 @@ public class LevelGUISelector : MonoBehaviour {
         PlayerPrefs.Save();
         GameCore.currentBoard = BoardBank.boards.Find(x => x.name == filename);
 
-        Debug.Log(GameCore.currentBoard.Board[0].type);
-        Debug.Log(GameCore.currentBoard.Board[1].type);
         FindObjectOfType<MySceneManager>().LoadToDynamicScene();
     }
 
@@ -166,9 +163,20 @@ public class LevelGUISelector : MonoBehaviour {
         FindObjectOfType<MySceneManager>().GoToLevelEditor();
     }
 
-
-
-
-
-
+    internal void SetThumbnail(string v)
+    {
+        var tex = new Texture2D(1, 1);
+        tex.filterMode = FilterMode.Point;
+        tex.LoadImage(Convert.FromBase64String(v));
+        SetThumbnail(Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), Vector2.zero));
+    }
+    public GameObject previewThumbnailGO;
+    internal void SetThumbnail(Sprite s)
+    {
+        //if(previewThumbnailGO == null)
+        //{
+        //    return;
+        //}
+        previewThumbnailGO.GetComponent<Image>().sprite = s;
+    }
 }

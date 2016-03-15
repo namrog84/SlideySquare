@@ -12,7 +12,6 @@ public class MySceneManager : MonoBehaviour {
     {
         LocalizationManager.CurrentLanguage = PlayerPrefs.GetString("Lang", "English");
 
-
         sceneFader = GetComponent<SceneFadeInOut>();
         if(sceneFader == null)
         {
@@ -35,7 +34,6 @@ public class MySceneManager : MonoBehaviour {
             Application.OpenURL("itms-apps://itunes.apple.com/app/idYOUR_ID");
 #endif
     }
-
 
     public void PlayAd()
     {

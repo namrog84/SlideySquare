@@ -22,6 +22,7 @@ public class CustomLevelManager : MonoBehaviour {
     {
         public List<string> levelNames = new List<string>();
         public List<int> levelIds = new List<int>();
+        public List<string> thumbnails = new List<string>();
     }
     public GameObject LoadingShieldForOnline;
 
@@ -58,15 +59,8 @@ public class CustomLevelManager : MonoBehaviour {
             item.transform.SetParent(ContentList.transform);
             item.GetComponentInChildren<Text>().text = board.name;// file.TrimEnd('.');
             item.GetComponent<LevelGUISelector>().filename = board.name;
-            var images = item.GetComponentsInChildren<Image>();
-            foreach(var image in images)
-            {
-                if(image.name == "preview")
-                {
-                image.sprite = board.GetSprite();
-
-                }
-            }
+            item.GetComponent<LevelGUISelector>().SetThumbnail(board.GetSprite());
+            
             
             TheList.Add(item);
         }
@@ -168,8 +162,8 @@ public class CustomLevelManager : MonoBehaviour {
                 var item = Instantiate(OnlineGUIItem);
                 item.transform.SetParent(ContentList.transform);
                 item.GetComponentInChildren<Text>().text = MyList.levelNames[i].TrimEnd('.');
-
                 item.GetComponent<LevelGUISelector>().filename = MyList.levelIds[i].ToString();
+                item.GetComponent<LevelGUISelector>().SetThumbnail(MyList.thumbnails[i]);
                 TheList.Add(item);
             }
         }
@@ -186,6 +180,7 @@ public class CustomLevelManager : MonoBehaviour {
 
         Level level = new Level();
         level.Solution = PlayerPrefs.GetString("HistoryList", "?");
+        
 
 
         var data = Common.CompressAndEncodeLevel(level);
