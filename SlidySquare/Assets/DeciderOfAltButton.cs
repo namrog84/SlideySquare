@@ -15,16 +15,16 @@ public class DeciderOfAltButton : MonoBehaviour {
         BackToLevelSelect.SetActive(false);
         BackToLevelEditor.SetActive(false);
 
-        switch(GameCore.PlayingLevelFrom)
+        switch(GameCore.PlayingLevelState)
         {
-            case GameCore.PlayingFromState.Editor:
+            case GameCore.PlayingStates.Editor:
                 BackToLevelEditor.SetActive(true);
                 break;
-            case GameCore.PlayingFromState.Custom:
+            case GameCore.PlayingStates.Custom:
                 BackToLevelSelect.SetActive(true);
                 break;
 
-            case GameCore.PlayingFromState.Standard:
+            case GameCore.PlayingStates.Standard:
             default:
                 SkipLevelButton.SetActive(true);
                 break;

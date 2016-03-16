@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Gameplay;
+using MsgPack.Serialization;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,25 +12,24 @@ namespace Assets.Scripts
 {
     public static class GameCore
     {
-        public static string nextLevel = ""; // ??? 
+        //public static string nextLevel = ""; // ??? 
         public static bool IsNewMap = true;
 
-        public enum PlayingFromState { Standard, Editor, Custom };
-        public static PlayingFromState PlayingLevelFrom;
+        public enum PlayingStates { Campaign, Editor, Custom, CustomDownloaded };
+        public static PlayingStates PlayingLevelState;
 
-        public static bool isDownloaded = false; //yes to show vote
+        //public static bool isDownloaded = false; //yes to show vote
 
         public static GameBoard currentBoard; // saves current/last map; 
-        public static int currentLevel; // to keep track of progress or something? 
-        public static string LevelNameToLoad;
-        public static bool CustomLevel;
-        internal static int CampaignLevelToLoad;
-        internal static bool IsCampaign;
 
-        
+        public static int campaignLevelNumber; // to keep track of progress or something? 
+        //public static string LevelNameToLoad;
+        //public static bool CustomLevel;
+        //internal static int CampaignLevelToLoad;
+        //internal static bool IsCampaign;
 
-        public static string LevelName { get; internal set; } // ?? whats this for? 
-        public static string tempLevelName { get; internal set; }
+        //public static string LevelName { get; internal set; } // ?? whats this for? 
+        //public static string tempLevelName { get; internal set; }
 
         public static string PersistentPath {
             get
@@ -69,46 +69,46 @@ namespace Assets.Scripts
         //    return Convert.ToBase64String(Encoding.ASCII.GetBytes(mapData));
         //}
 
-        public static byte[] Compress(byte[] data)
-        {
-            using (var compressedStream = new MemoryStream())
-            using (var zipStream = new GZipStream(compressedStream, CompressionMode.Compress))
-            {
-                zipStream.Write(data, 0, data.Length);
-                zipStream.Close();
-                return compressedStream.ToArray();
-            }
-        }
+        //public static byte[] Compress(byte[] data)
+        //{
+        //    using (var compressedStream = new MemoryStream())
+        //    using (var zipStream = new GZipStream(compressedStream, CompressionMode.Compress))
+        //    {
+        //        zipStream.Write(data, 0, data.Length);
+        //        zipStream.Close();
+        //        return compressedStream.ToArray();
+        //    }
+        //}
 
-        public static byte[] Decompress(byte[] gzip)
-        {
-            // Create a GZIP stream with decompression mode.
-            // ... Then create a buffer and write into while reading from the GZIP stream.
-            using (GZipStream stream = new GZipStream(new MemoryStream(gzip), CompressionMode.Decompress))
-            {
-                const int size = 4096;
-                byte[] buffer = new byte[size];
-                using (MemoryStream memory = new MemoryStream())
-                {
-                    int count = 0;
-                    do
-                    {
-                        count = stream.Read(buffer, 0, size);
-                        if (count > 0)
-                        {
-                            memory.Write(buffer, 0, count);
-                        }
-                    }
-                    while (count > 0);
-                    return memory.ToArray();
-                }
-            }
-        }
+        //public static byte[] Decompress(byte[] gzip)
+        //{
+        //    // Create a GZIP stream with decompression mode.
+        //    // ... Then create a buffer and write into while reading from the GZIP stream.
+        //    using (GZipStream stream = new GZipStream(new MemoryStream(gzip), CompressionMode.Decompress))
+        //    {
+        //        const int size = 4096;
+        //        byte[] buffer = new byte[size];
+        //        using (MemoryStream memory = new MemoryStream())
+        //        {
+        //            int count = 0;
+        //            do
+        //            {
+        //                count = stream.Read(buffer, 0, size);
+        //                if (count > 0)
+        //                {
+        //                    memory.Write(buffer, 0, count);
+        //                }
+        //            }
+        //            while (count > 0);
+        //            return memory.ToArray();
+        //        }
+        //    }
+        //}
 
-        internal static Level DecompressAndDecodeLevel(byte[] data)
-        {
-            return JsonUtility.FromJson<Level>(Encoding.ASCII.GetString(Common.Decompress(data)));
-        }
+        //internal static Level DecompressAndDecodeLevel(byte[] data)
+        //{
+        //    return JsonUtility.FromJson<Level>(Encoding.ASCII.GetString(Common.Decompress(data)));
+        //}
 
         //internal static Map DecodeMap(int version, string data)
         //{
@@ -123,26 +123,57 @@ namespace Assets.Scripts
         //    }
         //}
 
-        internal static byte [] CompressAndEncodeLevel(Level level)
+        public static byte[] Serialize<T>(T thisObj)
         {
-            var jsoner = JsonUtility.ToJson(level);
-            var uncompressed = Encoding.ASCII.GetBytes(jsoner);
-            Debug.Log("Uncompressed " + uncompressed.Length);
-            return Common.Compress(uncompressed);
-        }
-        internal static byte[] CompressAndEncodeHistory(List<PlayerMove.Direction> historyMoves)
-        {
-            var jsoner = JsonUtility.ToJson(historyMoves);
-            var uncompressed = Encoding.ASCII.GetBytes(jsoner);
-            return Compress(uncompressed);
+            var serializer = SerializationContext.Default.GetSerializer<T>();
+
+            using (var byteStream = new MemoryStream())
+            {
+                using (var gz = new GZipStream(byteStream, CompressionMode.Compress))
+                {
+                    serializer.Pack(gz, thisObj);
+                }
+                return byteStream.ToArray();
+            }
         }
 
-        public static byte[] ConvertRating(Rating r)
+
+        public static T Deserialize<T>(byte[] bytes)
         {
-            var rat = JsonUtility.ToJson(r);
-            var vanilla = Encoding.ASCII.GetBytes(rat);
-            return vanilla;
+            var serializer = MessagePackSerializer.Get<T>();
+
+            using (var byteStream = new MemoryStream(bytes))
+            {
+                using (var gz = new GZipStream(byteStream, CompressionMode.Decompress))
+                {
+                    return serializer.Unpack(gz);
+                }
+            }
         }
+
+
+
+        //internal static byte [] CompressAndEncodeLevel(Level level)
+        //{
+        //    var jsoner = JsonUtility.ToJson(level);
+        //    var uncompressed = Encoding.ASCII.GetBytes(jsoner);
+        //    Debug.Log("Uncompressed " + uncompressed.Length);
+        //    return Common.Compress(uncompressed);
+        //}
+        //internal static byte[] CompressAndEncodeHistory(List<PlayerMove.Direction> historyMoves)
+        //{
+        //    var jsoner = JsonUtility.ToJson(historyMoves);
+        //    var uncompressed = Encoding.ASCII.GetBytes(jsoner);
+        //    return Compress(uncompressed);
+        //}
+
+
+        //public static byte[] ConvertRating(Rating r)
+        //{
+        //    var rat = JsonUtility.ToJson(r);
+        //    var vanilla = Encoding.ASCII.GetBytes(rat);
+        //    return vanilla;
+        //}
 
         
 

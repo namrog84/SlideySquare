@@ -134,7 +134,7 @@ public class CompleteLevel : MonoBehaviour {
         totalCompleted++;
         PlayerPrefs.SetInt("TotalLevels", totalCompleted);
 
-        string history = Convert.ToBase64String(Common.CompressAndEncodeHistory(PlayerMove.HistoryMoves));
+        string history = Convert.ToBase64String(Common.Serialize(PlayerMove.HistoryMoves));
         PlayerPrefs.SetString("HistoryList", history);
         Debug.Log(history);
         PlayerPrefs.Save();

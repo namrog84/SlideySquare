@@ -44,8 +44,8 @@ public class MySceneManager : MonoBehaviour {
     {
         if (levelNumber != 0)
         {
-            GameCore.IsCampaign = true;
-            GameCore.CampaignLevelToLoad = levelNumber;
+            GameCore.PlayingLevelState = GameCore.PlayingStates.Campaign;
+            GameCore.campaignLevelNumber = levelNumber;
             LoadToDynamicScene();
         }
     }
@@ -65,7 +65,7 @@ public class MySceneManager : MonoBehaviour {
         levelCounter++;
         PlayerPrefs.SetInt("CustomLevels", levelCounter);
         PlayerPrefs.Save();
-        GameCore.tempLevelName = "MyLevel " + levelCounter;
+        //GameCore.tempLevelName = "MyLevel " + levelCounter;
 
         LoadLevel("LevelEditor");
     }

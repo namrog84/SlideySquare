@@ -80,9 +80,9 @@ namespace LevelBuilderNameSpace
         public void PlayCurrentLevel()
         {
 
-            GameCore.PlayingLevelFrom = GameCore.PlayingFromState.Editor;
+            GameCore.PlayingLevelFrom = GameCore.PlayingStates.Editor;
             
-            GameCore.CustomLevel = true;
+            //GameCore.CustomLevel = true;
 
             //unneeded because its already in gamecore current map? 
             //GameCore.LevelNameToLoad = GameCore.currentBoard.name;

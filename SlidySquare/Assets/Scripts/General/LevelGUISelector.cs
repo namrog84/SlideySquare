@@ -132,10 +132,10 @@ public class LevelGUISelector : MonoBehaviour {
         playedcustom++;
         PlayerPrefs.SetInt("PlayedCustomLevel", playedcustom);
 
-        if (filename.Contains("downloaded"))
-        {
-            GameCore.isDownloaded = true;
-        }
+        //if (filename.Contains("downloaded"))
+        //{
+            //GameCore.isDownloaded = true;
+        //}
 
         PlayerPrefs.SetInt("CurrentLevel", -3); // -3 is for custom level I guess? 
         
@@ -151,10 +151,9 @@ public class LevelGUISelector : MonoBehaviour {
     public void EditCurrentLevel()
     {
         
-        GameCore.currentLevel = -3;
-
+        GameCore.campaignLevelNumber = -3;
         GameCore.IsNewMap = true;
-        GameCore.tempLevelName = filename;
+        //GameCore.tempLevelName = filename;
         Debug.Log(filename);
         
         PlayerPrefs.SetInt("CurrentLevel", -3); // -3 is for custom level I guess? 

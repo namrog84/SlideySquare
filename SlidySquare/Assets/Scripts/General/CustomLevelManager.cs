@@ -29,8 +29,9 @@ public class CustomLevelManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        GameCore.isDownloaded = false;
-        GameCore.PlayingLevelFrom = GameCore.PlayingFromState.Custom;
+        //GameCore.isDownloaded = false;
+
+        GameCore.PlayingLevelState = GameCore.PlayingStates.Custom;
 
         LocalLevels();
     }
@@ -178,12 +179,9 @@ public class CustomLevelManager : MonoBehaviour {
     {
         string url = coreURL + "/api/uploadlevel";
 
-        Level level = new Level();
-        level.Solution = PlayerPrefs.GetString("HistoryList", "?");
-        
+        Level level = new Level(GameCore.currentBoard);
 
-
-        var data = Common.CompressAndEncodeLevel(level);
+        var data = Common.Serialize(level);
         Debug.Log("Compressed " + data.Length);
         WWW www = new WWW(url, data);
         

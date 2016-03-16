@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Assets.Scripts.Gameplay;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -44,9 +45,10 @@ namespace Assets.Scripts
         public int Plays;      //number of plays? 
         public float Score;   //cached calculated score, calculated elsewhere
         public int Version;   //for map data
-        public string Data;    //map data
+        public string Thumbnail;
         public string Solution; // to verify solvable later
         public string SpecialFlag; // TBD
+        private GameBoard board;
 
         public Level()
         {
@@ -61,9 +63,19 @@ namespace Assets.Scripts
             Plays = 0;           //cached data, calculated elsewhere via Analytics
             Score = 0.0f;   //cached calculated score, calculated elsewhere
             Version = 1;
-            Data = "";    //map data
+            Thumbnail = "";
             Solution = ""; // to verify solvable later
             SpecialFlag = ""; // TBD
+        }
+
+        public Level(GameBoard currentBoard) : this()
+        {
+            board = currentBoard;
+            PublicName = board.name;
+            Width = board.width;
+            Height = board.height;
+            Thumbnail = Convert.ToBase64String(board.pngImage);
+            Solution = PlayerPrefs.GetString("HistoryList", "?");
         }
         //public Level(Map map): this()
         //{

@@ -10,6 +10,18 @@ namespace Assets.Scripts.Gameplay
     public class GameBoard
     {
         public byte[] pngImage;
+        //Required
+        public int width = 4; // map width
+        public int height = 4; // map height 
+        public string name; // ??  saves submitted name?
+        public bool isSubmitted = false; //  has this been submitted already?
+
+        //public int onlineKey = 25; // used for voting
+
+        public Dictionary<int, Tile> Board = new Dictionary<int, Tile>();
+
+
+
         public GameBoard()
         {
             CreateRandomThumbnail();
@@ -110,16 +122,7 @@ namespace Assets.Scripts.Gameplay
         }
         
 
-        //Required
-        public int width = 4; // map width
-        public int height = 4; // map height 
-        public string name; // ??  saves submitted name?
-        public bool isSubmitted = false; //  has this been submitted already?
-
-        //public int onlineKey = 25; // used for voting
-
-        public Dictionary<int, Tile> Board = new Dictionary<int, Tile>();
-
+    
         //Set the Tile
         internal void SetTile(int x, int y, Tile tile)
         {
