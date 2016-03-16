@@ -17,7 +17,19 @@ public class CustomLevelManager : MonoBehaviour {
 
     public GameObject ContentList;
     public List<GameObject> TheList = new List<GameObject>();
-    public static string coreURL { get { return "http://ssapi-v2-2016.azurewebsites.net"; } }
+    public static string coreURL {
+        get {
+            if (false) // debugging?
+            {
+                return "http://localhost:61156";
+            }
+            else
+            {
+                return "http://ssapi-v2-2016.azurewebsites.net";
+            }
+        }
+    }
+
     public class LevelList
     {
         public List<string> levelNames = new List<string>();
@@ -50,24 +62,23 @@ public class CustomLevelManager : MonoBehaviour {
         }
         TheList.Clear();
 
-        var filenames = FileManager.GetSavedLevelNames();
+        //var filenames = FileManager.GetSavedLevelNames();
         BoardBank.LoadFromFile();
-
         foreach (var board in BoardBank.boards)
         {
-            //Debug.Log(file);
             var item = Instantiate(MyLevelGUIItem);
             item.transform.SetParent(ContentList.transform);
             item.GetComponentInChildren<Text>().text = board.name;// file.TrimEnd('.');
             item.GetComponent<LevelGUISelector>().filename = board.name;
             item.GetComponent<LevelGUISelector>().SetThumbnail(board.GetSprite());
-            
-            
             TheList.Add(item);
         }
     }
+
     public void DownloadedLevels()
     {
+        
+
         TurnOnLocalChoices(true);
         foreach (var item in TheList)
         {
@@ -136,6 +147,7 @@ public class CustomLevelManager : MonoBehaviour {
 
     public void OnlineLevels()
     {
+        Debug.Log("Loading");
         LoadingShieldForOnline.SetActive(true);
         TurnOnLocalChoices(false);
         foreach (var item in TheList)
@@ -143,6 +155,8 @@ public class CustomLevelManager : MonoBehaviour {
             Destroy(item);
         }
         TheList.Clear();
+
+        Debug.Log("Loading");
 
         string url = coreURL + "/api/levels/1";
         WWW www = new WWW(url);
@@ -156,10 +170,13 @@ public class CustomLevelManager : MonoBehaviour {
         if (www.error == null)
         {
             //Debug.Log(www.text);
-            var MyList = (LevelList)JsonUtility.FromJson(www.text, typeof(LevelList));
+            var data = www.text.Trim('"');
+            Debug.Log(data);
+            var MyList = Common.Deserialize<LevelList>(Convert.FromBase64String(data));
+            Debug.Log(MyList.levelNames.Count);
             for (int i = 0; i < MyList.levelNames.Count; i++)
             {
-                //Debug.Log(file);
+                
                 var item = Instantiate(OnlineGUIItem);
                 item.transform.SetParent(ContentList.transform);
                 item.GetComponentInChildren<Text>().text = MyList.levelNames[i].TrimEnd('.');
@@ -175,7 +192,7 @@ public class CustomLevelManager : MonoBehaviour {
     }
 
 
-    public void UploadLevel(GameBoard board)
+    public void UploadLevel()
     {
         string url = coreURL + "/api/uploadlevel";
 

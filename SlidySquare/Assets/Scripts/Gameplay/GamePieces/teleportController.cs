@@ -41,7 +41,7 @@ public class teleportController : MonoBehaviour {
 
     }
 
-	void OnLevelWasLoaded(int level)
+	void OnLevelWasLoaded()
 	{
 		if (TeleportsList != null)
 		{
@@ -123,18 +123,18 @@ public class teleportController : MonoBehaviour {
         var TeleportMatches = new List<teleportController>();
         for (int i = 0; i < TeleportsList.Count; i++)
 		{
-			if(TeleportsList[i].ID == this.ID && this != TeleportsList[i])
-			{
+			if(TeleportsList[i].ID == ID && TeleportsList[i] != this)
+            {
                 TeleportMatches.Add(TeleportsList[i]);
                 //break;
 			}
-
 		}
 
+        //Debug.Log(TeleportMatches.Count);
         if(TeleportMatches.Count > 0)
         {
             //select 1 of the matches randomly. 
-            var other = TeleportsList[UnityEngine.Random.Range(0, TeleportMatches.Count)];
+            var other = TeleportMatches[UnityEngine.Random.Range(0, TeleportMatches.Count)];
 
             teleportingObject.transform.position = other.gameObject.transform.position;
             var derp2 = (GameObject)Instantiate(TeleportImplosion, other.transform.position, other.transform.rotation);

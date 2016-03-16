@@ -21,6 +21,8 @@ namespace LevelBuilderNameSpace
         public GameObject MapPanel;
         public GameObject theButton;
 
+        public GameObject LevelNameObject;
+
         //public static GameBoard currentBoard = new GameBoard();
 
         public static List<GameObject> TheBoardOfButtons;
@@ -68,7 +70,9 @@ namespace LevelBuilderNameSpace
             //Are we loading or making new?
             if (!GameCore.IsNewMap)
             {
-                LoadLevel();
+                LevelNameObject.GetComponent<InputField>().text = GameCore.currentBoard.name;
+                StartCoroutine(LoadLevel());
+
             }
         }
 
@@ -80,7 +84,7 @@ namespace LevelBuilderNameSpace
         public void PlayCurrentLevel()
         {
 
-            GameCore.PlayingLevelFrom = GameCore.PlayingStates.Editor;
+            GameCore.PlayingLevelState = GameCore.PlayingStates.Editor;
             
             //GameCore.CustomLevel = true;
 
@@ -153,33 +157,40 @@ namespace LevelBuilderNameSpace
             GameCore.currentBoard.UpdateThumbnail();
             //FileManager.SaveBoardToFile(GameCore.currentBoard);
             BoardBank.LoadFromFile();
-            BoardBank.boards.Add(GameCore.currentBoard);
-            BoardBank.SaveToFile();
+            BoardBank.AddStandard(GameCore.currentBoard);
+            
         }
 
-        public void LoadLevel()
+        public IEnumerator LoadLevel()
         {
+            yield return new WaitForEndOfFrame();
+            yield return new WaitForEndOfFrame();
             //Debug.Log("Loading: " + GameCore.LevelNameToLoad);
             //GameCore.currentBoard = (GameBoard)FileManager.LoadBoardFromFile("custom", GameCore.LevelNameToLoad);
 
-            //if (GameCore.currentBoard == null)
-            //{
-            //    Debug.Log("ERROR loading level");
-            //    return;
-            //}
+            if (GameCore.currentBoard == null)
+            {
+                Debug.Log("ERROR loading level");
+                yield break;
+            }
+            for (int y = 0; y < GameCore.currentBoard.height; y++)
+            {
+                for (int x = 0; x < GameCore.currentBoard.width; x++)
+                {
+                    int ID = x + y * gameBoardMaxWidth;
 
-            //for (int j = 0; j < TheBoardOfButtons.Count; j++)
-            //{
-            //    TheBoardOfButtons[j].SetActive(true);
+                    // turn on this button
+                    TheBoardOfButtons[ID].SetActive(true);
 
-            //    int tempTileX = j % GameCore.currentBoard.width;
-            //    int tempTileY = j / GameCore.currentBoard.height;
+                    Tile tile = GameCore.currentBoard.GetTile(x, y);
+                    TheBoardOfButtons[ID].GetComponent<LevelBuilderTileButton>().SetTileGraphic(tile.type);
+                    TheBoardOfButtons[ID].GetComponent<LevelBuilderTileButton>().SetID(tile.TileID);
+                }
+            }
 
-            //    Tile tile = GameCore.currentBoard.GetTile(tempTileX, tempTileY);
-            //    TheBoardOfButtons[j].GetComponent<LevelBuilderTileButton>().SetTile(tile);
-            //}
+            yield return new WaitForEndOfFrame();
 
-            //RefreshBoard(); //refresh level
+            RefreshBoard(); //refresh level
         }
 
 

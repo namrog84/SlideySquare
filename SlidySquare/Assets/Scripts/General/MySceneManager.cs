@@ -83,6 +83,12 @@ public class MySceneManager : MonoBehaviour {
     {
         LoadLevel("DynamicLevel");
     }
+    public void LoadToVoteScene()
+    {
+        LoadLevel("VoteScene");
+    }
+
+
     public void ReloadCurrentLevel()
     {
         LoadLevel(SceneManager.GetActiveScene().name);

@@ -72,11 +72,14 @@ public class LevelLoader : MonoBehaviour {
         StartCoroutine(PhoneHome());
     }
     public IEnumerator PhoneHome(){
-        string url = CustomLevelManager.coreURL + "/api/playing/" + GameCore.currentBoard.name + "/" + SystemInfo.deviceUniqueIdentifier;
+        string url = CustomLevelManager.coreURL + "/api/event/"+SystemInfo.deviceUniqueIdentifier+"/startedLevel/" + GameCore.currentBoard.name+"/";
+        url = url.Replace(" ", "_"); // stupid thing can't handle spaces correctly?
+        Debug.Log(url);
         //what level and being played by what machine?
         WWW www = new WWW(url);
         yield return www;
         Debug.Log(www.text);
+        Debug.Log(www.error);
     }
 
 

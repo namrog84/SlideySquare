@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using GoogleMobileAds.Api;
 using Assets.Scripts;
 using System;
+using UnityEngine.SceneManagement;
 
 public class CompleteLevel : MonoBehaviour {
     public AudioClip nomnomnom;
@@ -139,7 +140,7 @@ public class CompleteLevel : MonoBehaviour {
         Debug.Log(history);
         PlayerPrefs.Save();
         AudioSource.PlayClipAtPoint(nomnomnom, transform.position);
-        GameObject.FindGameObjectWithTag("Win").GetComponent<Text>().enabled = true;
+        //GameObject.FindGameObjectWithTag("Win").GetComponent<Text>().enabled = true;
         Handheld.Vibrate();
 
 
@@ -150,46 +151,41 @@ public class CompleteLevel : MonoBehaviour {
         //yield return new WaitForEndOfFrame();
         //if(temp.progress == 0) // it hasn't started, likely because its not found
 
-#pragma warning disable 0618
-        if (!Application.isLoadingLevel)
-		{
-#pragma warning restore 0618
-            if (PlayerPrefs.GetInt("CurrentLevel") == LevelGUISelector.MY_CUSTOM_LEVEL)
-            {
-                LevelToLoad = 7; //vote level? 
-            }
-            else
-            {
-                LevelToLoad = 4; // next dynamic level
-                PlayerPrefs.SetInt("CurrentLevel", 1 + PlayerPrefs.GetInt("CurrentLevel"));
-                PlayerPrefs.Save();
-            }
+        if(GameCore.PlayingLevelState == GameCore.PlayingStates.Editor)
+        {
+            LevelToLoad = 7; //vote level? 
+            GameObject.Find("SceneManager").GetComponent<MySceneManager>().LoadToVoteScene();
+        }
+        else
+        {
+            LevelToLoad = 4; // next dynamic level
+            PlayerPrefs.SetInt("CurrentLevel", 1 + PlayerPrefs.GetInt("CurrentLevel"));
+            PlayerPrefs.Save();
+            GameObject.Find("SceneManager").GetComponent<MySceneManager>().LoadToDynamicScene();
+        }
 
-            StartCoroutine(LoadOut());
-		}
-	
 		yield return null;
 
 	}
 
     public int LevelToLoad = 4;
-    private IEnumerator LoadOut()
-    {
-        var fader = GameObject.Find("SceneFader");
-        fader.GetComponent<SceneFadeInOut>().fadeDir *= -1;
-        fader.GetComponent<SceneFadeInOut>().startTime = 0;
-        yield return new WaitForEndOfFrame();
-        fader.GetComponent<SceneFadeInOut>().FinishedFade += LoadNextLevelOnFinished;
-    }
+//    private IEnumerator LoadOut()
+//    {
+//        var fader = GameObject.Find("SceneFader");
+//        fader.GetComponent<SceneFadeInOut>().fadeDir *= -1;
+//        fader.GetComponent<SceneFadeInOut>().startTime = 0;
+//        yield return new WaitForEndOfFrame();
+//        fader.GetComponent<SceneFadeInOut>().FinishedFade += LoadNextLevelOnFinished;
+//    }
 
-    void LoadNextLevelOnFinished()
-    {
-        Time.timeScale = 1;
-#pragma warning disable 0618
+//    void LoadNextLevelOnFinished()
+//    {
+//        Time.timeScale = 1;
+//#pragma warning disable 0618
         
-        Application.LoadLevel(LevelToLoad);
-#pragma warning restore 0618
-    }
+//        Application.LoadLevel(LevelToLoad);
+//#pragma warning restore 0618
+//    }
 
 
 }

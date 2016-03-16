@@ -109,8 +109,6 @@ namespace Assets.Scripts.Gameplay
         {
             int tiles = 16;
 
-            var textureData = new Color[tiles, tiles];
-
             for (int i = 0; i < tiles; i++)
             {
                 for (int j = 0; j < tiles; j++)

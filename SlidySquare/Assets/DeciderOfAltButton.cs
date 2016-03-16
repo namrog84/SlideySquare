@@ -24,7 +24,7 @@ public class DeciderOfAltButton : MonoBehaviour {
                 BackToLevelSelect.SetActive(true);
                 break;
 
-            case GameCore.PlayingStates.Standard:
+            case GameCore.PlayingStates.Campaign:
             default:
                 SkipLevelButton.SetActive(true);
                 break;

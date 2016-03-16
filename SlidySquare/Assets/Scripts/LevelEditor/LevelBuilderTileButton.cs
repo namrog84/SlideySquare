@@ -82,7 +82,7 @@ public class LevelBuilderTileButton : MonoBehaviour {
                 GameCore.currentBoard.GetTile(location).TileID++;
             }
 
-            TileText.text = "" + GameCore.currentBoard.GetTile(location).TileID;
+            SetID(GameCore.currentBoard.GetTile(location).TileID);
         }
     }
 
@@ -93,8 +93,14 @@ public class LevelBuilderTileButton : MonoBehaviour {
     //    setAlpha(1.0f);
 
     //}
-
-    private void SetTileGraphic(Tile.TileType type)
+    public void SetID(int id)
+    {
+        if (GameCore.currentBoard.GetTile(location).NeedsID())
+        {
+            TileText.text = "" + id;
+        }
+    }
+    public void SetTileGraphic(Tile.TileType type)
     {
         var newsprite = sprites[(int)type];
         if (type==Tile.TileType.Player)
@@ -110,15 +116,18 @@ public class LevelBuilderTileButton : MonoBehaviour {
                         LevelEditorController.TheBoardOfButtons[i].GetComponent<LevelBuilderTileButton>().setAlpha(0.5f);
                         break;
                     }
-
                 }
             }
+        }
+
+        if(type != Tile.TileType.None)
+        {
+            setAlpha(1);
         }
 
         var tile = GameCore.currentBoard.GetTile(location);
         tile.type = type;
         GameCore.currentBoard.SetTile(location, tile);
-
         image.sprite = newsprite;
     }
 

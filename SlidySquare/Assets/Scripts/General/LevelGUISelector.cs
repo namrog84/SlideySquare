@@ -138,12 +138,8 @@ public class LevelGUISelector : MonoBehaviour {
         //}
 
         PlayerPrefs.SetInt("CurrentLevel", -3); // -3 is for custom level I guess? 
-        
-
-        PlayerPrefs.SetString("LevelName", filename);
         PlayerPrefs.Save();
         GameCore.currentBoard = BoardBank.boards.Find(x => x.name == filename);
-
         FindObjectOfType<MySceneManager>().LoadToDynamicScene();
     }
 
@@ -152,19 +148,17 @@ public class LevelGUISelector : MonoBehaviour {
     {
         
         GameCore.campaignLevelNumber = -3;
-        GameCore.IsNewMap = true;
+        GameCore.IsNewMap = false;
         //GameCore.tempLevelName = filename;
         Debug.Log(filename);
-        
-        PlayerPrefs.SetInt("CurrentLevel", -3); // -3 is for custom level I guess? 
-        PlayerPrefs.SetString("LevelName", filename);
-        PlayerPrefs.Save();
+
+        GameCore.currentBoard = BoardBank.boards.Find(x => x.name == filename);
         FindObjectOfType<MySceneManager>().GoToLevelEditor();
     }
 
     internal void SetThumbnail(string v)
     {
-        var tex = new Texture2D(1, 1);
+        var tex = new Texture2D(10, 10);
         tex.filterMode = FilterMode.Point;
         tex.LoadImage(Convert.FromBase64String(v));
         SetThumbnail(Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), Vector2.zero));
@@ -176,6 +170,9 @@ public class LevelGUISelector : MonoBehaviour {
         //{
         //    return;
         //}
-        previewThumbnailGO.GetComponent<Image>().sprite = s;
+        if (s != null)
+        {
+            previewThumbnailGO.GetComponent<Image>().sprite = s;
+        }
     }
 }

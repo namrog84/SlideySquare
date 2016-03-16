@@ -5,41 +5,92 @@ using Assets.Scripts.Gameplay;
 using MsgPack.Serialization;
 using System.IO;
 using Assets.Scripts;
+using System;
 
-public class BoardBank : MonoBehaviour
+[Serializable]
+public class BoardBank
 {
-    public static List<GameBoard> boards = new List<GameBoard>();
+    public List<GameBoard> _boards = new List<GameBoard>();
+    public List<GameBoard> _Downloaded = new List<GameBoard>();
+
+    public static BoardBank instance = new BoardBank();
 
 
-    public static void LoadFromFile()
+    public static List<GameBoard> boards
     {
-        var path = GameCore.PersistentPath+ "/board.vault";
-
-        if(!File.Exists(path))
+        get
         {
-            return;
+            return instance._boards;
         }
-        // Creates serializer.
-        var serializer = SerializationContext.Default.GetSerializer<List<GameBoard>>();
-        using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))
+    }
+    public static List<GameBoard> downloadedBoards
+    {
+        get
         {
-            // Unpack from stream.
-            boards = serializer.Unpack(stream);
+            return instance._Downloaded;
         }
     }
 
-    public static void SaveToFile()
+    internal static void RemoveAll(string folder, string filename)
+    {
+        if (folder == "downloads")
+        {
+            instance._Downloaded.RemoveAll(x => x.name == filename);
+        }
+        else if (folder == "custom")
+        {
+            instance._boards.RemoveAll(x => x.name == filename);
+        }
+        SaveToFile();
+    }
+
+    public static void AddStandard(GameBoard b)
+    {
+        var index = instance._boards.FindIndex(x => x.name == b.name);
+        if(index == -1) // not found!
+        {
+            instance._boards.Add(b);
+        }
+        else
+        {
+            instance._boards[index] = b;
+        }
+        SaveToFile();
+    }
+    public static void AddDownloaded(GameBoard b)
+    {
+        instance._Downloaded.Add(b);
+        SaveToFile();
+    }
+
+
+    private static void SaveToFile()
     {
         var path = GameCore.PersistentPath + "/board.vault";
 
         // Creates serializer.
-        var serializer = SerializationContext.Default.GetSerializer<List<GameBoard>>();
+        var serializer = SerializationContext.Default.GetSerializer<BoardBank>();
         using (var stream = new FileStream(path, FileMode.Create, FileAccess.Write))
         {
             // Pack obj to stream.
-            serializer.Pack(stream, boards);
+            serializer.Pack(stream, instance);
         }
+    }
 
+    public static void LoadFromFile()
+    {
+        var path = GameCore.PersistentPath + "/board.vault";
+        if (!File.Exists(path)) // empty bank!
+        {
+            return;
+        }
+        // Creates serializer.
+        var serializer = SerializationContext.Default.GetSerializer<BoardBank>();
+        using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))
+        {
+            // Unpack from stream.
+            instance = serializer.Unpack(stream);
+        }
     }
 
 

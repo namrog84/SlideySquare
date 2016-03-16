@@ -15,7 +15,7 @@ namespace Assets.Scripts
     {
         public int key;
         public string MachineId;   // will be generated once for a given device.
-        public int LevelKey;   //what did they vote for
+        public string LevelKey;   //what did they vote for
         public DateTime Date;  //when did they vote
         public float Vote;            //rating will be either be a thumbs up, meh, and thumbs down, similiar to Steam  (0, 0.5, 1) or something)
 
@@ -46,9 +46,10 @@ namespace Assets.Scripts
         public float Score;   //cached calculated score, calculated elsewhere
         public int Version;   //for map data
         public string Thumbnail;
+        public string Data;
         public string Solution; // to verify solvable later
         public string SpecialFlag; // TBD
-        private GameBoard board;
+        
 
         public Level()
         {
@@ -70,11 +71,11 @@ namespace Assets.Scripts
 
         public Level(GameBoard currentBoard) : this()
         {
-            board = currentBoard;
-            PublicName = board.name;
-            Width = board.width;
-            Height = board.height;
-            Thumbnail = Convert.ToBase64String(board.pngImage);
+            Data = Convert.ToBase64String(Common.Serialize(currentBoard));
+            PublicName = currentBoard.name;
+            Width = currentBoard.width;
+            Height = currentBoard.height;
+            Thumbnail = Convert.ToBase64String(currentBoard.pngImage);
             Solution = PlayerPrefs.GetString("HistoryList", "?");
         }
         //public Level(Map map): this()

@@ -49,7 +49,6 @@ public class RandomizeName : MonoBehaviour {
         ani = char.ToUpper(ani[0]) + ani.Substring(1);
 
         text.text = adj + " " + ani;
-
         Debug.Log(text.text);
     }
 

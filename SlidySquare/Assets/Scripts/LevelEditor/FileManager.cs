@@ -19,8 +19,8 @@ namespace Assets.Scripts
         {
             //remove from gamevault instead!
             //File.Delete(GameCore.PersistentPath + "/" + folder + "/" + filename);
-            BoardBank.boards.RemoveAll(x => x.name == filename);
-            BoardBank.SaveToFile();
+            BoardBank.RemoveAll(folder, filename);
+            //BoardBank.SaveToFile();
         }
 
         public static List<string> GetSavedLevelNames()
