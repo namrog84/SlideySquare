@@ -30,7 +30,7 @@ namespace LevelBuilderNameSpace
 
         public delegate void ToggleGroup();
         public static ToggleGroup ToggleModeOnTileButtons;
-
+        public GameObject TheToggleButton;
 
         //private int gameBoardCurrentWidth = 8;
         //private int gameBoardCurrentHeight = 6;
@@ -40,7 +40,7 @@ namespace LevelBuilderNameSpace
 
         private int maxTileSize = 120;
 
-        bool isIdMode = false;
+        public static bool isIdMode = false;
 
         Text texter;
 
@@ -49,6 +49,17 @@ namespace LevelBuilderNameSpace
 
         void Start()
         {
+            if (ToggleModeOnTileButtons != null)
+            {
+                //clear out old ones!
+                foreach (var d in ToggleModeOnTileButtons.GetInvocationList())
+                {
+                    ToggleModeOnTileButtons -= (ToggleGroup)d;
+                }
+            }
+            
+
+
             if (GameCore.IsNewMap)
             {
                 GameCore.currentBoard = new GameBoard();
@@ -115,8 +126,13 @@ namespace LevelBuilderNameSpace
 
             if (isIdMode)
             {
+                TheToggleButton.GetComponent<Text>().text = "Toggle Mode On";
                 //turn on ID mode
                 currentSelected = Tile.TileType.None;
+            }
+            else
+            {
+                TheToggleButton.GetComponent<Text>().text = "Toggle Mode Off";
             }
             ToggleModeOnTileButtons();
 

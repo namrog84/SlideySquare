@@ -130,11 +130,11 @@ public class teleportController : MonoBehaviour {
 			}
 		}
 
-        //Debug.Log(TeleportMatches.Count);
+       // Debug.Log(TeleportMatches.Count);
         if(TeleportMatches.Count > 0)
         {
             //select 1 of the matches randomly. 
-            var other = TeleportMatches[UnityEngine.Random.Range(0, TeleportMatches.Count)];
+            var other = TeleportMatches[UnityEngine.Random.Range(0, TeleportMatches.Count-1)];
 
             teleportingObject.transform.position = other.gameObject.transform.position;
             var derp2 = (GameObject)Instantiate(TeleportImplosion, other.transform.position, other.transform.rotation);

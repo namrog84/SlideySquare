@@ -35,11 +35,9 @@ public class LevelLoader : MonoBehaviour {
 
         //HitWall.HitWallCount = GameObject.FindGameObjectsWithTag("HitWall").Length;
         offset = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, 0);
-
         
         if(GameCore.PlayingLevelState == GameCore.PlayingStates.Campaign)
         {
-            
             var index = GameCore.campaignLevelNumber - 1;
             Debug.Log(index + " " + CampaignBank.boards.Count);
             if (index < CampaignBank.boards.Count && index >= 0)
@@ -103,6 +101,11 @@ public class LevelLoader : MonoBehaviour {
         yield return new WaitForEndOfFrame();
 
         GameBoard board = GameCore.currentBoard;
+
+        if (teleportController.TeleportsList != null) //it has old teleporters in it?
+        {
+            teleportController.TeleportsList.Clear();
+        }
 
         _width = board.width;
         _height = board.height;
@@ -274,6 +277,22 @@ public class LevelLoader : MonoBehaviour {
 
         newTile.transform.position = new Vector3(x, y, 0) + offset - mapOffset; //set position
         newTile.transform.parent = gameObject.transform; //make child of this object
+
+        var tele = newTile.GetComponent<teleportController>();
+        if(tele != null)
+        {
+            tele.ID = tile.TileID;
+        }
+        var toggle1 = newTile.GetComponent<ToggleSwitch>();
+        if (toggle1 != null)
+        {
+            toggle1.ToggleID = tile.TileID;
+        }
+        var button1 = newTile.GetComponent<ButtonController>();
+        if (button1 != null)
+        {
+            button1.ButtonToggleID = tile.TileID;
+        }
 
 
     }

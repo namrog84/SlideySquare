@@ -21,6 +21,12 @@ public class LevelBuilderTileButton : MonoBehaviour {
     public static Vector2 LastPlayerPosition = Vector2.zero;
 
     void Start () {
+        StartCoroutine(LateStart());
+    }
+
+    public IEnumerator LateStart()
+    {
+        yield return new WaitForEndOfFrame();
         LevelEditorController.ToggleModeOnTileButtons += Tiggler;
         TileText = GetComponentInChildren<Text>();
         image = GetComponent<Image>();
@@ -46,23 +52,14 @@ public class LevelBuilderTileButton : MonoBehaviour {
 
     private void setAlpha(float newAlpha = 0.5f)
     {
-        //THIS SHIT RIGHT HERE UNITY, SCREW THIS BULLSHIT
         var c = image.color;
-        //c.a = 1.0f;
-        //if (tt == Tile.TileType.None)
-        //{
-        //    norm.a = 0.5f;
-        //}
-        //else
-        {
-            c.a = newAlpha;
-        }
-        //c.normalColor = norm;
+        c.a = newAlpha;
         image.color = c;
     }
 
 
     void Update () {
+
 	}
 
 
@@ -131,7 +128,14 @@ public class LevelBuilderTileButton : MonoBehaviour {
         image.sprite = newsprite;
     }
 
-
+    public void OnTileEnteredSetTileType()
+    {
+        if (!LevelEditorController.isIdMode)
+        {
+            OnTileClickedSetTileType();
+        }
+    }
+  
     public void OnTileClickedSetTileType()
     {
         if (isIdMode) // if in ID mode, don't change tile graphic.

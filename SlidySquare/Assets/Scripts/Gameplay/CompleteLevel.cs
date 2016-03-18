@@ -136,8 +136,10 @@ public class CompleteLevel : MonoBehaviour {
         PlayerPrefs.SetInt("TotalLevels", totalCompleted);
 
         string history = Convert.ToBase64String(Common.Serialize(PlayerMove.HistoryMoves));
-        PlayerPrefs.SetString("HistoryList", history);
+        GameCore.History = history;
+        //PlayerPrefs.SetString("HistoryList", history);
         Debug.Log(history);
+
         PlayerPrefs.Save();
         AudioSource.PlayClipAtPoint(nomnomnom, transform.position);
         //GameObject.FindGameObjectWithTag("Win").GetComponent<Text>().enabled = true;
@@ -155,6 +157,10 @@ public class CompleteLevel : MonoBehaviour {
         {
             LevelToLoad = 7; //vote level? 
             GameObject.Find("SceneManager").GetComponent<MySceneManager>().LoadToVoteScene();
+        }
+        else if(GameCore.PlayingLevelState == GameCore.PlayingStates.Custom)
+        {
+            GameObject.Find("SceneManager").GetComponent<MySceneManager>().GoToCustomLevelSelect();
         }
         else
         {

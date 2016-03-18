@@ -57,8 +57,18 @@ public class SceneFadeInOut : MonoBehaviour {
         //guiTexture.pixelInset = new Rect(0, 0, Screen.width, Screen.height);
     }
 
+    private int errorcount = 0;
 	void OnGUI()
     {
+        if(gridStartTime == null)
+        {
+            if(errorcount == 0)
+            {
+                Debug.Log("Error In Scene Fader?");
+                errorcount++;
+            }
+            return;
+        }
         if (startTime < 5) // no need for later? 
         {
             startTime += Time.deltaTime;

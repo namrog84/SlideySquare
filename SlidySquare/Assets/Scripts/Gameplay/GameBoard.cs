@@ -11,8 +11,8 @@ namespace Assets.Scripts.Gameplay
     {
         public byte[] pngImage;
         //Required
-        public int width = 4; // map width
-        public int height = 4; // map height 
+        public int width = 7; // map width
+        public int height = 8; // map height 
         public string name; // ??  saves submitted name?
         public bool isSubmitted = false; //  has this been submitted already?
 

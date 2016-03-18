@@ -32,6 +32,11 @@ public class AdManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         TimePlayed += Time.deltaTime;
+        //save every 60 seconds?
+        if( ((int)TimePlayed) % 60 == 0){ 
+            PlayerPrefs.SetFloat("TotalTime", TimePlayed);
+            PlayerPrefs.Save();
+        }
 	}
 
     public static int PlayCount = 0;

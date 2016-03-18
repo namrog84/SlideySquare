@@ -76,7 +76,7 @@ namespace Assets.Scripts
             Width = currentBoard.width;
             Height = currentBoard.height;
             Thumbnail = Convert.ToBase64String(currentBoard.pngImage);
-            Solution = PlayerPrefs.GetString("HistoryList", "?");
+            Solution = GameCore.History;
         }
         //public Level(Map map): this()
         //{

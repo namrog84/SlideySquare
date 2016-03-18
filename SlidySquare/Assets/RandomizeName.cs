@@ -32,7 +32,7 @@ public class RandomizeName : MonoBehaviour {
     private char MyValidate(char charToValidate)
     {
         //Checks if a dollar sign is entered....
-        if (!char.IsLetter(charToValidate) && !char.IsWhiteSpace(charToValidate))
+        if (!char.IsLetter(charToValidate) && !char.IsWhiteSpace(charToValidate) && !char.IsDigit(charToValidate))
         {
             // ... if it is change it to an empty character.
             charToValidate = '\0';
@@ -42,11 +42,18 @@ public class RandomizeName : MonoBehaviour {
 
     public void RandomizeIt()
     {
-
+        
         var adj = adjlist[UnityEngine.Random.Range(0, adjlist.Length)];
         var ani = animalist[UnityEngine.Random.Range(0, animalist.Length)];
-        adj = char.ToUpper(adj[0]) + adj.Substring(1);
-        ani = char.ToUpper(ani[0]) + ani.Substring(1);
+        if (adj.Length > 1)
+        {
+            adj = char.ToUpper(adj[0]) + adj.Substring(1);
+        }
+        if (ani.Length > 1)
+        {
+            ani = char.ToUpper(ani[0]) + ani.Substring(1);
+        }
+
 
         text.text = adj + " " + ani;
     }

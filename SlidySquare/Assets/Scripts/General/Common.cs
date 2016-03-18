@@ -23,6 +23,8 @@ namespace Assets.Scripts
         public static GameBoard currentBoard; // saves current/last map; 
 
         public static int campaignLevelNumber; // to keep track of progress or something? 
+        internal static string History;
+
         //public static string LevelNameToLoad;
         //public static bool CustomLevel;
         //internal static int CampaignLevelToLoad;
