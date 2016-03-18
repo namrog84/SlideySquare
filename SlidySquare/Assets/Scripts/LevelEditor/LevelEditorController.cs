@@ -70,6 +70,7 @@ namespace LevelBuilderNameSpace
             //Are we loading or making new?
             if (!GameCore.IsNewMap)
             {
+
                 LevelNameObject.GetComponent<InputField>().text = GameCore.currentBoard.name;
                 StartCoroutine(LoadLevel());
 
@@ -79,6 +80,12 @@ namespace LevelBuilderNameSpace
 
         void Update()
         {
+        }
+
+        public void ExitLevelEditor()
+        {
+            SaveLevel();
+            FindObjectOfType<MySceneManager>().GoToCustomLevelSelect();
         }
 
         public void PlayCurrentLevel()
@@ -157,9 +164,16 @@ namespace LevelBuilderNameSpace
             GameCore.currentBoard.UpdateThumbnail();
             //FileManager.SaveBoardToFile(GameCore.currentBoard);
             BoardBank.LoadFromFile();
-            BoardBank.AddStandard(GameCore.currentBoard);
-            
+
+            //don't save an empty board!
+            if(GameCore.currentBoard.Board.Count != 0)
+            {
+                BoardBank.AddStandard(GameCore.currentBoard);
+            }
+
         }
+
+
 
         public IEnumerator LoadLevel()
         {

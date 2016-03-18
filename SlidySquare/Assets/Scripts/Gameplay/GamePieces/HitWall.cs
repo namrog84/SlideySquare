@@ -113,7 +113,7 @@ public class HitWall : MonoBehaviour {
     
     private IEnumerator Derp()
     {
-        var child = gameObject.GetComponentsInChildren<Transform>()[1];
+        var child = gameObject.GetComponent<Transform>();
         //Debug.Log(GetComponentsInChildren<Transform>().Length);
         float elapsedTime = 0.0f;
         Quaternion start = child.localRotation;

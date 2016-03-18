@@ -19,11 +19,11 @@ public class CustomLevelManager : MonoBehaviour {
     public List<GameObject> TheList = new List<GameObject>();
     public static string coreURL {
         get {
-            if (false) // debugging?
+            //if (false) // debugging?
             {
-                return "http://localhost:61156";
+              //  return "http://localhost:61156";
             }
-            else
+           // else
             {
                 return "http://ssapi-v2-2016.azurewebsites.net";
             }
@@ -75,10 +75,9 @@ public class CustomLevelManager : MonoBehaviour {
         }
     }
 
+
     public void DownloadedLevels()
     {
-        
-
         TurnOnLocalChoices(true);
         foreach (var item in TheList)
         {
@@ -86,15 +85,17 @@ public class CustomLevelManager : MonoBehaviour {
         }
         TheList.Clear();
 
-        var filenames = FileManager.GetDownloadedLevelNames();
-        foreach (var file in filenames)
+      //var filenames = FileManager.GetDownloadedLevelNames();//
+        BoardBank.LoadFromFile();
+        foreach (var board in BoardBank.downloadedBoards)
         {
             //Debug.Log(file);
             var item = Instantiate(MyLevelGUIItem);
             item.transform.SetParent(ContentList.transform);
-            item.GetComponentInChildren<Text>().text = file.TrimEnd('.');
+            item.GetComponentInChildren<Text>().text = board.name;
+            item.GetComponent<LevelGUISelector>().filename = board.name;
+            item.GetComponent<LevelGUISelector>().SetThumbnail(board.GetSprite());
             item.GetComponent<LevelGUISelector>().DisableEditButton();
-            item.GetComponent<LevelGUISelector>().filename = "downloaded/"+file;
             TheList.Add(item);
         }
     }
@@ -147,7 +148,7 @@ public class CustomLevelManager : MonoBehaviour {
 
     public void OnlineLevels()
     {
-        Debug.Log("Loading");
+        Debug.Log("Online Levels");
         LoadingShieldForOnline.SetActive(true);
         TurnOnLocalChoices(false);
         foreach (var item in TheList)
@@ -156,7 +157,6 @@ public class CustomLevelManager : MonoBehaviour {
         }
         TheList.Clear();
 
-        Debug.Log("Loading");
 
         string url = coreURL + "/api/levels/1";
         WWW www = new WWW(url);
@@ -176,12 +176,20 @@ public class CustomLevelManager : MonoBehaviour {
             Debug.Log(MyList.levelNames.Count);
             for (int i = 0; i < MyList.levelNames.Count; i++)
             {
-                
                 var item = Instantiate(OnlineGUIItem);
                 item.transform.SetParent(ContentList.transform);
                 item.GetComponentInChildren<Text>().text = MyList.levelNames[i].TrimEnd('.');
-                item.GetComponent<LevelGUISelector>().filename = MyList.levelIds[i].ToString();
-                item.GetComponent<LevelGUISelector>().SetThumbnail(MyList.thumbnails[i]);
+                var itemgui = item.GetComponent<LevelGUISelector>();
+                itemgui.filename = MyList.levelNames[i].ToString(); // unneeded?
+                itemgui.key = MyList.levelIds[i].ToString();
+                itemgui.SetThumbnail(MyList.thumbnails[i]);
+
+                if(BoardBank.FindBoard(MyList.levelNames[i].ToString()) != null)
+                {
+                    itemgui.PlayButton.SetActive(true);
+                    itemgui.DownloadButton.SetActive(false);
+                }
+
                 TheList.Add(item);
             }
         }
@@ -222,21 +230,30 @@ public class CustomLevelManager : MonoBehaviour {
 
 
 
-    public void DownloadLevel(string key)
+    public void DownloadLevel(LevelGUISelector gui, string key)
     {
-        Debug.Log("Downloading");
+        Debug.Log("Downloading " + key);
         string url = coreURL + "/api/download/" + key;
         WWW www = new WWW(url);
-        StartCoroutine(WaitForDownload(www));
+        StartCoroutine(WaitForDownload(gui, www));
 
     }
-    IEnumerator WaitForDownload(WWW www)
+    IEnumerator WaitForDownload(LevelGUISelector gui, WWW www)
     {
         yield return www;
 
         // check for errors
         if (www.error == null)
         {
+
+            var serverlevel = Common.Deserialize<Level>(www.bytes);
+            var board = Common.Deserialize<GameBoard>(Convert.FromBase64String(serverlevel.Data));
+
+            BoardBank.AddDownloaded(board);
+
+            gui.PlayButton.SetActive(true);
+            gui.DownloadButton.SetActive(false);
+
             //Boardlevel = Common.DecompressAndDecodeLevel(www.bytes);
             //Map map = Common.DecodeMap(level.Version, level.Data);
             //map.onlineKey = level.key;

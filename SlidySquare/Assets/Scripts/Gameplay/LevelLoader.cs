@@ -36,14 +36,29 @@ public class LevelLoader : MonoBehaviour {
         //HitWall.HitWallCount = GameObject.FindGameObjectsWithTag("HitWall").Length;
         offset = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, 0);
 
-        Debug.Log(GameCore.currentBoard.name);
         
+        if(GameCore.PlayingLevelState == GameCore.PlayingStates.Campaign)
+        {
+            
+            var index = GameCore.campaignLevelNumber - 1;
+            Debug.Log(index + " " + CampaignBank.boards.Count);
+            if (index < CampaignBank.boards.Count && index >= 0)
+            {
+                GameCore.currentBoard = CampaignBank.boards[index];
+            }
+            if(GameCore.currentBoard == null)
+            {
+                BoardBank.LoadFromFile();
+                GameCore.currentBoard = BoardBank.boards[0];
+            }
+        }
+
+
        // if(GameCore.PlayingLevelFromEditor)
         {
             StartCoroutine(LoadCurrentLevel());
 
         }
-
 
         //if(PlayerPrefs.GetInt("CurrentLevel", 1) == -3)
         //{
@@ -79,7 +94,6 @@ public class LevelLoader : MonoBehaviour {
         WWW www = new WWW(url);
         yield return www;
         Debug.Log(www.text);
-        Debug.Log(www.error);
     }
 
 
@@ -127,7 +141,8 @@ public class LevelLoader : MonoBehaviour {
         //string leveldata;
         yield return new WaitForEndOfFrame();
 
-        GameBoard board = FileManager.LoadBoardFromFile("custom", filename);
+        GameBoard board = BoardBank.FindBoard(filename);
+
         if (board == null)
         {
             Debug.Log("ERROR");

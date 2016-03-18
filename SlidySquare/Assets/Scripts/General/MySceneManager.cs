@@ -10,8 +10,7 @@ public class MySceneManager : MonoBehaviour {
 
     public void Start()
     {
-        LocalizationManager.CurrentLanguage = PlayerPrefs.GetString("Lang", "English");
-
+        
         sceneFader = GetComponent<SceneFadeInOut>();
         if(sceneFader == null)
         {
@@ -42,8 +41,10 @@ public class MySceneManager : MonoBehaviour {
 
     internal void LoadCampaignLevel(int levelNumber)
     {
+
         if (levelNumber != 0)
         {
+
             GameCore.PlayingLevelState = GameCore.PlayingStates.Campaign;
             GameCore.campaignLevelNumber = levelNumber;
             LoadToDynamicScene();
@@ -56,17 +57,10 @@ public class MySceneManager : MonoBehaviour {
     }
     public void GoToMainLevelSelect()
     {
-        LoadLevel("Level Select");
+        LoadLevel("MainCampaignLevelSelect");
     }
     public void GoToLevelEditor()
     {
-        //creating a new level? Lets save it here
-        var levelCounter = PlayerPrefs.GetInt("CustomLevels", 0);
-        levelCounter++;
-        PlayerPrefs.SetInt("CustomLevels", levelCounter);
-        PlayerPrefs.Save();
-        //GameCore.tempLevelName = "MyLevel " + levelCounter;
-
         LoadLevel("LevelEditor");
     }
     public void GoToCustomLevelSelect()

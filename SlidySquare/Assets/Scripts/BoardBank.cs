@@ -11,6 +11,7 @@ using System;
 public class BoardBank
 {
     public List<GameBoard> _boards = new List<GameBoard>();
+
     public List<GameBoard> _Downloaded = new List<GameBoard>();
 
     public static BoardBank instance = new BoardBank();
@@ -33,13 +34,15 @@ public class BoardBank
 
     internal static void RemoveAll(string folder, string filename)
     {
-        if (folder == "downloads")
+        //if (folder == "downloads")
         {
-            instance._Downloaded.RemoveAll(x => x.name == filename);
+            int count  = instance._Downloaded.RemoveAll(x => x.name == filename);
+            Debug.Log("Success downloaded remove " + count);
         }
-        else if (folder == "custom")
+        //if (folder == "custom")
         {
-            instance._boards.RemoveAll(x => x.name == filename);
+            var count = instance._boards.RemoveAll(x => x.name == filename);
+            Debug.Log("Success custom remove " + count);
         }
         SaveToFile();
     }
@@ -57,6 +60,7 @@ public class BoardBank
         }
         SaveToFile();
     }
+
     public static void AddDownloaded(GameBoard b)
     {
         instance._Downloaded.Add(b);
@@ -93,5 +97,20 @@ public class BoardBank
         }
     }
 
+    internal static GameBoard FindBoard(string filename)
+    {
+        LoadFromFile();
+        var result = instance._boards.Find(x => x.name == filename);
+        if(result != null)
+        {
+            return result;
+        }
+        result = instance._Downloaded.Find(x => x.name == filename);
+        if (result != null)
+        {
+            return result;
+        }
 
+        return null;
+    }
 }

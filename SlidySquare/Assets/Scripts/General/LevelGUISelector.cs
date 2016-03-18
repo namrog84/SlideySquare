@@ -39,7 +39,10 @@ public class LevelGUISelector : MonoBehaviour {
     private GameObject backgroundPanel;
     private GameObject DeleteButton;
 
-    
+    public GameObject PlayButton;
+    public GameObject DownloadButton;
+
+
 
     public void CancelDeleteCustomCurrentLevel()
     {
@@ -95,7 +98,8 @@ public class LevelGUISelector : MonoBehaviour {
         }
         else
         {
-            FileManager.Delete("custom", FileToDelete);
+            //FileManager.Delete("custom", FileToDelete);
+            BoardBank.RemoveAll("custom", FileToDelete);
             DeleteButton.GetComponent<Button>().onClick.RemoveAllListeners();
             Destroy(gameObject);
         }
@@ -104,10 +108,9 @@ public class LevelGUISelector : MonoBehaviour {
     }
 
 
-
     public void DeleteDownloadedCurrentLevel()
     {
-        FileManager.Delete("downloads", filename);
+        BoardBank.RemoveAll("downloads", filename);
         Destroy(gameObject);
     }
 
@@ -122,7 +125,8 @@ public class LevelGUISelector : MonoBehaviour {
         {
             customLevelManagerObject = FindObjectOfType<CustomLevelManager>();
         }
-        customLevelManagerObject.DownloadLevel(key);
+        Debug.Log(key);
+        customLevelManagerObject.DownloadLevel(this, key);
     }
 
 
@@ -139,7 +143,8 @@ public class LevelGUISelector : MonoBehaviour {
 
         PlayerPrefs.SetInt("CurrentLevel", -3); // -3 is for custom level I guess? 
         PlayerPrefs.Save();
-        GameCore.currentBoard = BoardBank.boards.Find(x => x.name == filename);
+        GameCore.currentBoard = BoardBank.FindBoard(filename);
+        
         FindObjectOfType<MySceneManager>().LoadToDynamicScene();
     }
 
@@ -155,6 +160,16 @@ public class LevelGUISelector : MonoBehaviour {
         GameCore.currentBoard = BoardBank.boards.Find(x => x.name == filename);
         FindObjectOfType<MySceneManager>().GoToLevelEditor();
     }
+
+    public void CreateNewLevel()
+    {
+        GameCore.campaignLevelNumber = -3;
+        GameCore.IsNewMap = true;
+        //GameCore.currentBoard = BoardBank.boards.Find(x => x.name == filename);
+        FindObjectOfType<MySceneManager>().GoToLevelEditor();
+    }
+
+
 
     internal void SetThumbnail(string v)
     {
