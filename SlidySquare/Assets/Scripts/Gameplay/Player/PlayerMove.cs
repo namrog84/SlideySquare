@@ -239,26 +239,27 @@ public class PlayerMove : MonoBehaviour
     {
         AudioSource.PlayClipAtPoint(deathSound[UnityEngine.Random.Range(0, 2)], transform.position);
         yield return new WaitForSeconds(0.75f);
-        StartCoroutine(LoadOut());
+        GameObject.FindObjectOfType<MySceneManager>().LoadToDynamicScene();
+        //StartCoroutine(LoadOut());
         //Application.LoadLevel(Application.loadedLevel);
     }
 
-    private IEnumerator LoadOut()
-    {
-        var fader = GameObject.Find("SceneFader");
-        fader.GetComponent<SceneFadeInOut>().fadeDir *= -1;
-        fader.GetComponent<SceneFadeInOut>().startTime = 0;
-        yield return new WaitForEndOfFrame();
-        fader.GetComponent<SceneFadeInOut>().FinishedFade += finished;
-    }
+//    private IEnumerator LoadOut()
+//    {
+//        var fader = GameObject.Find("SceneFader");
+//        fader.GetComponent<SceneFadeInOut>().fadeDir *= -1;
+//        fader.GetComponent<SceneFadeInOut>().startTime = 0;
+//        yield return new WaitForEndOfFrame();
+//        fader.GetComponent<SceneFadeInOut>().FinishedFade += finished;
+//    }
 
-    void finished()
-    {
-        Time.timeScale = 1;
-#pragma warning disable 0618
-        Application.LoadLevel(Application.loadedLevel);
-#pragma warning restore 0618
-    }
+//    void finished()
+//    {
+//        Time.timeScale = 1;
+//#pragma warning disable 0618
+//        Application.LoadLevel(Application.loadedLevel);
+//#pragma warning restore 0618
+//    }
 
 
     public void GoUp()

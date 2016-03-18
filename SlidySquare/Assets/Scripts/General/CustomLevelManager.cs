@@ -171,9 +171,9 @@ public class CustomLevelManager : MonoBehaviour {
         {
             //Debug.Log(www.text);
             var data = www.text.Trim('"');
-            Debug.Log(data);
+            //Debug.Log(data);
             var MyList = Common.Deserialize<LevelList>(Convert.FromBase64String(data));
-            Debug.Log(MyList.levelNames.Count);
+            //Debug.Log(MyList.levelNames.Count);
             for (int i = 0; i < MyList.levelNames.Count; i++)
             {
                 var item = Instantiate(OnlineGUIItem);
