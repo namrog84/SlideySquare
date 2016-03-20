@@ -33,6 +33,10 @@ public class CampaignBank {
 	
 	}
 
+    public void MoveToCampaign(string levelname)
+    {
+        CampaignBank.boards
+    }
 
     public static void LoadFromFile()
     {

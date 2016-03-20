@@ -32,6 +32,21 @@ public class BoardBank
         }
     }
 
+    public void MoveToCampaign(string levelname)
+    {
+        var board = boards.Find(x => x.name == levelname);
+        if(board != null)
+        {
+            CampaignBank.boards.Add(board);
+            boards.Remove(board);
+            Debug.Log("Successful transfer");
+        }
+        else
+        {
+            Debug.Log("Error in transfer");
+        }
+    }
+
     internal static void RemoveAll(string folder, string filename)
     {
         //if (folder == "downloads")
