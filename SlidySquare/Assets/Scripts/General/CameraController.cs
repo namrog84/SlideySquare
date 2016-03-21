@@ -9,15 +9,25 @@ public class CameraController : MonoBehaviour
     public float UnitsHigh = 10;
 
 
-    public void AdjustViewHeight(float height)
+    public void AdjustViewHeight(float width, float height)
     {
-        UnitsHigh = height;
+        var HeightMaybe = Mathf.Round(height / 2)+1;
+        if (HeightMaybe > width)
+        {
+            UnitsHigh = HeightMaybe;
+        }
+        else
+        {
+            UnitsHigh = Mathf.Min(height, width);
+        }
+        
+        //UnitsHigh = height;
         AdjustView();
     }
     
     public void AdjustView()
     {
-        s_baseOrthographicSize = Mathf.Round(UnitsHigh / 2) + 1.5f; //// (32.0f * UnitsHigh) / Screen.height;
+        s_baseOrthographicSize = UnitsHigh; ////Mathf.Round(UnitsHigh / 2) + 1.5f; //// (32.0f * UnitsHigh) / Screen.height;
         Camera.main.orthographicSize = s_baseOrthographicSize;
     }
 

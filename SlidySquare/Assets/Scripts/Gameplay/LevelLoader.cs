@@ -34,7 +34,7 @@ public class LevelLoader : MonoBehaviour {
         Analytics.CustomEvent("LevelStart", new Dictionary<string, object>{ { "Level", PlayerPrefs.GetInt("CurrentLevel", -1) } });
 
         //HitWall.HitWallCount = GameObject.FindGameObjectsWithTag("HitWall").Length;
-        offset = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, 0);
+        offset = new Vector3(Camera.main.transform.position.x+0.5f, Camera.main.transform.position.y-0.5f, 0);
         
         if(GameCore.PlayingLevelState == GameCore.PlayingStates.Campaign)
         {
@@ -50,9 +50,18 @@ public class LevelLoader : MonoBehaviour {
                 GameCore.currentBoard = BoardBank.boards[0];
             }
         }
+        if (GameCore.currentBoard == null)
+        {
+            BoardBank.LoadFromFile();
+            // tall level, 6 wide, 16 high 
+            GameCore.currentBoard = BoardBank.FindBoard("Grateful Trex");
+
+            //8x8
+            //GameCore.currentBoard = BoardBank.FindBoard("7 maybe");
+        }
 
 
-       // if(GameCore.PlayingLevelFromEditor)
+        // if(GameCore.PlayingLevelFromEditor)
         {
             StartCoroutine(LoadCurrentLevel());
 
@@ -111,11 +120,11 @@ public class LevelLoader : MonoBehaviour {
         _height = board.height;
         mapOffset = new Vector3(_width / 2, _height / 2, 0);
         worldTiles = new GameObject[_width, _height];
-        //Debug.Log(_width + " " + _height);
-        Camera.main.GetComponent<CameraController>().AdjustViewHeight(_width);//.UnitsHigh = _height;//(_width / 2)+1;
+        Debug.Log(_width + " " + _height);
+        Camera.main.GetComponent<CameraController>().AdjustViewHeight(_width, _height);//.UnitsHigh = _height;//(_width / 2)+1;
         if (_width % 2 == 1)
         {
-            Camera.main.transform.position += new Vector3(-0.5f, 0.0f);
+            Camera.main.transform.position += new Vector3(0.5f, 0.0f);
         }
         //Debug.Log("Creating");
         //Debug.Log(_width + " " + _height);
@@ -161,7 +170,7 @@ public class LevelLoader : MonoBehaviour {
         mapOffset = new Vector3(_width / 2, _height / 2, 0);
         worldTiles = new GameObject[_width, _height];
         //Debug.Log(_width + " " + _height);
-        Camera.main.GetComponent<CameraController>().AdjustViewHeight(_width);//.UnitsHigh = _height;//(_width / 2)+1;
+        Camera.main.GetComponent<CameraController>().AdjustViewHeight(_width, _height);//.UnitsHigh = _height;//(_width / 2)+1;
         if(_width % 2 == 1)
         {
             Camera.main.transform.position += new Vector3(-0.5f, 0.0f);

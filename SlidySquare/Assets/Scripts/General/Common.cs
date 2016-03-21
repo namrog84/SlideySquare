@@ -16,7 +16,7 @@ namespace Assets.Scripts
         public static bool IsNewMap = true;
 
         public enum PlayingStates { Campaign, Editor, Custom, CustomDownloaded };
-        public static PlayingStates PlayingLevelState;
+        public static PlayingStates PlayingLevelState = (PlayingStates)2;
 
         //public static bool isDownloaded = false; //yes to show vote
 
