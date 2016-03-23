@@ -7,6 +7,7 @@ public class RandomMoveRightPlayer : MonoBehaviour {
 	void Start () {
         GetComponent<PlayerMove>().currentDirection = PlayerMove.Direction.right;
         EyeController.playerDirChanged = 10;
+
 	}
 	
 	// Update is called once per frame
