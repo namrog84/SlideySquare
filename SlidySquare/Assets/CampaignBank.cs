@@ -9,6 +9,7 @@ using System.Collections.Generic;
 public class CampaignBank {
 
     public List<GameBoard> _boards = new List<GameBoard>();
+    public List<int> _boardsCompleted = new List<int>();
     private static CampaignBank instance;
 
     public static List<GameBoard> boards
