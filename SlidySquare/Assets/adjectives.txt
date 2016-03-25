@@ -1499,3 +1499,4 @@ white
 whitesmoke
 yellow
 yellowgreen
+slidey
