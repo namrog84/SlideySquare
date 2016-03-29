@@ -9,6 +9,7 @@ acornbarnacle
 acornweevil
 acornwoodpecker
 acouchi
+adam
 adamsstaghornedbeetle
 addax
 adder
