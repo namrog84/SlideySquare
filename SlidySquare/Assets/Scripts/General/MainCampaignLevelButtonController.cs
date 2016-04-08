@@ -17,7 +17,7 @@ public class MainCampaignLevelButtonController : MonoBehaviour
     
     void Start()
 	{
-        LevelCompleted = PlayerPrefs.GetInt("BaseGameLevelsCompleted", 0);
+        LevelCompleted = PlayerPrefs.GetInt("BaseGameLevelsCompleted", 1);
         MyButton = GetComponent<Button>();
 		MyButton.onClick.AddListener(() => { MyOnClickFunction(); });
         TryModifyButtonColor();
@@ -45,7 +45,7 @@ public class MainCampaignLevelButtonController : MonoBehaviour
                 tempColor.normalColor = buttonColors[i % buttonColors.Length];
                 tempColor.disabledColor = buttonColors[i % buttonColors.Length] * .3f;
                 children[i].GetMyButton().colors = tempColor;
-                if (i >= LevelCompleted + 1)
+                if (i > LevelCompleted-1)
                 {
                     children[i].GetMyButton().interactable = false;
                 }

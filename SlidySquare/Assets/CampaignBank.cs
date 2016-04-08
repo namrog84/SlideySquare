@@ -18,7 +18,11 @@ public class CampaignBank {
         {
             if(instance == null)
             {
-                instance = new CampaignBank();
+                LoadFromFile();
+                if(instance == null)
+                {
+                    instance = new CampaignBank();
+                }
             }
             return instance._boards;
         }
@@ -31,13 +35,32 @@ public class CampaignBank {
 	
 	// Update is called once per frame
 	void Update () {
-	
-	}
 
+    }
+
+   
     public static void LoadFromFile()
     {
         var path = GameCore.PersistentPath + "/campaign.vault";
         if (!File.Exists(path)) // empty bank!
+        {
+            var filePath = Application.streamingAssetsPath + "/campaign.vault";
+            byte[] result;
+            if (filePath.Contains("://"))
+            {
+                WWW www = new WWW(filePath);
+                result = www.bytes;
+            }
+            else
+            {
+                result = System.IO.File.ReadAllBytes(filePath);
+            }
+            File.WriteAllBytes(path, result);
+
+        }
+
+
+        if (!File.Exists(path))
         {
             return;
         }
@@ -50,9 +73,9 @@ public class CampaignBank {
         }
     }
 
-    private static void SaveToFile()
+    public static void SaveToFile()
     {
-        var path = GameCore.PersistentPath + "/campaign.vault";
+       /* var path = GameCore.PersistentPath + "/campaign.vault";
 
         // Creates serializer.
         var serializer = SerializationContext.Default.GetSerializer<CampaignBank>();
@@ -60,13 +83,14 @@ public class CampaignBank {
         {
             // Pack obj to stream.
             serializer.Pack(stream, instance);
-        }
+        }*/
     }
 
     internal static GameBoard FindBoard(string filename)
     {
         LoadFromFile();
         var result = instance._boards.Find(x => x.name == filename);
+        Debug.Log("HI " + result.name + " " + filename);
         if (result != null)
         {
             return result;

@@ -6,6 +6,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System;
 using UnityEngine.UI;
 using DG.Tweening;
+using System.Text.RegularExpressions;
 
 public class LevelGUISelector : MonoBehaviour {
 
@@ -169,7 +170,16 @@ public class LevelGUISelector : MonoBehaviour {
         FindObjectOfType<MySceneManager>().GoToLevelEditor();
     }
 
-
+    public void SaveToCampaign()
+    {
+        CampaignBank.LoadFromFile();
+        var tempboard = BoardBank.boards.Find(x => x.name == filename);
+        tempboard.name = Regex.Replace(tempboard.name, @"[^\d]", "");
+        CampaignBank.boards.Add(tempboard);
+        Debug.Log(CampaignBank.boards.Count);
+        CampaignBank.SaveToFile();
+        
+    }
 
     internal void SetThumbnail(string v)
     {

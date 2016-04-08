@@ -125,10 +125,7 @@ public class CompleteLevel : MonoBehaviour {
 
     IEnumerator YouWin()
 	{
-        if(PlayerPrefs.GetInt("CurrentLevel") >= PlayerPrefs.GetInt("BaseGameLevelsCompleted", -1))
-        {
-            PlayerPrefs.SetInt("BaseGameLevelsCompleted", PlayerPrefs.GetInt("CurrentLevel"));
-        }
+        
         PlayerPrefs.SetFloat("TotalTime", AdManager.TimePlayed);
 
         int totalCompleted = PlayerPrefs.GetInt("TotalLevels", 0);
@@ -153,14 +150,20 @@ public class CompleteLevel : MonoBehaviour {
         //yield return new WaitForEndOfFrame();
         //if(temp.progress == 0) // it hasn't started, likely because its not found
 
-        if(GameCore.PlayingLevelState == GameCore.PlayingStates.Editor)
+        if (GameCore.PlayingLevelState == GameCore.PlayingStates.Editor)
         {
             LevelToLoad = 7; //vote level? 
             GameObject.Find("SceneManager").GetComponent<MySceneManager>().LoadToVoteScene();
         }
-        else if(GameCore.PlayingLevelState == GameCore.PlayingStates.Custom)
+        else if (GameCore.PlayingLevelState == GameCore.PlayingStates.Custom)
         {
             GameObject.Find("SceneManager").GetComponent<MySceneManager>().GoToCustomLevelSelect();
+        }
+        else if (GameCore.PlayingLevelState == GameCore.PlayingStates.Campaign)
+        {
+            GameCore.campaignLevelNumber++;
+
+            GameObject.Find("SceneManager").GetComponent<MySceneManager>().LoadToDynamicScene();
         }
         else
         {

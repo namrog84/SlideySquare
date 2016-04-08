@@ -36,19 +36,41 @@ public class LevelLoader : MonoBehaviour {
         //HitWall.HitWallCount = GameObject.FindGameObjectsWithTag("HitWall").Length;
         offset = new Vector3(Camera.main.transform.position.x+0.5f, Camera.main.transform.position.y-0.5f, 0);
         
+
         if(GameCore.PlayingLevelState == GameCore.PlayingStates.Campaign)
         {
-            var index = GameCore.campaignLevelNumber - 1;
+            GameCore.currentBoard = null;
+            var index = GameCore.campaignLevelNumber;
+            CampaignBank.LoadFromFile();
             Debug.Log(index + " " + CampaignBank.boards.Count);
             if (index < CampaignBank.boards.Count && index >= 0)
             {
-                GameCore.currentBoard = CampaignBank.boards[index];
+
+                if (GameCore.campaignLevelNumber > PlayerPrefs.GetInt("BaseGameLevelsCompleted", -1))
+                {
+                    PlayerPrefs.SetInt("BaseGameLevelsCompleted", GameCore.campaignLevelNumber);
+                    PlayerPrefs.Save();
+                    Debug.Log("Unlocked new level " + GameCore.campaignLevelNumber);
+                }
+
+
+
+                GameCore.currentBoard = CampaignBank.FindBoard("" + index);// boards[index];
+
+                
+
             }
-            if(GameCore.currentBoard == null)
+
+            if (GameCore.currentBoard == null)
             {
-                BoardBank.LoadFromFile();
-                GameCore.currentBoard = BoardBank.boards[0];
+                Debug.Log("NO FOUND?");
+                GameObject.Find("SceneManager").GetComponent<MySceneManager>().GoToAboutScene();
             }
+            //if(GameCore.currentBoard == null)
+            //{
+            //    BoardBank.LoadFromFile();
+            //    GameCore.currentBoard = BoardBank.boards[0];
+            //}
         }
         if (GameCore.currentBoard == null)
         {
@@ -100,7 +122,7 @@ public class LevelLoader : MonoBehaviour {
         //what level and being played by what machine?
         WWW www = new WWW(url);
         yield return www;
-        Debug.Log(www.text);
+       // Debug.Log(www.text);
     }
 
 

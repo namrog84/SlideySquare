@@ -47,6 +47,7 @@ public class MySceneManager : MonoBehaviour {
 
             GameCore.PlayingLevelState = GameCore.PlayingStates.Campaign;
             GameCore.campaignLevelNumber = levelNumber;
+            
             LoadToDynamicScene();
         }
     }
@@ -70,6 +71,7 @@ public class MySceneManager : MonoBehaviour {
 
     public void GoToAboutScene()
     {
+        Debug.Log("Going Aboot");
         LoadLevel("About");
     }
 
@@ -91,7 +93,8 @@ public class MySceneManager : MonoBehaviour {
     public void SkipToNextCampaignLevel()
     {
         AdManager.Skipped = true;
-        PlayerPrefs.SetInt("CurrentLevel", 1 + PlayerPrefs.GetInt("CurrentLevel"));
+        GameCore.campaignLevelNumber++;
+        //PlayerPrefs.SetInt("CurrentLevel", 1 + PlayerPrefs.GetInt("CurrentLevel"));
         PlayerPrefs.Save();
         LoadLevel("DynamicLevel");
     }
@@ -107,7 +110,11 @@ public class MySceneManager : MonoBehaviour {
         if (!isLevelExiting)
         {
             isLevelExiting = true;
-            sceneFader.StartSceneFadeOut();
+            if (sceneFader != null)
+            {
+                sceneFader.StartSceneFadeOut();
+
+            }
         }
     }
 
