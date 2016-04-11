@@ -99,7 +99,9 @@ public class PlayerMove : MonoBehaviour
             {
                 if (Math.Abs((LastStoppedLocation - transform.position).magnitude) > 1)
                 {
-                    AudioSource.PlayClipAtPoint(impactSound[UnityEngine.Random.Range(0, 5)], transform.position);
+                    //AudioSource.PlayOneShot(impactSound[0]);
+                    //GetComponent<AudioSource>().PlayOneShot(impactSound[UnityEngine.Random.Range(0, 5)]);
+                    AudioSource.PlayClipAtPoint(impactSound[UnityEngine.Random.Range(0, 5)], Camera.main.transform.position);
                 }
             }
             LastStoppedLocation = transform.position;
@@ -237,7 +239,7 @@ public class PlayerMove : MonoBehaviour
 
     private IEnumerator PlayDeathAndReset()
     {
-        AudioSource.PlayClipAtPoint(deathSound[UnityEngine.Random.Range(0, 2)], transform.position);
+        AudioSource.PlayClipAtPoint(deathSound[UnityEngine.Random.Range(0, 2)], Camera.main.transform.position);
         yield return new WaitForSeconds(0.75f);
         GameObject.FindObjectOfType<MySceneManager>().LoadToDynamicScene();
         //StartCoroutine(LoadOut());

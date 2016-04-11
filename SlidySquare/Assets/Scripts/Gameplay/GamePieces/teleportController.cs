@@ -110,7 +110,7 @@ public class teleportController : MonoBehaviour {
         Destroy(derp, 1.0f);
         //derp.GetComponent<ParticleSystem>.sim
         gameObject.GetComponent<teleportController>().Teleport(other.gameObject);
-        AudioSource.PlayClipAtPoint(teleportSound, transform.position);
+        AudioSource.PlayClipAtPoint(teleportSound, Camera.main.transform.position);
         other.GetComponent<PlayerMove>().isMoving = true;
 		//delay for another teleport	
 		yield return null;

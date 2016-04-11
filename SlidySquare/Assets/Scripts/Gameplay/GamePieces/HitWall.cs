@@ -66,7 +66,7 @@ public class HitWall : MonoBehaviour {
 		{
            
             HitWallCount--;
-            AudioSource.PlayClipAtPoint(explodeSound, transform.position);
+            AudioSource.PlayClipAtPoint(explodeSound, Camera.main.transform.position);
             InstantiatedBits.gameObject.SetActive(true);
             var temp = InstantiatedBits;
             temp.transform.position = gameObject.transform.position;

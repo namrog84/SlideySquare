@@ -174,7 +174,9 @@ public class LevelGUISelector : MonoBehaviour {
     {
         CampaignBank.LoadFromFile();
         var tempboard = BoardBank.boards.Find(x => x.name == filename);
+        //Debug.Log(tempboard.name);
         tempboard.name = Regex.Replace(tempboard.name, @"[^\d]", "");
+        //Debug.Log(tempboard.name);
         CampaignBank.boards.Add(tempboard);
         Debug.Log(CampaignBank.boards.Count);
         CampaignBank.SaveToFile();

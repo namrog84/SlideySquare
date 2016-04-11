@@ -29,9 +29,14 @@ public class MainCampaignLevelButtonController : MonoBehaviour
 		
 	}
 
-
+    public GameObject star;
+    private bool doOnce = false;
     private void TryModifyButtonColor()
     {
+        if (doOnce)
+            return;
+        doOnce = true;
+
         if(parentPanel == null)
         {
             parentPanel = GameObject.FindGameObjectWithTag("ButtonGroup");
@@ -49,6 +54,13 @@ public class MainCampaignLevelButtonController : MonoBehaviour
                 {
                     children[i].GetMyButton().interactable = false;
                 }
+
+                //Debug.Log("ah " + PlayerPrefs.GetInt("" + children[i].levelNumber, 0));
+                if (PlayerPrefs.GetInt("" + children[i].levelNumber, 0) == 1)
+                {
+                    children[i].GetComponent<MainCampaignLevelButtonController>().star.SetActive(true);
+                }
+
             }
         }
     }

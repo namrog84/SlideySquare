@@ -36,7 +36,7 @@ public class CornerPiece : MonoBehaviour {
 
     IEnumerator PrepareForTurn(GameObject other)
     {
-        AudioSource.PlayClipAtPoint(sound1, transform.position);
+        AudioSource.PlayClipAtPoint(sound1, Camera.main.transform.position);
         activatedTurn = false;
         while (!activatedTurn)
         {

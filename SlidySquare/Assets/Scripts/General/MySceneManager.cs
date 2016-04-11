@@ -64,6 +64,17 @@ public class MySceneManager : MonoBehaviour {
     {
         LoadLevel("LevelEditor");
     }
+
+    public void GoBackToOpenedLevelEditor()
+    {
+        //GameCore.campaignLevelNumber = -3;
+        GameCore.IsNewMap = false;
+        //GameCore.currentBoard = BoardBank.boards.Find(x => x.name == filename);
+        GoToLevelEditor();
+
+    }
+
+
     public void GoToCustomLevelSelect()
     {
         LoadLevel("CustomLevelSelect");
@@ -77,6 +88,16 @@ public class MySceneManager : MonoBehaviour {
 
     public void LoadToDynamicScene()
     {
+        if (GameCore.PlayingLevelState == GameCore.PlayingStates.Campaign)
+        {
+            
+            var index = GameCore.campaignLevelNumber;
+            Debug.Log(index + " " + CampaignBank.boards.Count);
+            if (index >= CampaignBank.boards.Count || index < 0)
+            {
+                GoToAboutScene();
+            }
+        }
         LoadLevel("DynamicLevel");
     }
     public void LoadToVoteScene()
@@ -94,6 +115,14 @@ public class MySceneManager : MonoBehaviour {
     {
         AdManager.Skipped = true;
         GameCore.campaignLevelNumber++;
+
+        if (GameCore.campaignLevelNumber > PlayerPrefs.GetInt("BaseGameLevelsCompleted", -1))
+        {
+            PlayerPrefs.SetInt("BaseGameLevelsCompleted", GameCore.campaignLevelNumber);
+            PlayerPrefs.Save();
+            Debug.Log("Unlocked new level " + GameCore.campaignLevelNumber);
+        }
+
         //PlayerPrefs.SetInt("CurrentLevel", 1 + PlayerPrefs.GetInt("CurrentLevel"));
         PlayerPrefs.Save();
         LoadLevel("DynamicLevel");
@@ -114,6 +143,10 @@ public class MySceneManager : MonoBehaviour {
             {
                 sceneFader.StartSceneFadeOut();
 
+            }
+            else
+            {
+                OnFinishedLoadScene();
             }
         }
     }

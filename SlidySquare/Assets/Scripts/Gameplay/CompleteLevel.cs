@@ -31,6 +31,8 @@ public class CompleteLevel : MonoBehaviour {
         sr = GetComponent<SpriteRenderer>();
         //wasLocked = false;
         currentCount = 0;
+        //ExplodeTheGreenBitsObject = GameObject.Find("EndExplode");
+        //Debug.Log(ExplodeTheGreenBitsObject);
     }
 
     public void Update()
@@ -65,8 +67,10 @@ public class CompleteLevel : MonoBehaviour {
             HitWall.Wiggle();
             return;
         }
+
         ThePlayer = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>();
-        PlayerPrefs.SetInt("Gold", ThePlayer.goldAmount);
+
+        //PlayerPrefs.SetInt("Gold", ThePlayer.goldAmount);
         //ThePlayer.isMoving = false; // LastStoppedLocation = transform.position;
         //ThePlayer.canMove = false;
         ThePlayer.IAmWinning();
@@ -118,14 +122,18 @@ public class CompleteLevel : MonoBehaviour {
         otherPlayer.isMoving = false;
 
         StartCoroutine(YouWin());
-        //delay for another teleport	
-        yield return null;
     }
 
 
     IEnumerator YouWin()
 	{
-        
+        if(PlayerMove.HistoryMoves.Count < 100)
+        {
+
+        //    ExplodeTheGreenBits();
+        }
+
+
         PlayerPrefs.SetFloat("TotalTime", AdManager.TimePlayed);
 
         int totalCompleted = PlayerPrefs.GetInt("TotalLevels", 0);
@@ -138,7 +146,7 @@ public class CompleteLevel : MonoBehaviour {
         Debug.Log(history);
 
         PlayerPrefs.Save();
-        AudioSource.PlayClipAtPoint(nomnomnom, transform.position);
+        AudioSource.PlayClipAtPoint(nomnomnom, Camera.main.transform.position);
         //GameObject.FindGameObjectWithTag("Win").GetComponent<Text>().enabled = true;
         Handheld.Vibrate();
 
@@ -161,7 +169,16 @@ public class CompleteLevel : MonoBehaviour {
         }
         else if (GameCore.PlayingLevelState == GameCore.PlayingStates.Campaign)
         {
+            Debug.Log(GameCore.campaignLevelNumber);
+            PlayerPrefs.SetInt(""+GameCore.campaignLevelNumber, 1);
             GameCore.campaignLevelNumber++;
+
+            if (GameCore.campaignLevelNumber > PlayerPrefs.GetInt("BaseGameLevelsCompleted", -1))
+            {
+                PlayerPrefs.SetInt("BaseGameLevelsCompleted", GameCore.campaignLevelNumber);
+                Debug.Log("Unlocked new level " + GameCore.campaignLevelNumber);
+            }
+            PlayerPrefs.Save();
 
             GameObject.Find("SceneManager").GetComponent<MySceneManager>().LoadToDynamicScene();
         }
@@ -176,6 +193,16 @@ public class CompleteLevel : MonoBehaviour {
 		yield return null;
 
 	}
+
+   // public GameObject ExplodeTheGreenBitsObject;
+
+   // private void ExplodeTheGreenBits()
+    //{
+
+       // ExplodeTheGreenBitsObject.GetComponentInChildren<EndExploder>().kaboom();
+
+        //ExplodeTheGreenBitsObject.SetActive(true);
+    //}
 
     public int LevelToLoad = 4;
 //    private IEnumerator LoadOut()

@@ -20,8 +20,13 @@ public class ToggleSwitch : MonoBehaviour {
         InstantiatedBits.gameObject.SetActive(false);
     }
 
+    bool Used = false;
     public void Toggle()
 	{
+
+        if (Used)
+            return;
+        Used = true;
 
 		if (mode == Option.TurnOn)
 		{

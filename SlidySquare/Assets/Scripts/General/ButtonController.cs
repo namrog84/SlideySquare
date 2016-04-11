@@ -43,7 +43,7 @@ public class ButtonController : MonoBehaviour {
 		}
         if (playSound)
         {
-            AudioSource.PlayClipAtPoint(buttonSound, transform.position);
+            AudioSource.PlayClipAtPoint(buttonSound, Camera.main.transform.position);
         }
 		for (int i = 0; i < toggleSwitches.Count; i++)
 		{

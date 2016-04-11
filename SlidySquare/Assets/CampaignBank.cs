@@ -49,6 +49,7 @@ public class CampaignBank {
             if (filePath.Contains("://"))
             {
                 WWW www = new WWW(filePath);
+                while (!www.isDone) { }
                 result = www.bytes;
             }
             else
@@ -75,7 +76,7 @@ public class CampaignBank {
 
     public static void SaveToFile()
     {
-       /* var path = GameCore.PersistentPath + "/campaign.vault";
+        var path = GameCore.PersistentPath + "/campaign.vault";
 
         // Creates serializer.
         var serializer = SerializationContext.Default.GetSerializer<CampaignBank>();
@@ -83,14 +84,14 @@ public class CampaignBank {
         {
             // Pack obj to stream.
             serializer.Pack(stream, instance);
-        }*/
+        }
     }
 
     internal static GameBoard FindBoard(string filename)
     {
         LoadFromFile();
         var result = instance._boards.Find(x => x.name == filename);
-        Debug.Log("HI " + result.name + " " + filename);
+        //Debug.Log("HI " + result.name + " " + filename);
         if (result != null)
         {
             return result;

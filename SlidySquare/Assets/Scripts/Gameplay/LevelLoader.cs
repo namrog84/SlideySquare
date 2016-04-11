@@ -28,10 +28,11 @@ public class LevelLoader : MonoBehaviour {
     private int _height = 0;
     private int _width = 0;
 
+    public GameObject SceneManagerObject;
 
     // Use this for initialization
     void Start () {
-        Analytics.CustomEvent("LevelStart", new Dictionary<string, object>{ { "Level", PlayerPrefs.GetInt("CurrentLevel", -1) } });
+        
 
         //HitWall.HitWallCount = GameObject.FindGameObjectsWithTag("HitWall").Length;
         offset = new Vector3(Camera.main.transform.position.x+0.5f, Camera.main.transform.position.y-0.5f, 0);
@@ -45,26 +46,15 @@ public class LevelLoader : MonoBehaviour {
             Debug.Log(index + " " + CampaignBank.boards.Count);
             if (index < CampaignBank.boards.Count && index >= 0)
             {
-
-                if (GameCore.campaignLevelNumber > PlayerPrefs.GetInt("BaseGameLevelsCompleted", -1))
-                {
-                    PlayerPrefs.SetInt("BaseGameLevelsCompleted", GameCore.campaignLevelNumber);
-                    PlayerPrefs.Save();
-                    Debug.Log("Unlocked new level " + GameCore.campaignLevelNumber);
-                }
-
-
-
                 GameCore.currentBoard = CampaignBank.FindBoard("" + index);// boards[index];
-
-                
-
             }
 
             if (GameCore.currentBoard == null)
             {
                 Debug.Log("NO FOUND?");
-                GameObject.Find("SceneManager").GetComponent<MySceneManager>().GoToAboutScene();
+                SceneManagerObject.GetComponent<MySceneManager>().GoToAboutScene();
+                Debug.Log("SHouldn't see this!");
+                return;
             }
             //if(GameCore.currentBoard == null)
             //{
@@ -113,6 +103,7 @@ public class LevelLoader : MonoBehaviour {
         }
         Time.timeScale = 1;
 
+        Analytics.CustomEvent("LevelStart", new Dictionary<string, object> { { "Level", GameCore.currentBoard.name } });
         StartCoroutine(PhoneHome());
     }
     public IEnumerator PhoneHome(){

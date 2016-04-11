@@ -22,7 +22,7 @@ public class GoldController : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
-        AudioSource.PlayClipAtPoint(coinSound, transform.position);
+        AudioSource.PlayClipAtPoint(coinSound, Camera.main.transform.position);
 		GetComponent<SpriteRenderer>().enabled = false;
 		if (Amount == 0)
         {

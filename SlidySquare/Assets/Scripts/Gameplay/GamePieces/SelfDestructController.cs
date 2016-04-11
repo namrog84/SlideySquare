@@ -52,7 +52,7 @@ public class SelfDestructController : MonoBehaviour {
 
 	IEnumerator CountdownTimer()
 	{
-        AudioSource.PlayClipAtPoint(countdownSound, transform.position);
+        AudioSource.PlayClipAtPoint(countdownSound, Camera.main.transform.position);
 
 		while(timeLeft > 0)
 		{
@@ -60,7 +60,7 @@ public class SelfDestructController : MonoBehaviour {
 			timeLeft-=.1f;
 		}
 		timeLeft = 0.0f;
-        AudioSource.PlayClipAtPoint(explodeSound, transform.position);
+        AudioSource.PlayClipAtPoint(explodeSound, Camera.main.transform.position);
         InstantiatedBits.gameObject.SetActive(true);
         var temp = InstantiatedBits;
         temp.transform.position = gameObject.transform.position;
