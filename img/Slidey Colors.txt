@@ -1,0 +1,27 @@
+slidey	EA2323
+
+background1	F8E8D0
+background2	F2E3C9
+background3	E0D3BC
+
+
+arrows	E54B3C
+
+gold	F0C30E
+goal green	27AB60
+
+lock purple	8E44AF
+teleporter blue	3395D9
+
+wall gray	94A4A5
+wall green	16A085
+wall orange	E67E22
+wall blue	2980B9
+
+
+button blue	2680BA
+button gray	BCC2C5
+button green	14A089
+button purple	8D43AE
+button orange	E97D22
+
