@@ -6,10 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Landing Page - Start Bootstrap Theme</title>
+    <title>Slidey Square</title>
     <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
+    <link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
     <link href="css/derpyglobal.css" rel="stylesheet">
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -26,21 +27,25 @@
     <div id="navibar"></div>
 
     <div id="header"></div>
-  
+    <img class="slidey" src="img/slideyanimation.gif" alt=""></img>
     <div id="content"></div>
 
     <div id="footerbar"></div>
     <!-- Footer -->
     <!-- jQuery -->
-    <script src="js/jquery.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
     <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script>
-        $('#navibar').load('navigation.html');
-        $('#header').load('header.html');
-        $('#content').load('content.html');
-        $('#footerbar').load('footer.html');
-        $('#year').html(new Date().getFullYear());
+
+
+        $(document).ready(function () {
+            $('#navibar').load('navigation.html');
+            $('#header').load('header.html');
+            $('#content').load('content.html');
+            $('#footerbar').load('footer.html');
+        });
+
     </script>
 </body>
 </html>
