@@ -59,8 +59,15 @@ h6 {
         visibility: hidden;
     }
     .slidey2 {
-        display: block !important;
+        display: block ;
         visibility: visible;
+    }
+}
+
+@media screen and (min-width: 1440px) {
+    .slidey2 {
+        display: none;
+        visibility: hidden;
     }
 
 }
@@ -71,11 +78,11 @@ h6 {
     position: fixed;
     z-index: 100;
     top: 75%;
-    animation: slideyanimation 15s infinite;
+    animation: slideyanimation 10s infinite;
 }
 
 .slidey {
-    animation: slideyanimation 10s infinite;
+    animation: slideyanimation 15s infinite;
     position: fixed;
     top: 75%;
     z-index: 100;
