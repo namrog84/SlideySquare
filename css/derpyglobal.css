@@ -58,11 +58,24 @@ h6 {
         display: none;
         visibility: hidden;
     }
+    .slidey2 {
+        display: block !important;
+        visibility: visible;
+    }
 
 }
 
-.slidey {
+.slidey2 {
+    max-width: 150px;
+    height: auto;
+    position: fixed;
+    z-index: 100;
+    top: 75%;
     animation: slideyanimation 15s infinite;
+}
+
+.slidey {
+    animation: slideyanimation 10s infinite;
     position: fixed;
     top: 75%;
     z-index: 100;
