@@ -31,7 +31,7 @@ h6 {
     padding-bottom: 2em;
 }
 
-@keyframes slideyanimation {
+@-webkit-keyframes slideyanimation {
     0% {
         left: -15%;
     }
@@ -78,11 +78,17 @@ h6 {
     position: fixed;
     z-index: 100;
     top: 75%;
-    animation: slideyanimation 10s infinite;
+    -webkit-animation-name: slideyanimation;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-duration: 10s;
+    -webkit-animation-delay: .1s;
 }
 
 .slidey {
-    animation: slideyanimation 15s infinite;
+    -webkit-animation-name: slideyanimation;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-duration: 10s;
+    -webkit-animation-delay: .1s;
     position: fixed;
     top: 75%;
     z-index: 100;
