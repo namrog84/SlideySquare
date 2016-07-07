@@ -215,6 +215,10 @@ h6 {
     margin-right: 2em;
 }
 
+.image-bullet-right {
+    margin-left: 2em;
+}
+
 @media(max-width:767px) {
     .banner h2 {
         margin: 0;
