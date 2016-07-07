@@ -208,6 +208,13 @@ h6 {
     }
 }
 
+
+.image-bullet {
+    width: 35px;
+    height: 35px;
+    margin-right: 2em;
+}
+
 @media(max-width:767px) {
     .banner h2 {
         margin: 0;
