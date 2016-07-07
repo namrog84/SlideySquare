@@ -35,18 +35,22 @@ h6 {
     0% {
         left: -15%;
     }
+
     50% {
         left: 110%;
         transform: scaleX(1);
     }
+
     51% {
         left: 110%;
         transform: scaleX(-1);
     }
+
     99% {
         left: -15%;
         transform: scaleX(-1);
     }
+
     100% {
         left: -15%;
         transform: scaleX(1);
@@ -58,8 +62,9 @@ h6 {
         display: none;
         visibility: hidden;
     }
+
     .slidey2 {
-        display: block ;
+        display: block;
         visibility: visible;
     }
 }
@@ -69,7 +74,6 @@ h6 {
         display: none;
         visibility: hidden;
     }
-
 }
 
 .slidey2 {
@@ -112,14 +116,15 @@ h6 {
     background-size: cover;
 }
 
-.intro-message {
+.navbar-default {
+    background-color:
 }
 
-    .intro-message > h1 {
-        margin: 0;
-        text-shadow: 2px 2px 3px rgba(0,0,0,0.6);
-        font-size: 5em;
-    }
+.intro-message > h1 {
+    margin: 0;
+    text-shadow: 4px 4px 10px rgba(0,0,0,0.8);
+    font-size: 5em;
+}
 
 .intro-divider {
     border-top: 1px solid #f8f8f8;
