@@ -1,3 +1,3 @@
 # SlideySquare
 
-slideysquare.com
+http://slideysquare.com/
